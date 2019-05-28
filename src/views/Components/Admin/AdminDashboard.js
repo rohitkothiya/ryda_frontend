@@ -1,27 +1,27 @@
-import React from 'react';
-// import PropTypes from 'prop-types';
+
+
+import React,{Component} from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import {Link,NavLink,withRouter} from 'react-router-dom'
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import List from '@material-ui/core/List';
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import {Link} from 'react-router-dom';
+
 
 const Slidebar = [
   {
   name:"Quiz",
-  path:"/quiz"
+  path:"/admin/quiz"
 },
 {
   name:"Register",
@@ -33,11 +33,13 @@ const Slidebar = [
 },
 {
   name:"Survay",
-  path:"/admin/survey"
+  path:"/admin/survay"
 },
 ]
+
 const drawerWidth = 240;
-const styles = {
+
+const styles = theme => ({
   root: {
     display: 'flex',
   },
@@ -52,26 +54,24 @@ const styles = {
   drawerPaper: {
     width: drawerWidth,
   },
-  // toolbar: theme.mixins.toolbar,
+  toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    // backgroundColor: theme.palette.background.default,
-    // padding: theme.spacing(3),
-
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing.unit * 3,
   },
-  table: {
-    minWidth: 700,
-  },
-};
+});
 
-function Dashboard(props) {
-  const { classes } = props;
+class Adminsidebar extends Component  {
+   render (){
+  const { classes } = this.props;
+
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" color="inherit" noWrap>
             Admin Dashboard
           </Typography>
         </Toolbar>
@@ -87,28 +87,51 @@ function Dashboard(props) {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-       {  Slidebar.map((item, index) => {
-        //  console.log(`"${item.path}"`);
-                    return (
-           <Link to={`${item.path}`}>
-           
-            <ListItem button key={item.name}>
+          {Slidebar.map((text, index) => (
+                       <Link to={`${text.path}`}>
+            <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={item.name} />
+              <ListItemText primary={text.name} />
             </ListItem></Link>
-                    )
-          })}
+          ))}
         </List>
         <Divider />
-      
+       
       </Drawer>
      
     </div>
   );
 }
+}
 
-// Dashboard.propTypes = {
-//   classes: PropTypes.object.isRequired,
-// };
+Adminsidebar.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
-export default withStyles(styles)(withRouter(Dashboard));
+export default withStyles(styles)(Adminsidebar);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

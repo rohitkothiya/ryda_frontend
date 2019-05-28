@@ -1,7 +1,8 @@
 
 
-import React, { Component } from 'react';
-import { makeStyles,use } from '@material-ui/core/styles';
+import React,{Component} from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -14,17 +15,31 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import { Link } from '@material-ui/core';
-
-import {adminSidebarList} from '../../Const/sidebarLists';
+import {Link} from 'react-router-dom';
 
 
-
-
+const Slidebar = [
+  {
+  name:"Quiz",
+  path:"/admin/quiz"
+},
+{
+  name:"Register",
+  path:"/admin/userdata"
+},
+{
+  name:"News",
+  path:"/admin/news"
+},
+{
+  name:"Survay",
+  path:"/admin/survey"
+},
+]
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
   root: {
     display: 'flex',
   },
@@ -43,39 +58,21 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(3),
+    padding: theme.spacing.unit * 3,
   },
-  card: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-}));
+});
 
-class Sidebar extends Component {
- 
+class Adminsidebar extends Component  {
+   render (){
+  const { classes } = this.props;
 
- 
-    render() {
-        const classes = useStyles();
-      
-    
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" noWrap>
-            Admin News
+          <Typography variant="h6" color="inherit" noWrap>
+            Admin Dashboard
           </Typography>
         </Toolbar>
       </AppBar>
@@ -90,32 +87,28 @@ class Sidebar extends Component {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-       {  adminSidebarList.map((item, index) => {
-         console.log(`"${item.path}"`);
-                    return (
-           <Link to={`${item.path}`}>
-           
-            <ListItem button key={item.name}>
+          {Slidebar.map((text, index) => (
+                       <Link to={`${text.path}`}>
+            <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={item.name} />
+              <ListItemText primary={text.name} />
             </ListItem></Link>
-                    )
-          })}
+          ))}
         </List>
         <Divider />
-      
+       
       </Drawer>
-    
+     
     </div>
   );
 }
 }
 
-export default  Sidebar;
+Adminsidebar.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
-
-
-
+export default withStyles(styles)(Adminsidebar);
 
 
 

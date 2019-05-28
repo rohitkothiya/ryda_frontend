@@ -127,7 +127,7 @@ class  Register extends Component {
   
 if(this.state.backtoDashboard) 
 {
- return   <Redirect to="/student"/>
+ return   <Redirect to="/studentdashboard"/>
 }
   return (
     <main className={classes.main}>

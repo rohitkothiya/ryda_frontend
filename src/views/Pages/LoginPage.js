@@ -14,12 +14,6 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import {  Link } from "react-router-dom";
 
 import { Redirect} from 'react-router-dom';
@@ -27,7 +21,7 @@ import Grid from '@material-ui/core/Grid';
 
 
 import axios from 'axios';
-axios.default.baseURl = "http://157.230.174.240:3006/api";
+
 
 const styles = theme => ({
   main: {
@@ -74,14 +68,7 @@ class  SignIn extends Component {
 
          }
     }
-    handleClickOpen = () => {
-      this.setState({ open: true });
-    };
-  
-    handleClose = () => {
-      this.setState({ open: false });
-    };
-  
+   
 
 
 
@@ -135,7 +122,7 @@ class  SignIn extends Component {
   render() {
     if(this.state.backtoDashboard ) 
 {
- return   <Redirect to="/student"/>
+ return   <Redirect to="/studentdashboard"/>
 }
 else {
   <Redirect to="/admin"/>
@@ -177,15 +164,15 @@ else {
             <InputLabel htmlFor="password">Password</InputLabel>
             <Input name="password" type="password" id="password" autoComplete="current-password" onChange={this.handleChangeInputText} />
           </FormControl>
-          <Grid container style={{marginTop:"5px"}}>
+          <Grid container style={{marginTop:"25px"}}>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link to={{pathname:"/resetpassword"}} variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
               <Link to={{pathname:"/register"}} variant="body2">
-                {"Don't have an account? Register Now"}
+                 Register Now
               </Link>
             </Grid>
           </Grid>
@@ -194,13 +181,13 @@ else {
             style={{marginRight:"25px"}}
             variant="contained"
             color="primary"
-            fullwidth
+            fullWidth
             className={classes.submit}
             onClick={this.handleLogin}
           >
             Login
           </Button>
-          <Button
+          {/* <Button
             type="submit"
             
             variant="contained"
@@ -210,8 +197,8 @@ else {
           >
             Reset password
           </Button>
-        
-          <Dialog
+         */}
+          {/* <Dialog
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
@@ -238,7 +225,7 @@ else {
               Reset
             </Button>
           </DialogActions>
-        </Dialog>
+        </Dialog> */}
         </form>
       </Paper>
     </main>
