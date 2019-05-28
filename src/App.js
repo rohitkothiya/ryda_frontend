@@ -3,20 +3,20 @@ import React, { Component } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route,withRouter} from "react-router-dom";
 
-import Dashboard from './views/Pages/DashboardPage';
-import Login from './views/Pages/LoginPage';
-import Register from './views/Pages/RegisterPage';
-import Resetpassword from './views/Pages/ResetPasswordPage';
-import Studentdash from './views/Pages/StudentDashboard';
+import Dashboard from './Pages/DashboardPage';
+import Login from './Pages/LoginPage';
+import Register from './Pages/RegisterPage';
+import Resetpassword from './Pages/ResetPasswordPage';
+import Studentdash from './Pages/StudentDashboard';
 
-import Admindash from './views/Components/Admin/AdminDashboard';
+import Admindash from './Components/Admin/AdminDashboard';
 
-import Adminsurvey from './views/Components/Admin/AdminSurvey';
-import Adminnews from './views/Components/Admin/AdminNews';
-import Adminuserdata from './views/Components/Admin/AdminUserdata';
-import Userquiz from './views/Pages/Quiz';
+import Adminsurvey from './Components/Admin/AdminSurvey';
+import Adminnews from './Components/Admin/AdminNews';
+import Adminuserdata from './Components/Admin/AdminUserdata';
+import Userquiz from './Components/Student/Quiz';
 // import Addqns from './views/Pages/addquestion';
-import Addquiz from './views/Components/Admin/AddQuestions';
+import Addquiz from './Components/Admin/AddQuestions';
 
 
 

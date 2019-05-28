@@ -4,7 +4,8 @@ import React,{Component} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Adminsidebar from '../../../components/Sidebar/AdminSidebar';
+
+import Adminsidebar from './AdminSidebar';
 import axios from 'axios';
 
 const drawerWidth = 240;

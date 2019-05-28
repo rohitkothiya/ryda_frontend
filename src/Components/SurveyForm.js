@@ -164,7 +164,7 @@ if(this.state.backtoDashboard)
           </FormControl>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="email">Email Address</InputLabel>
-            <Input id="email" name="emailSurvey" autoComplete="email" autoFocus onChange={this.handleChangeInputText} />
+            <Input id="email" name="emailSurvey" autoComplete="email"  onChange={this.handleChangeInputText} />
           </FormControl>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="school">What School do you goto ?</InputLabel>

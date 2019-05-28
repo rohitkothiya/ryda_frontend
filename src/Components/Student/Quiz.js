@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
-import StudentAppbar from '../../components/Appbar/StudentAppbar';
+import StudentAppbar from './StudentAppbar';
  
 class Userquiz  extends Component {
        
@@ -61,7 +61,7 @@ class Userquiz  extends Component {
              console.log("id:",id);
            
              console.log("value",value);
-          this.setState({[event.target.id]:event.target.value})
+          this.setState({[id]:event.target.value})
              this.setState({quizAnswers:Object.assign(this.state.quizAnswers,{ [id]:value})})
 
           console.log("quizanswers",this.state.quizAnswers)

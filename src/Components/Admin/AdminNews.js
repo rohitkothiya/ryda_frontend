@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import Adminsidebar from '../../../components/Sidebar/AdminSidebar';
+import Adminsidebar from './AdminSidebar';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -50,16 +50,23 @@ const styles = theme => ({
 class Adminnews extends Component  {
 
   state ={
-    isAddNews:false
+    isAddNews:false,
+    questionstring:"",
+    link:"",
+    lastDate:""
   }
 
 
 
   handleAddnewsOpen = () => {
-    this.setState({isAddNews:true});
+    this.setState({isAddNews:!this.state.isAddNews});
   }
-  handleAddNewsClose = () => {
+  handleAddNews = () => {
     this.setState({isAddNews:false});
+
+      let body = {
+        questionstring:this.state.questionstring
+      }
   }
 
    render (){
@@ -76,15 +83,11 @@ class Adminnews extends Component  {
       </Button>
       <Dialog
         open={this.state.isAddNews}
-        onClose={this.handleAddNewsClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Latest News?"}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-           Latest news Adding...
-          </DialogContentText>
           <TextField
               autoFocus
               margin="dense"
@@ -92,6 +95,7 @@ class Adminnews extends Component  {
               label=""
               type="news"
               fullWidth
+              onChange={this.handleChangeInputText}
             />
             <TextField
         id="date"
@@ -99,6 +103,7 @@ class Adminnews extends Component  {
         type="date"
         defaultValue="2017-05-24"
         className={classes.textField}
+        onChange={this.handleChangeInputText}
         InputLabelProps={{
           shrink: true,
         }}
@@ -110,10 +115,11 @@ class Adminnews extends Component  {
               label="Link Address"
               type="text"
               fullWidth
+              onChange={this.handleChangeInputText}
             />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleAddNewsClose} color="primary" autoFocus>
+          <Button onClick={this.handleAddNews} color="primary" autoFocus>
             Add
           </Button>
         </DialogActions>

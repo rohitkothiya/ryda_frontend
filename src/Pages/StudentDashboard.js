@@ -14,9 +14,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link} from 'react-router-dom'
 import { Redirect} from 'react-router-dom';
-import StudentAppbar from '../../components/Appbar/StudentAppbar';
+import StudentAppbar from '../Components/Student/StudentAppbar';
 
-import {cards} from '../../Const/studentCardList';
+import {cards} from '../Const/studentCardList';
 
 import axios from 'axios';
 

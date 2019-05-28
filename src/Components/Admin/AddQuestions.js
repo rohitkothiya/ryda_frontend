@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 
 import Menu from '@material-ui/core/Menu';
 import axios from 'axios';
-// import Adminsidebar from '../../../components/Sidebar/AdminSidebar';
+// import AdminSidebar from './AdminSidebar';
 
 const useStyles = makeStyles(theme => ({
   container: {
