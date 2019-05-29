@@ -62,8 +62,8 @@ class  SignIn extends Component {
      super(props)
          this.state= {
              role:1,
-             email:" ",
-             password:"",
+             email:"admin@gmail.com",
+             password:"admin",
              open:false,
              backtoDashboard:false,
              backtoAdmin:false

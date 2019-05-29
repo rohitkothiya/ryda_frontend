@@ -118,8 +118,8 @@ class Adminsidebar extends Component  {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
+      <AppBar position="fixed" className={classes.appBar} >
+        <Toolbar style={{display:"flex",justifyContent:"space-between"}}>
           <Typography variant="h6" color="inherit" noWrap>
             Admin Dashboard
           </Typography>

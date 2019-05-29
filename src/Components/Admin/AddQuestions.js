@@ -14,10 +14,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Adminsidebar from './AdminSidebar';
 import axios from 'axios';
 import Typography from '@material-ui/core/Typography';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 const drawerWidth = 240;
+
 
 const styles = theme => ({
   root: {
@@ -39,6 +41,20 @@ const styles = theme => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
+  },
+  card: {
+    minWidth: 275,
+  },
+  bullet: {
+    display: 'inline-block',
+    margin: '0 2px',
+    transform: 'scale(0.8)',
+  },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
   },
 });
 
@@ -153,8 +169,12 @@ class Adminquiz extends Component  {
     }
     
    render (){
-  const { classes } = this.props;
 
+    {this.state.allQuestions.map(item => {
+      return console.log("incomming data",item.option.a)
+    })}
+  const { classes } = this.props;
+  
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -261,55 +281,73 @@ class Adminquiz extends Component  {
             </Button>
           </DialogActions>
         </Dialog>
-        {/* <div>
-        <ol type="1" style={{marginLeft:"25%"}}>
-             {  this.state.allQuestions.map (itm => {
-                   
-                 return (
-                   
-             <li>
-            <Typography variant="h6" gutterBottom>
-           
-       {itm.questionstring}
-      </Typography>
-            <RadioGroup aria-label="position" name="position"  row>
-            
-            <FormControlLabel
-        
-              id={itm._id}
-              value="a"
-              control={<Radio color="primary" checked={this.state.option === "a"} />}
-              label={itm.option.a}
-              labelPlacement="end"
-            />  
-             <FormControlLabel
-              id={itm._id}
-              value="b"
-              control={<Radio color="primary" checked={this.state.option === "b"}  />}
-              label={itm.option.b}
-              labelPlacement="end"
-            />
-             <FormControlLabel
-              id={itm._id}
-              value="c"
-              control={<Radio color="primary" checked={this.state.option === "c"}  />}
-              label={itm.option.c}
-              labelPlacement="end"
-            />
-             <FormControlLabel
-              id={itm._id}
-              value="d"
-              control={<Radio color="primary" checked={this.state.option === "d"} />}
-              label={itm.option.c}
-              labelPlacement="end"
-            />
-
-          </RadioGroup>
-       </li>)
-                })
-               }
+     
+        <Card className={classes.card}>
+        {this.state.allQuestions.map(card => {
+       return (
+           <CardContent>
+              <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label={card.questionstring}
+              type="text"
+              fullWidth
+              name="question"
               
-                </ol></div> */}
+            />
+             <TextField
+                  id="standard-with-placeholder"
+                  label="A"
+                    placeholder={card.option.a}
+                    
+              margin="normal"
+             
+              name="optionA"
+               />
+             <TextField
+             style={{marginLeft:"10px"}}
+             id="standard-with-placeholder"
+              label="B"
+                  placeholder={card.option.b}
+           
+              margin="normal"
+          
+                name="optionB"
+                />
+            <TextField
+            id="standard-with-placeholder"
+             label="C"
+              placeholder={card.option.c}
+             
+             margin="normal"
+             
+           name="optionC"
+            />
+           <TextField
+            style={{marginLeft:"10px"}}
+             id="standard-with-placeholder"
+          label="D"
+          placeholder={card.option.d}
+       
+           margin="normal"
+           
+            name="optionD"
+              />
+          <TextField
+            id="standard-with-placeholder"
+           label={card.answer}
+           placeholder="right option"
+           
+            margin="normal"
+              
+                name="answer"
+              />
+      </CardContent>
+       )}
+        )
+       }
+    </Card> */}
       </div>
       </main>
     </div>

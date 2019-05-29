@@ -168,9 +168,10 @@ class Adminnews extends Component  {
       <Adminsidebar />
       <main className={classes.content}>
         <div className={classes.toolbar} />
+        <div style={{display:"flex",justifyContent:"flex-end"}}>
         <Button variant="outlined" color="primary" onClick={this.handleAddnewsOpen}>
         Create a Latest News
-      </Button>
+      </Button></div>
       <Dialog
         open={this.state.isAddNews}
         aria-labelledby="alert-dialog-title"
@@ -218,8 +219,8 @@ class Adminnews extends Component  {
         </DialogActions>
       </Dialog>
      
-        {/* Hero unit */}
-        <Container className={classes.cardGrid} maxWidth="md">
+       
+        <Container className={classes.cardGrid} maxWidth="md" style={{paddingTop:"18px"}}>
           {/* End hero unit */}
           <Grid container spacing={4}>
             {this.state.allNews.map(card => (
@@ -227,7 +228,7 @@ class Adminnews extends Component  {
                 <Card className={classes.card}>
                  
                   <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
+                    <Typography gutterBottom variant="h6" component="h6">
                       {card.newsstring}
                     </Typography>
                     <Typography>
@@ -237,10 +238,8 @@ class Adminnews extends Component  {
                       {card.link}
                     </Typography>
                   </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      Delete
-                    </Button>
+                  <CardActions >
+                   
                     <Button size="small" color="primary">
                       Edit
                     </Button>
