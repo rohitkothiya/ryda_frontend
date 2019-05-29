@@ -149,45 +149,26 @@ class  SignIn extends Component {
     <main className={classes.main}>
       <CssBaseline />
       <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
         <Typography component="h1" variant="h5">
           Login
         </Typography>
         <form className={classes.form}>
-
-        <FormControl component="fieldset" className={classes.formControl}>
-        
-          <RadioGroup
-            aria-label="Gender"
-            name="gender1"
-            className={classes.group}
-            value={this.state.value}
-            onChange={this.handleChange}
-          >
-            <FormControlLabel  control={<Radio checked={this.state.role === 1} onClick={() =>this.handleRadioButton(1)} />} label="Admin"    />
-            <FormControlLabel  control={<Radio checked={this.state.role === 2}  onClick={() =>this.handleRadioButton(2)}/>} label="Student"  />
-            
-         
-          </RadioGroup>
-        </FormControl>
           <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">User Email</InputLabel>
+            <InputLabel htmlFor="email">Email</InputLabel>
             <Input id="email" name="email" autoComplete="email" autoFocus onChange={this.handleChangeInputText} />
           </FormControl>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="password">Password</InputLabel>
             <Input name="password" type="password" id="password" autoComplete="current-password" onChange={this.handleChangeInputText}  />
           </FormControl>
-          <Grid container style={{marginTop:"25px"}}>
+          <Grid container>
             <Grid item xs>
-              <Link to={{pathname:"/resetpassword"}} variant="body2">
+              <Link style={{ textDecoration: 'unset' }} to={{pathname:"/resetpassword"}} variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link to={{pathname:"/register"}} variant="body2">
+              <Link style={{ textDecoration: 'unset' }} to={{pathname:"/register"}} variant="body2">
                  Register Now
               </Link>
             </Grid>
@@ -203,54 +184,11 @@ class  SignIn extends Component {
           >
             Login
           </Button>
-          {/* <Button
-            type="submit"
-            
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={this.handleClickOpen}
-          >
-            Reset password
-          </Button>
-         */}
-          {/* <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          
-          <DialogTitle id="form-dialog-title">Reset Password</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              please enter your email address here. We will send
-               link to your  email addeess.
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Email Address"
-              type="email"
-              fullWidth
-            />
-          </DialogContent>
-          <DialogActions>
-          
-            <Button onClick={this.handleClose} color="primary">
-              Reset
-            </Button>
-          </DialogActions>
-        </Dialog> */}
         </form>
       </Paper>
     </main>
   );
   }
 }
-
-// SignIn.propTypes = {
-//   classes: PropTypes.object.isRequired,
-// };
 
 export default withStyles(styles)(SignIn);

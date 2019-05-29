@@ -14,7 +14,8 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import { withRouter } from 'react-router-dom';
 import { Redirect} from 'react-router-dom';
 import axios from 'axios';
-
+import Grid from '@material-ui/core/Grid';
+import {  Link } from "react-router-dom";
 
 // axios.default.baseURl = "http://157.230.174.240:3006/api";
 
@@ -133,9 +134,6 @@ if(this.state.backtoDashboard)
     <main className={classes.main}>
       <CssBaseline />
       <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
         <Typography component="h1" variant="h5">
           Student Register
         </Typography>
@@ -146,7 +144,7 @@ if(this.state.backtoDashboard)
           </FormControl>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="email">Email Address</InputLabel>
-            <Input id="email" name="emailRegister" autoComplete="email" autoFocus onChange={this.handleChangeInputText} defaultValue="rohit@gmail.com"/>
+            <Input id="email" name="emailRegister" autoComplete="email" onChange={this.handleChangeInputText} defaultValue="rohit@gmail.com"/>
           </FormControl>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="password">Password</InputLabel>
@@ -160,8 +158,13 @@ if(this.state.backtoDashboard)
             <InputLabel htmlFor="eduction"> Higher Eduction</InputLabel>
             <Input name="eductionRegister" type="text" id="eduction" autoComplete="current-password" onChange={this.handleChangeInputText} defaultValue="B.TECH" />
           </FormControl>
-          
-         
+          <Grid container>
+            <Grid item xs>
+            </Grid>
+            <Grid item>
+              
+            </Grid>
+          </Grid>
           <Button
             type="submit"
             fullWidth
@@ -172,6 +175,13 @@ if(this.state.backtoDashboard)
           >
             Register
           </Button>
+          <Grid container style={{marginTop:"20px"}}>
+            <Grid item xs>
+              <Link style={{ textDecoration: 'unset' }} to={{pathname:"/login"}} variant="body2">
+                {"< Back to Login"}
+              </Link>
+            </Grid>
+          </Grid>
         </form>
       </Paper>
     </main>

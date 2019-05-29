@@ -18,18 +18,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import FormLabel from '@material-ui/core/FormLabel';
 
-
-
 import { withRouter } from 'react-router-dom';
 
 
 import { Redirect} from 'react-router-dom';
 import axios from 'axios';
-
-
-// axios.default.baseURl = "http://157.230.174.240:3006/api";
-
-
 
 const styles = theme => ({
   main: {
