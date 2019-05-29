@@ -1,54 +1,110 @@
-import React ,{Component}from 'react';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
+
+
+import React,{Component} from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Button from '@material-ui/core/Button';
-
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
 import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Adminsidebar from './AdminSidebar';
 import axios from 'axios';
-// import AdminSidebar from './AdminSidebar';
+import Typography from '@material-ui/core/Typography';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
-  container: {
+const styles = theme => ({
+  root: {
     display: 'flex',
-    flexWrap: 'wrap',
   },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 200,
+  appBar: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
   },
-  dense: {
-    marginTop: 19,
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
   },
-  menu: {
-    width: 200,
+  drawerPaper: {
+    width: drawerWidth,
   },
-}));
+  toolbar: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing.unit * 3,
+  },
+});
 
-
-
-class Addquiz extends Component {
+class Adminquiz extends Component  {
+  
 
   constructor(props) {
     super(props)
         this.state= {
-             
+          isAddQns:false,
             question:"",
              optionA:"",
              optionB:"",
              optionC:"",
              optionD:"",
-             answer:""
+             answer:"",
+             anchorEl: null,
+             level:1,
+             allQuestions:[]
         }
        
    }
+   handleLevalClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
 
-  HandleQuestionAdd = () => {
-    console.log("clicked")
+ handleSelectLevel = (value) => {
+
+   this.setState({anchorEl: null,level:value})
+   console.log("level",this.state.level)
+ }
+
+               componentDidMount() {
+                     
+                  let data = localStorage.getItem("usertoken")
+
+                 console.log(data)
+                    // console.log(newdata)
+                    let headers = {
+                      headers: {
+                  Authorization: `bearer ${data}`
+                    }
+     
+                    }
+
+                 axios
+                 .get(`http://157.230.174.240:3006/api/v1/question/getallforadmin`, headers)
+                     .then(response => {
+                       console.log("response",response);
+                       console.log("response .data.data",response.data.data)
+
+                       this.setState({allQuestions:[...this.state.allQuestions,...response.data.data]})
+                      console.log("fetch question State:",this.state.allQuestions)
+                       })
+                   .catch(error => {
+                        console.log(error);
+                      });
+                      }
+
+
+  handleQuestionAdd = () => {
+  this.setState({isAddQns:false})
+   
+    
    let body = {
-     leval:1,
+     leval:this.state.level,
      questionstring:this.state.question,
      option : {
            a:this.state.optionA,
@@ -84,97 +140,185 @@ class Addquiz extends Component {
    
   handleInputTextChange = ()  =>  {
     this.setState({[event.target.name]:event.target.value})
-  }
-   render() {
-     return (
-      // className={classes.container}
-      <form  noValidate autoComplete="off">
-      <Button
-  
-   aria-haspopup="true"
-  //  onClick={handleClick}
- >
-   Select level
- </Button>
- <Menu id="simple-menu" >
-   <MenuItem >Leval 1</MenuItem>
-   <MenuItem >Level 2</MenuItem>
-   <MenuItem >Level 3</MenuItem>
- </Menu>
- <TextField
-   id="standard-full-width"
-   label="Question"
-   style={{ margin: 8 }}
-   placeholder="Enter your Question"
-   onChange={this.handleInputTextChange}
-   fullWidth
-   margin="normal"
-   InputLabelProps={{
-     shrink: true,
-   }}
-   name="question"
- />
-  <TextField
-   id="standard-with-placeholder"
-   label="A"
-   placeholder="option A"
-  //  className={classes.textField}
-   margin="normal"
-   onChange={this.handleInputTextChange}
-   name="optionA"
- />
- <TextField
-   id="standard-with-placeholder"
-   label="B"
-   placeholder="option B"
-  //  className={classes.textField}
-   margin="normal"
-   onChange={this.handleInputTextChange}
-   name="optionB"
- />
- <TextField
-   id="standard-with-placeholder"
-   label="C"
-   placeholder="option C"
-  //  className={classes.textField}
-   margin="normal"
-   onChange={this.handleInputTextChange}
-   name="optionC"
- />
- <TextField
-   id="standard-with-placeholder"
-   label="D"
-   placeholder="option D"
-  //  className={classes.textField}
-   margin="normal"
-   onChange={this.handleInputTextChange}
-   name="optionD"
- />
-   <TextField
-   id="standard-with-placeholder"
-   label=" Correct Answer"
-   placeholder="right option"
-  //  className={classes.textField}
-   margin="normal"
-   onChange={this.handleInputTextChange}
-   name="answer"
- />
- {/* className={classes.button} */}
- <Button variant="contained" color="primary"  style={{height:"50px"}} onClick={this.HandleQuestionAdd}> 
-   Add 
- </Button>
-</form>
-     )
-   }
+    console.log(event.target.name);
   }
 
-  // const classes = useStyles();
 
-//   const handleChange = name => event => {
-//     setValues({ ...values, [name]: event.target.value });
-//   };
+     handleClickOpen = () => {
+       this.setState({isAddQns:!this.state.isAddQns})
+     }
 
+    handleClose = () =>  {
+      this.setState({isAddQns:false})
+    }
+    
+   render (){
+  const { classes } = this.props;
 
+  return (
+    <div className={classes.root}>
+      <CssBaseline />
+      <Adminsidebar />
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        <div>
+        <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+          Add  Quiz Question
+        </Button>
 
+        <Dialog
+          open={this.state.isAddQns}
+          onClose={this.handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+         
+          <DialogContent>
+          <Typography>
+                   Selected Level :{this.state.level}
+                    </Typography>
+          <Button
+          aria-owns={this.state.anchorEl ? 'simple-menu' : undefined}
+          aria-haspopup="true"
+          onClick={this.handleLevalClick}
+          
+        >
+          Select level
+        </Button>
+        <Menu
+          id="simple-menu"
+          anchorEl={this.state.anchorEl}
+          open={Boolean(this.state.anchorEl)}
+          onClose={this.handleLevalClose}
+        >
+          <MenuItem onClick={() =>this.handleSelectLevel(1)}>1</MenuItem>
+          <MenuItem onClick={() =>this.handleSelectLevel(2)}>2</MenuItem>
+          <MenuItem onClick={() =>this.handleSelectLevel(3)}>3</MenuItem>
+        </Menu>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Enter Question"
+              type="text"
+              fullWidth
+              name="question"
+              onChange={this.handleInputTextChange}
+            />
+             <TextField
+                  id="standard-with-placeholder"
+                  label="A"
+                    placeholder="option A"
+               
+              margin="normal"
+              onChange={this.handleInputTextChange}
+              name="optionA"
+               />
+             <TextField
+             style={{marginLeft:"10px"}}
+             id="standard-with-placeholder"
+              label="B"
+                  placeholder="option B"
+           
+              margin="normal"
+            onChange={this.handleInputTextChange}
+                name="optionB"
+                />
+            <TextField
+            id="standard-with-placeholder"
+             label="C"
+              placeholder="option C"
+             
+             margin="normal"
+              onChange={this.handleInputTextChange}
+           name="optionC"
+            />
+           <TextField
+            style={{marginLeft:"10px"}}
+             id="standard-with-placeholder"
+          label="D"
+          placeholder="option D"
+       
+           margin="normal"
+           onChange={this.handleInputTextChange}
+            name="optionD"
+              />
+          <TextField
+            id="standard-with-placeholder"
+           label=" Correct Answer"
+           placeholder="right option"
+           
+            margin="normal"
+              onChange={this.handleInputTextChange}
+                name="answer"
+              />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.handleQuestionAdd} color="primary">
+             Add
+            </Button>
+          </DialogActions>
+        </Dialog>
+        {/* <div>
+        <ol type="1" style={{marginLeft:"25%"}}>
+             {  this.state.allQuestions.map (itm => {
+                   
+                 return (
+                   
+             <li>
+            <Typography variant="h6" gutterBottom>
+           
+       {itm.questionstring}
+      </Typography>
+            <RadioGroup aria-label="position" name="position"  row>
+            
+            <FormControlLabel
+        
+              id={itm._id}
+              value="a"
+              control={<Radio color="primary" checked={this.state.option === "a"} />}
+              label={itm.option.a}
+              labelPlacement="end"
+            />  
+             <FormControlLabel
+              id={itm._id}
+              value="b"
+              control={<Radio color="primary" checked={this.state.option === "b"}  />}
+              label={itm.option.b}
+              labelPlacement="end"
+            />
+             <FormControlLabel
+              id={itm._id}
+              value="c"
+              control={<Radio color="primary" checked={this.state.option === "c"}  />}
+              label={itm.option.c}
+              labelPlacement="end"
+            />
+             <FormControlLabel
+              id={itm._id}
+              value="d"
+              control={<Radio color="primary" checked={this.state.option === "d"} />}
+              label={itm.option.c}
+              labelPlacement="end"
+            />
 
-export default Addquiz;
+          </RadioGroup>
+       </li>)
+                })
+               }
+              
+                </ol></div> */}
+      </div>
+      </main>
+    </div>
+  );
+}
+}
+
+Adminquiz.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Adminquiz);

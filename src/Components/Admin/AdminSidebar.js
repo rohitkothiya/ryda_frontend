@@ -15,13 +15,13 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import {Link} from 'react-router-dom';
-
-
+import {Link,Redirect} from 'react-router-dom';
+import axios from 'axios';
+import Button from '@material-ui/core/Button';
 const Slidebar = [
   {
   name:"Quiz",
-  path:"/admin/quiz"
+  path:"/admin/addquiz"
 },
 {
   name:"Register",
@@ -32,7 +32,7 @@ const Slidebar = [
   path:"/admin/news"
 },
 {
-  name:"Survay",
+  name:"Survey",
   path:"/admin/survey"
 },
 ]
@@ -63,9 +63,58 @@ const styles = theme => ({
 });
 
 class Adminsidebar extends Component  {
+
+  state = {
+    backtoDash :false
+  }
+  handleLogout = () => {
+    let data = localStorage.getItem("usertoken")
+           
+    console.log(data)
+     let headers = {
+       headers: {
+        Authorization: `bearer ${data}`
+       }
+        
+     } 
+  
+
+
+    axios.get(`http://157.230.174.240:3006/api/v1/user/logout`,headers)
+    .then(response => {
+      console.log("response",response);
+     
+    
+      if(response.data.flag === true ) {
+    
+        this.setState({backtoDash : true});
+        localStorage.removeItem("usertoken")
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    render (){
   const { classes } = this.props;
-
+  if(this.state.backtoDash ) 
+    {
+     return   <Redirect to="/" />
+    }
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -74,6 +123,7 @@ class Adminsidebar extends Component  {
           <Typography variant="h6" color="inherit" noWrap>
             Admin Dashboard
           </Typography>
+          <Button color="inherit" onClick={this.handleLogout}>Logout</Button>
         </Toolbar>
       </AppBar>
       <Drawer

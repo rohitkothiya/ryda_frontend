@@ -9,11 +9,25 @@ import Adminsidebar from './AdminSidebar';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+
+
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
+import Container from '@material-ui/core/Container';
+
 import axios from 'axios';
+
+
+
+
 
 const drawerWidth = 240;
 const styles = theme => ({
@@ -42,6 +56,31 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
     width: 200,
   },
+  icon: {
+    marginRight: theme.spacing(2),
+  },
+  heroContent: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(8, 0, 6),
+  },
+  heroButtons: {
+    marginTop: theme.spacing(4),
+  },
+  cardGrid: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+  },
+  card: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  cardMedia: {
+    paddingTop: '56.25%', // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
 });
 
 
@@ -54,13 +93,14 @@ class Adminnews extends Component  {
     isAddNews:false,
     questionstring:"",
     link:"",
-    lastDate:""
+    lastDate:"",
+    allNews:[]
   }
   
   componentDidMount()  {
 
 
-    let data = localStorage.getItem("usertoken")
+    let data = localStorage.getItem("usertoken");
            
     console.log(data)
      let headers = {
@@ -73,6 +113,8 @@ class Adminnews extends Component  {
     .then(response => {
       console.log("response",response)
       console.log("response data data",response.data.data)
+      this.setState({allNews:[...this.state.allNews,...response.data.data]})
+      console.log("fetch all news :",this.state.allNews)
     })
     .catch(error => {
       console.log(error);
@@ -85,22 +127,41 @@ class Adminnews extends Component  {
   }
   handleAddNews = () => {
     this.setState({isAddNews:false});
-
+    let data = localStorage.getItem("usertoken")
+           
+    console.log(data)
+     let headers = {
+       headers: {
+        Authorization: `bearer ${data}`
+       }
+        
+     } 
       let body = {
         newsstring:this.state.questionstring,
         lastdate:this.state.lastDate,
         link:this.state.link
       }
         console.log(body)
-      
-  }
+        axios.post(`http://157.230.174.240:3006/api/v1/news/add`,body,headers)
+        .then(response => {
+          console.log("response",response)
+          console.log("response data data",response.data.data)
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      }
+  
   handleChangeInputText = () => {
+    console.log(event.target.name)
     this.setState({[event.target.name]:event.target.value})
   }
 
    render (){
   const { classes } = this.props;
-
+// {this.state.allNews.map(item => {
+//   return  console.log(item.link)
+//   })}
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -128,6 +189,7 @@ class Adminnews extends Component  {
               onChange={this.handleChangeInputText}
             />
             <TextField
+            name="lastDate"
         id="date"
         label="Last Date"
         type="date"
@@ -155,6 +217,40 @@ class Adminnews extends Component  {
           </Button>
         </DialogActions>
       </Dialog>
+     
+        {/* Hero unit */}
+        <Container className={classes.cardGrid} maxWidth="md">
+          {/* End hero unit */}
+          <Grid container spacing={4}>
+            {this.state.allNews.map(card => (
+              <Grid item key={card} xs={12} sm={6} md={4}>
+                <Card className={classes.card}>
+                 
+                  <CardContent className={classes.cardContent}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {card.newsstring}
+                    </Typography>
+                    <Typography>
+                      {card.lastdate}
+                    </Typography>
+                    <Typography>
+                      {card.link}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small" color="primary">
+                      Delete
+                    </Button>
+                    <Button size="small" color="primary">
+                      Edit
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      
       </main>
     </div>
   );

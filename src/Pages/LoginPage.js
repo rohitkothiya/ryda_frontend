@@ -62,10 +62,11 @@ class  SignIn extends Component {
      super(props)
          this.state= {
              role:1,
-             name:" ",
+             email:" ",
              password:"",
              open:false,
-
+             backtoDashboard:false,
+             backtoAdmin:false
          }
     }
    
@@ -77,30 +78,38 @@ class  SignIn extends Component {
   handleLogin = () => {
       event.preventDefault();
       console.log("login clicked");
+
       
-       let loginData  = {
-           name: this.state.name,
+      
+      
+       let body  = {
+           email: this.state.email,
            password:this.state.password,
-           role:this.state.role
+        
        }
-      console.log("loginData",loginData)
+      console.log("loginData",body)
          
-      axios.post(`http://157.230.174.240:3006/api/v1/user/login`,loginData)
+      axios.post(`http://157.230.174.240:3006/api/v1/user/login`,body)
       .then(response => {
         console.log("response",response);
         console.log("response .data.data",response.data.data.token)
         console.log("responserole",response.data.data.role)
         console.log("tokenrole",response.data.data.User.role)
-        localStorage.setItem("userdata", JSON.stringify(response.data.data.token));
+        localStorage.setItem("usertoken",response.data.data.token);
         if(response.data.flag === true && response.data.data.User.role === 2) {
       
           this.setState({backtoDashboard : true});
+        }
+        if(response.data.flag === true && response.data.data.User.role === 1)
+        {
+          this.setState({backtoAdmin : true})
         }
       })
       .catch(error => {
         console.log(error);
       });
     }
+  
        
 
   handleRadioButton = value => {
@@ -120,13 +129,20 @@ class  SignIn extends Component {
 
 
   render() {
+ 
+    if(this.state.backtoAdmin) {
+
+    
+      return <Redirect to="/admin"/>
+    }
+ 
+
+
     if(this.state.backtoDashboard ) 
 {
  return   <Redirect to="/studentdashboard"/>
 }
-else {
-  <Redirect to="/admin"/>
-}
+
     const { classes } = this.props;
 
   return (
@@ -157,12 +173,12 @@ else {
           </RadioGroup>
         </FormControl>
           <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="name">Username</InputLabel>
-            <Input id="name" name="name" autoComplete="name" autoFocus onChange={this.handleChangeInputText} />
+            <InputLabel htmlFor="email">User Email</InputLabel>
+            <Input id="email" name="email" autoComplete="email" autoFocus onChange={this.handleChangeInputText} />
           </FormControl>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="password">Password</InputLabel>
-            <Input name="password" type="password" id="password" autoComplete="current-password" onChange={this.handleChangeInputText} />
+            <Input name="password" type="password" id="password" autoComplete="current-password" onChange={this.handleChangeInputText}  />
           </FormControl>
           <Grid container style={{marginTop:"25px"}}>
             <Grid item xs>

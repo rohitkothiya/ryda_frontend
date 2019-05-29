@@ -75,7 +75,7 @@ class Dashboard extends Component{
           <Link to={{pathname:'/admin/userdata'}}><Button color="Primary">Register</Button></Link>
           <Link to={{pathname:'/admin/survey'}}><Button color="Primary">Survay</Button></Link>
           <Link to={{pathname:'/quiz'}}><Button color="Primary">Quiz</Button></Link>
-          <Link to={{pathname:'/addquiz'}}><Button color="Primary">Addquiz</Button></Link>
+          <Link to={{pathname:'/admin/addquiz'}}><Button color="Primary">Addquiz</Button></Link>
         </Toolbar>             
       </AppBar>
         {this.state.showSurveyForm ?  <SurveyForm/> : null}

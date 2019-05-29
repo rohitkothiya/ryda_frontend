@@ -42,7 +42,7 @@ class App extends Component {
         <Route path="/admin/userdata" exact component={Adminuserdata} />
         <Route path="/admin/survey" exact component={Adminsurvey} />
         <Route path="/quiz" exact component={Userquiz} />
-        <Route path="/addquiz" exact component={Addquiz} />
+        <Route path="/admin/addquiz" exact component={Addquiz} />
       </div>
     </Router>
 

@@ -56,7 +56,6 @@ class Userquiz  extends Component {
           });
         }
 
-
              handleRadioButton = (id,value) => {
              console.log("id:",id);
            
@@ -71,9 +70,9 @@ class Userquiz  extends Component {
             handleQuizResult = () => {
              
                 console.log("result is :")
-                let body = this.state.quizAnswers;
-                 
-            
+                let body ={
+                  quizAnswers:this.state.quizAnswers
+            };
                let data = localStorage.getItem("usertoken")
                console.log(data)
                 let headers = {
@@ -104,7 +103,7 @@ class Userquiz  extends Component {
         return ( 
           <div>
             <StudentAppbar/>
-            <ol type="1">
+            <ol type="1" style={{marginLeft:"25%"}}>
              {  this.state.questions.map (itm => {
                    
                  return (
