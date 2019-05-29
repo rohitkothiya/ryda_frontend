@@ -160,15 +160,19 @@ class Adminnews extends Component  {
   handleEditNews = (id) => {
     this.setState({isNewsModel:true,isEdit:true})
     console.log("news update id",id)
+    let body = {
+      newsstring:this.state.questionstring
+    }
     let data= localStorage.getItem("usertoken")
     let headers = {
       headers: {
        Authorization: `bearer ${data}`
       }
     }
-    axios.patch(`http://157.230.174.240:3006/api/v1/news/update/${id}`,headers)
+    axios.patch(`http://157.230.174.240:3006/api/v1/news/update/${id}`,body,headers)
     .then(response => {
        console.log("response",response);
+       console.log("response data data",response.data.data)
     })
      .catch(error => {
            console.log("error",error)
@@ -178,9 +182,9 @@ class Adminnews extends Component  {
   
    render (){
   const { classes } = this.props;
-{this.state.allNews.map(item => {
-  return  console.log(item._id)
-  })}
+// {this.state.allNews.map(item => {
+//   return  console.log(item._id)
+//   })}
   return (
     <div className={classes.root}>
       <CssBaseline />

@@ -139,7 +139,7 @@ class Adminsidebar extends Component  {
         <List>
           {Slidebar.map((text, index) => (
                        <Link to={`${text.path}`}>
-            <ListItem button key={text}>
+            <ListItem button key={index}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text.name} />
             </ListItem></Link>

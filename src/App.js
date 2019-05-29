@@ -16,7 +16,7 @@ import Adminnews from './Components/Admin/AdminNews';
 import Adminuserdata from './Components/Admin/AdminUserdata';
 import Userquiz from './Components/Student/Quiz';
 // import Addqns from './views/Pages/addquestion';
-import Addquiz from './Components/Admin/AddQuestions';
+import Addquiz from './Components/Admin/AdminQuiz';
 
 
 
