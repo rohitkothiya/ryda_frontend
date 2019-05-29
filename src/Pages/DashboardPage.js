@@ -10,6 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import {Link,withRouter} from 'react-router-dom'
 import SurveyForm from '../Components/SurveyForm';
 import axios from 'axios';
+import SectionCorousel from '../Components/SectionCorousel';
 
 const styles = {
   root: {
@@ -78,6 +79,7 @@ class Dashboard extends Component{
           <Link to={{pathname:'/admin/addquiz'}}><Button color="Primary">Addquiz</Button></Link>
         </Toolbar>             
       </AppBar>
+      <SectionCorousel />    
         {this.state.showSurveyForm ?  <SurveyForm/> : null}
 
     </div>

@@ -97,7 +97,6 @@ else {
           Reset Password
         </Typography>
         <form className={classes.form}>
-
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="email"> Enter Email</InputLabel>
             <Input id="email" name="email" autoComplete="email" autoFocus onChange={this.handleChangeInputText} />
@@ -115,8 +114,8 @@ else {
           </Button>
           <Grid container style={{marginTop:"20px"}}>
             <Grid item xs>
-              <Link to={{pathname:"/login"}} variant="body2">
-               { "<" + "Back To Login"}
+              <Link style={{ textDecoration: 'unset' }} to={{pathname:"/login"}} variant="body2">
+                {"< Back to Login"}
               </Link>
             </Grid>
           </Grid>
