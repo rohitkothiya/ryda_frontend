@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {Link,withRouter} from 'react-router-dom'
 import SurveyForm from '../Components/SurveyForm';
+import axios from 'axios';
 
 const styles = {
   root: {
@@ -33,8 +34,17 @@ class Dashboard extends Component{
      this.setState({showSurveyForm:true})
    }
   
-  
-  
+  componentDidMount()  {
+    axios.get(`http://157.230.174.240:3006/api/v1/news/getall`)
+    .then(response => {
+      console.log("response",response)
+      console.log("response data data",response.data.data)
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+   
   
   render() {
    

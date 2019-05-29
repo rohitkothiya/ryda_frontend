@@ -13,6 +13,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import axios from 'axios';
 
 const drawerWidth = 240;
 const styles = theme => ({
@@ -55,7 +56,28 @@ class Adminnews extends Component  {
     link:"",
     lastDate:""
   }
+  
+  componentDidMount()  {
 
+
+    let data = localStorage.getItem("usertoken")
+           
+    console.log(data)
+     let headers = {
+       headers: {
+        Authorization: `bearer ${data}`
+       }
+        
+     } 
+    axios.get(`http://157.230.174.240:3006/api/v1/news/getallforadmin`,headers)
+    .then(response => {
+      console.log("response",response)
+      console.log("response data data",response.data.data)
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
 
 
   handleAddnewsOpen = () => {
@@ -65,8 +87,15 @@ class Adminnews extends Component  {
     this.setState({isAddNews:false});
 
       let body = {
-        questionstring:this.state.questionstring
+        newsstring:this.state.questionstring,
+        lastdate:this.state.lastDate,
+        link:this.state.link
       }
+        console.log(body)
+      
+  }
+  handleChangeInputText = () => {
+    this.setState({[event.target.name]:event.target.value})
   }
 
    render (){
@@ -89,6 +118,7 @@ class Adminnews extends Component  {
         <DialogTitle id="alert-dialog-title">{"Latest News?"}</DialogTitle>
         <DialogContent>
           <TextField
+             name="questionstring"
               autoFocus
               margin="dense"
               id="name"
@@ -101,7 +131,7 @@ class Adminnews extends Component  {
         id="date"
         label="Last Date"
         type="date"
-        defaultValue="2017-05-24"
+        defaultValue="2018-04-18"
         className={classes.textField}
         onChange={this.handleChangeInputText}
         InputLabelProps={{
@@ -116,6 +146,7 @@ class Adminnews extends Component  {
               type="text"
               fullWidth
               onChange={this.handleChangeInputText}
+              name="link"
             />
         </DialogContent>
         <DialogActions>

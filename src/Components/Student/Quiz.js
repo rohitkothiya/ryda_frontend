@@ -71,9 +71,9 @@ class Userquiz  extends Component {
             handleQuizResult = () => {
              
                 console.log("result is :")
-                let body ={
-                  quizAnswers:this.state.quizAnswers
-            };
+                let body = this.state.quizAnswers;
+                 
+            
                let data = localStorage.getItem("usertoken")
                console.log(data)
                 let headers = {
