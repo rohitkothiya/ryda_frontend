@@ -90,11 +90,12 @@ const styles = theme => ({
 class Adminnews extends Component  {
 
   state ={
-    isAddNews:false,
+    isNewsModel:false,
     questionstring:"",
     link:"",
     lastDate:"",
-    allNews:[]
+    allNews:[],
+    isEdit:false
   }
   
   componentDidMount()  {
@@ -123,10 +124,10 @@ class Adminnews extends Component  {
 
 
   handleAddnewsOpen = () => {
-    this.setState({isAddNews:!this.state.isAddNews});
+    this.setState({isNewsModel:!this.state.isNewsModel});
   }
   handleAddNews = () => {
-    this.setState({isAddNews:false});
+    this.setState({isNewsModel:false});
     let data = localStorage.getItem("usertoken")
            
     console.log(data)
@@ -156,12 +157,30 @@ class Adminnews extends Component  {
     console.log(event.target.name)
     this.setState({[event.target.name]:event.target.value})
   }
-
+  handleEditNews = (id) => {
+    this.setState({isNewsModel:true,isEdit:true})
+    console.log("news update id",id)
+    let data= localStorage.getItem("usertoken")
+    let headers = {
+      headers: {
+       Authorization: `bearer ${data}`
+      }
+    }
+    axios.patch(`http://157.230.174.240:3006/api/v1/news/update/${id}`,headers)
+    .then(response => {
+       console.log("response",response);
+    })
+     .catch(error => {
+           console.log("error",error)
+     })
+    
+  }
+  
    render (){
   const { classes } = this.props;
-// {this.state.allNews.map(item => {
-//   return  console.log(item.link)
-//   })}
+{this.state.allNews.map(item => {
+  return  console.log(item._id)
+  })}
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -173,7 +192,7 @@ class Adminnews extends Component  {
         Create a Latest News
       </Button></div>
       <Dialog
-        open={this.state.isAddNews}
+        open={this.state.isNewsModel}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -213,9 +232,12 @@ class Adminnews extends Component  {
             />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleAddNews} color="primary" autoFocus>
+          {this.state.isEditNews ? <Button onClick={this.handleAddNews} color="primary" autoFocus>
             Add
-          </Button>
+          </Button> : <Button onClick={this.handleAddNews} color="primary" autoFocus>
+           Save
+      </Button> }
+
         </DialogActions>
       </Dialog>
      
@@ -223,9 +245,9 @@ class Adminnews extends Component  {
         <Container className={classes.cardGrid} maxWidth="md" style={{paddingTop:"18px"}}>
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {this.state.allNews.map(card => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
+            {this.state.allNews.map((card,index) => (
+              <Grid item key={index} xs={12} sm={6} md={4}>
+                <Card  className={classes.card}>
                  
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h6" component="h6">
@@ -240,7 +262,7 @@ class Adminnews extends Component  {
                   </CardContent>
                   <CardActions >
                    
-                    <Button size="small" color="primary">
+                    <Button size="small" color="primary" onClick={() => this.handleEditNews(card._id)}>
                       Edit
                     </Button>
                   </CardActions>

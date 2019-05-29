@@ -347,7 +347,7 @@ class Adminquiz extends Component  {
        )}
         )
        }
-    </Card> */}
+    </Card> 
       </div>
       </main>
     </div>
