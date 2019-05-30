@@ -7,7 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -16,10 +16,27 @@ import { Redirect} from 'react-router-dom';
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import {  Link } from "react-router-dom";
-
+import TextField from '@material-ui/core/TextField';
 // axios.default.baseURl = "http://157.230.174.240:3006/api";
 
-
+const optionList = [
+  {
+    value: 'a',
+    label: 'B.TECH',
+  },
+  {
+    value: 'b',
+    label: 'B.E',
+  },
+  {
+    value: 'c',
+    label: 'M.B.A',
+  },
+  {
+    value: 'd',
+    label: 'B.A',
+  },
+];
 
 const styles = theme => ({
   main: {
@@ -69,7 +86,12 @@ class  Register extends Component {
          }
          this.handleRegister = this.handleRegister.bind(this)
     }
-   
+    handleChange = name => event => {
+      this.setState({
+       [name]: event.target.value,
+           });
+           
+          };
   handleRegister = () => {
       event.preventDefault();
       console.log("Register clicked");
@@ -155,8 +177,29 @@ if(this.state.backtoDashboard)
             <Input name="ageRegister" type="number" id="age" autoComplete="current-password" onChange={this.handleChangeInputText}  defaultValue="24"/>
           </FormControl>
           <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="eduction"> Higher Eduction</InputLabel>
-            <Input name="eductionRegister" type="text" id="eduction" autoComplete="current-password" onChange={this.handleChangeInputText} defaultValue="B.TECH" />
+                     <TextField
+                        name="educationRegister"
+                                 id="standard-with-placeholder"
+                               select
+                              label="Education"
+                                  // className={classes.textField}
+                                value={this.state.eductionRegister}
+                               onChange={this.handleChange('educationRegister')}
+                     SelectProps={{
+                         native: true,
+                           MenuProps: {
+                           className: classes.menu,
+                      },
+                        }}
+                        helperText="Please select right answer"
+                       margin="normal"
+                                >
+                          {optionList.map(option => (
+                                                  <option key={option.value} value={option.value}>
+                                              {option.label}
+                          </option>
+                                   ))}
+                             </TextField>
           </FormControl>
           <Grid container>
             <Grid item xs>

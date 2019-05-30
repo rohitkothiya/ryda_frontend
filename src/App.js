@@ -17,7 +17,7 @@ import Adminuserdata from './Components/Admin/AdminUserdata';
 import Userquiz from './Components/Student/Quiz';
 // import Addqns from './views/Pages/addquestion';
 import Addquiz from './Components/Admin/AdminQuiz';
-
+import Profile from './Pages/ProfilePage';
 
 
 
@@ -37,7 +37,7 @@ class App extends Component {
         <Route path="/resetpassword" component={Resetpassword} />
         <Route path="/admin" exact component={Admindash} />
         <Route path="/studentdashboard" exact component={Studentdash} />
- 
+        <Route path="/profile" exact component={Profile} />
         <Route path="/admin/news" exact component={Adminnews} />
         <Route path="/admin/userdata" exact component={Adminuserdata} />
         <Route path="/admin/survey" exact component={Adminsurvey} />

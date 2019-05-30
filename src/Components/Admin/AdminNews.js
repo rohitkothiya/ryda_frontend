@@ -4,7 +4,7 @@ import React,{Component} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
+import Typography from '@material-ui/core/Typography';
 import Adminsidebar from './AdminSidebar';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -19,7 +19,7 @@ import CardContent from '@material-ui/core/CardContent';
 
 
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+
 
 import Container from '@material-ui/core/Container';
 
@@ -84,6 +84,8 @@ const styles = theme => ({
 });
 
 
+ 
+ 
 
 
 
@@ -95,8 +97,28 @@ class Adminnews extends Component  {
     link:"",
     lastDate:"",
     allNews:[],
-    isEdit:false
+    isEdit:false,
+    id:""
   }
+
+ fetchNews = (headers) => {
+ 
+ 
+ 
+  
+    axios.get(`http://157.230.174.240:3006/api/v1/news/getallforadmin`,headers)
+   .then(response => {
+      console.log("response",response)
+             console.log("response data data",response.data.data)
+         this.setState({allNews:response.data.data})
+               console.log("fetch all news :",this.state.allNews)
+          })
+         .catch(error => {
+         console.log(error);
+                         })
+  
+  }
+
   
   componentDidMount()  {
 
@@ -110,16 +132,17 @@ class Adminnews extends Component  {
        }
         
      } 
-    axios.get(`http://157.230.174.240:3006/api/v1/news/getallforadmin`,headers)
-    .then(response => {
-      console.log("response",response)
-      console.log("response data data",response.data.data)
-      this.setState({allNews:[...this.state.allNews,...response.data.data]})
-      console.log("fetch all news :",this.state.allNews)
-    })
-    .catch(error => {
-      console.log(error);
-    });
+     this.fetchNews(headers);
+    // axios.get(`http://157.230.174.240:3006/api/v1/news/getallforadmin`,headers)
+    // .then(response => {
+    //   console.log("response",response)
+    //   console.log("response data data",response.data.data)
+    //   this.setState({allNews:[...this.state.allNews,...response.data.data]})
+    //   console.log("fetch all news :",this.state.allNews)
+    // })
+    // .catch(error => {
+    //   console.log(error);
+    // });
   }
 
 
@@ -155,92 +178,118 @@ class Adminnews extends Component  {
   
   handleChangeInputText = () => {
     console.log(event.target.name)
-    this.setState({[event.target.name]:event.target.value})
+    this.setState({[event.target.name]:event.target.value,})
   }
-  handleEditNews = (id) => {
-    this.setState({isNewsModel:true,isEdit:true})
-    console.log("news update id",id)
-    let body = {
-      newsstring:this.state.questionstring
-    }
-    let data= localStorage.getItem("usertoken")
-    let headers = {
-      headers: {
-       Authorization: `bearer ${data}`
-      }
-    }
-    axios.patch(`http://157.230.174.240:3006/api/v1/news/update/${id}`,body,headers)
-    .then(response => {
-       console.log("response",response);
-       console.log("response data data",response.data.data)
-    })
-     .catch(error => {
-           console.log("error",error)
-     })
+  handleEditNews = (card) => {
+    console.log("edit card ",card._id,card.newsstring,card.link,card.lastdate)
+    this.setState({isNewsModel:true,isEdit:true,questionstring:card.newsstring,link:card.link,lastDate:card.lastdate,id:card._id})
+  
+    console.log("news update id",this.state.id,this.state.questionstring,this.state.lastDate)
+  
+  
+   
     
   }
   
+  handleSaveChanges = () => { 
+    this.setState({isNewsModel:false});
+    console.log(this.state);
+    let body = {
+      newsstring:this.state.questionstring,
+      link:this.state.link,
+      lastdate:this.state.lastDate
+      
+    }
+    let data = localStorage.getItem("usertoken");
+                  
+    console.log(data)
+     let headers = {
+       headers: {
+        Authorization: `bearer ${data}`
+       }
+      }
+       axios.patch(`http://157.230.174.240:3006/api/v1/news/update/${this.state.id}`,body,headers)
+       .then(response => {
+          console.log("response",response);
+          console.log("response data data",response.data.data)
+          this.fetchNews(headers);
+       })
+        .catch(error => {
+              console.log("error",error)
+        })
+     
+     } 
+           
+   handleNewsClose = () => {
+     this.setState({isNewsModel:false})
+   }
    render (){
   const { classes } = this.props;
-// {this.state.allNews.map(item => {
-//   return  console.log(item._id)
-//   })}
+
+
   return (
+
     <div className={classes.root}>
       <CssBaseline />
       <Adminsidebar />
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <div style={{display:"flex",justifyContent:"flex-end"}}>
+        <div style={{display:"flex",justifyContent:"space-between"}}>
+        <Typography variant="h4" >
+        News
+      </Typography>
         <Button variant="outlined" color="primary" onClick={this.handleAddnewsOpen}>
         Create a Latest News
-      </Button></div>
-      <Dialog
-        open={this.state.isNewsModel}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Latest News?"}</DialogTitle>
-        <DialogContent>
-          <TextField
-             name="questionstring"
-              autoFocus
-              margin="dense"
-              id="name"
-              label=""
-              type="news"
-              fullWidth
-              onChange={this.handleChangeInputText}
-            />
-            <TextField
-            name="lastDate"
-        id="date"
-        label="Last Date"
-        type="date"
-        defaultValue="2018-04-18"
-        className={classes.textField}
-        onChange={this.handleChangeInputText}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-              <TextField
-              autoFocus
-              margin="dense"
-              id="linkaddress"
-              label="Link Address"
-              type="text"
-              fullWidth
-              onChange={this.handleChangeInputText}
-              name="link"
+              </Button></div>
+                            <Dialog
+                             open={this.state.isNewsModel}
+                            aria-labelledby="alert-dialog-title"
+                             aria-describedby="alert-dialog-description"
+                               >
+                  <DialogTitle id="alert-dialog-title">{"Latest News?"}</DialogTitle>
+                            <DialogContent>
+                   <TextField
+                                    name="questionstring"
+                                   autoFocus
+                                 margin="dense"
+                                id="name"
+                                label="news"
+                                 type="news"
+                                      fullWidth
+                                    onChange={this.handleChangeInputText}
+                                    value={this.state.questionstring}
+                                    />
+                    <TextField
+                                name="lastDate"
+                        id="date"
+                       label="Last Date"
+                             type="date"
+                        //  defaultValue="2018-04-18"
+                         className={classes.textField}
+                                 onChange={this.handleChangeInputText}
+                                 value={this.state.lastDate}
+                           InputLabelProps={{
+                          shrink: true,
+                                  }}
+                       />
+                                 <TextField
+                                 autoFocus
+                                  margin="dense"
+                                  id="linkaddress"
+                                       label="Link Address"
+                                    type="text"
+                                    fullWidth
+                                               onChange={this.handleChangeInputText}
+                                               value={this.state.link}
+                        name="link"
             />
         </DialogContent>
         <DialogActions>
           {this.state.isEditNews ? <Button onClick={this.handleAddNews} color="primary" autoFocus>
             Add
-          </Button> : <Button onClick={this.handleAddNews} color="primary" autoFocus>
+          </Button> :  <div><Button onClick={this.handleSaveChanges} color="primary" autoFocus>
            Save
-      </Button> }
+      </Button><Button onClick={this.handleNewsClose} color="primary" autoFocus> Cancel</Button></div>  }
 
         </DialogActions>
       </Dialog>
@@ -266,7 +315,7 @@ class Adminnews extends Component  {
                   </CardContent>
                   <CardActions >
                    
-                    <Button size="small" color="primary" onClick={() => this.handleEditNews(card._id)}>
+                    <Button size="small" color="primary" onClick={() => this.handleEditNews(card)}>
                       Edit
                     </Button>
                   </CardActions>

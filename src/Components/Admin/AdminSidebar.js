@@ -15,7 +15,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import {Link,Redirect} from 'react-router-dom';
+import {NavLink,Redirect} from 'react-router-dom';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
 const Slidebar = [
@@ -60,6 +60,9 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
   },
+  active : {
+    color:"red"
+  }
 });
 
 class Adminsidebar extends Component  {
@@ -138,11 +141,11 @@ class Adminsidebar extends Component  {
         <Divider />
         <List>
           {Slidebar.map((text, index) => (
-                       <Link to={`${text.path}`}>
+                       <NavLink to={`${text.path}`} activeClassName={classes.active}>
             <ListItem button key={index}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text.name} />
-            </ListItem></Link>
+            </ListItem></NavLink>
           ))}
         </List>
         <Divider />

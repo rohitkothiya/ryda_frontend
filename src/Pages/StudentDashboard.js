@@ -85,12 +85,13 @@ class Quiz extends Component {
   }
 
   render() {
+    console.log(this.state);
    
     // const classes = useStyles();
     return (
          <React.Fragment>
     <CssBaseline />
-    <StudentAppbar/>
+    <StudentAppbar />
     <main>
       {/* Hero unit */}
       {/* className={classes.heroContent} */}

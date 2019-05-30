@@ -14,13 +14,47 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Adminsidebar from './AdminSidebar';
 import axios from 'axios';
 import Typography from '@material-ui/core/Typography';
+import Tabs from '@material-ui/core/Tabs';
+import NoSsr from '@material-ui/core/NoSsr';
+import Tab from '@material-ui/core/Tab';
+import AppBar from '@material-ui/core/AppBar';
+import Cardquestion from './Questions/Questions';
 
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
+
+
+
 const drawerWidth = 240;
 
+function LinkTab(props) {
+  return <Tab component="a" onClick={event => event.preventDefault()} {...props} />;
+}
 
+
+function TabContainer(props) {
+  return (
+    <Typography component="div" style={{ padding: 8 * 3 }}>
+      {props.children}
+    </Typography>
+  );
+}
+const optionList = [
+  {
+    value: 'a',
+    label: 'a',
+  },
+  {
+    value: 'b',
+    label: 'b',
+  },
+  {
+    value: 'c',
+    label: 'c',
+  },
+  {
+    value: 'd',
+    label: 'd',
+  },
+];
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -56,37 +90,80 @@ const styles = theme => ({
   pos: {
     marginBottom: 12,
   },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200,
+  },
+  menu: {
+    width: 200,
+  },
+  roottab: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  },
 });
+
+
+
 
 class Adminquiz extends Component  {
   
+  fetchQns = (headers) => {
+    axios
+    .get(`http://157.230.174.240:3006/api/v1/question/getallforadmin`, headers)
+        .then(response => {
+          console.log("response",response);
+          console.log("response .data.data",response.data.data)
+           // console.log("respnse level wise data")
+          this.setState({allQuestions:[...this.state.allQuestions,...response.data.data]})
+
+         console.log("fetch question State:",this.state.allQuestions)
+          })
+      .catch(error => {
+           console.log(error);
+         });
+         
+    
+  }
 
   constructor(props) {
     super(props)
         this.state= {
-          isAddQns:false,
+           value:0,
+           isAddQns:false,
             question:"",
              optionA:"",
              optionB:"",
              optionC:"",
              optionD:"",
-             answer:"",
+             answer:"a",
              anchorEl: null,
              level:1,
-             allQuestions:[]
+             allQuestions:[],
+             isEditMode:false,
+             rightOption:"a"
         }
        
    }
-   handleLevalClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
+                                      handleChangeTab = (event, value) => {
+                                          this.setState({ value });
+                                                };
 
- handleSelectLevel = (value) => {
+                             handleLevalClick = event => {
+                               this.setState({ anchorEl: event.currentTarget });
+                                   };
 
-   this.setState({anchorEl: null,level:value})
-   console.log("level",this.state.level)
- }
+                             handleSelectLevel = (value) => {
 
+                               this.setState({anchorEl: null,level:value})
+                                   console.log("level",this.state.level)
+                                   }
+                               handleChange = name => event => {
+                                this.setState({
+                                 [name]: event.target.value,
+                                     });
+                                    };
                componentDidMount() {
                      
                   let data = localStorage.getItem("usertoken")
@@ -99,20 +176,21 @@ class Adminquiz extends Component  {
                     }
      
                     }
+                   this.fetchQns(headers);
+                //  axios
+                //  .get(`http://157.230.174.240:3006/api/v1/question/getallforadmin`, headers)
+                //      .then(response => {
+                //        console.log("response",response);
+                //        console.log("response .data.data",response.data.data)
+                //         // console.log("respnse level wise data")
+                //        this.setState({allQuestions:[...this.state.allQuestions,...response.data.data]})
 
-                 axios
-                 .get(`http://157.230.174.240:3006/api/v1/question/getallforadmin`, headers)
-                     .then(response => {
-                       console.log("response",response);
-                       console.log("response .data.data",response.data.data)
-
-                       this.setState({allQuestions:[...this.state.allQuestions,...response.data.data]})
-                      console.log("fetch question State:",this.state.allQuestions)
-                       })
-                   .catch(error => {
-                        console.log(error);
-                      });
-                      }
+                //       console.log("fetch question State:",this.state.allQuestions)
+                //        })
+                //    .catch(error => {
+                //         console.log(error);
+                //       });
+                   }
 
 
   handleQuestionAdd = () => {
@@ -120,7 +198,7 @@ class Adminquiz extends Component  {
    
     
    let body = {
-     leval:this.state.level,
+     level:this.state.level,
      questionstring:this.state.question,
      option : {
            a:this.state.optionA,
@@ -167,30 +245,82 @@ class Adminquiz extends Component  {
     handleClose = () =>  {
       this.setState({isAddQns:false})
     }
+    handleEditQuestions = (card) => {
+      
+        console.log("card detail",card.questionstring,card.option.a,card.optionB,card.option.c,card.option.d,card.answer,card._id)
+     this.setState({isEditMode:true,isAddQns:true,question:card.questionstring,optionA:card.option.a,optionB:card.option.b,optionC:card.option.c,optionD:card.option.d,answer:card.answer,id:card._id,level:card.level})
+    }
+     handleSaveChanges = () => {
+          
+    let body = {
+                
+                  level:this.state.level,
+                  questionstring:this.state.question,
+              option : {
+                  a:this.state.optionA,
+                  b:this.state.optionB,
+                   c:this.state.optionC,
+                  d:this.state.optionD
+              } ,
+              answer:this.state.answer
+                 }
+                 let data = localStorage.getItem("usertoken")
+ 
+               console.log(data)
+                     let headers = {
+                    headers: {
+                                         Authorization: `bearer ${data}`
+                           }
+      
+                      }
+              console.log("body",body)
+                      this.setState({isAddQns:false})
+                         axios.patch(`http://157.230.174.240:3006/api/v1/question/update/${this.state.id}`,body,headers)
+                  .then(response => {
+                           console.log("response",response);
     
-   render (){
+                          console.log("response .data.data",response.data.data);
+                          this.fetchQns(headers);
+   
 
-    {this.state.allQuestions.map(item => {
-      return console.log("incomming data",item.option.a)
-    })}
+   })
+   .catch(error => {
+     console.log(error);
+   });
+ }    
+   
+ 
+
+   render (){
+            let firstLevel = this.state.allQuestions.filter(item => item.level == 1)
+                        console.log("first level Questions",firstLevel);
+            let secondLevel = this.state.allQuestions.filter(item => item.level == 2)
+                        console.log("second level Questions",secondLevel);     
+            let thirdLevel = this.state.allQuestions.filter(item => item.level == 3)
+                        console.log("third level Questions",thirdLevel);                   
   const { classes } = this.props;
-  
+  const { value } = this.state;
   return (
     <div className={classes.root}>
       <CssBaseline />
       <Adminsidebar />
+     
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <div>
+          <div style={{display:"flex",justifyContent:"space-between"}}>
+          <Typography variant="h4" >
+        Quiz Questions
+      </Typography>
         <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
           Add  Quiz Question
         </Button>
-
+        </div>
         <Dialog
           open={this.state.isAddQns}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
-        >
+           >
          
           <DialogContent>
           <Typography>
@@ -223,6 +353,7 @@ class Adminquiz extends Component  {
               fullWidth
               name="question"
               onChange={this.handleInputTextChange}
+              value={this.state.question}
             />
              <TextField
                   id="standard-with-placeholder"
@@ -232,6 +363,7 @@ class Adminquiz extends Component  {
               margin="normal"
               onChange={this.handleInputTextChange}
               name="optionA"
+              value={this.state.optionA}
                />
              <TextField
              style={{marginLeft:"10px"}}
@@ -242,6 +374,7 @@ class Adminquiz extends Component  {
               margin="normal"
             onChange={this.handleInputTextChange}
                 name="optionB"
+                value={this.state.optionB}
                 />
             <TextField
             id="standard-with-placeholder"
@@ -251,6 +384,7 @@ class Adminquiz extends Component  {
              margin="normal"
               onChange={this.handleInputTextChange}
            name="optionC"
+           value={this.state.optionC}
             />
            <TextField
             style={{marginLeft:"10px"}}
@@ -261,95 +395,67 @@ class Adminquiz extends Component  {
            margin="normal"
            onChange={this.handleInputTextChange}
             name="optionD"
+            value={this.state.optionD}
               />
-          <TextField
-            id="standard-with-placeholder"
-           label=" Correct Answer"
-           placeholder="right option"
-           
-            margin="normal"
-              onChange={this.handleInputTextChange}
-                name="answer"
-              />
+         
+                 <TextField
+                 name="rightOption"
+        id="standard-with-placeholder"
+        select
+        label="Correct Answer"
+        // className={classes.textField}
+        value={this.state.answer}
+        onChange={this.handleChange('answer')}
+        SelectProps={{
+          native: true,
+          MenuProps: {
+            className: classes.menu,
+          },
+        }}
+        helperText="Please select right answer"
+        margin="normal"
+      >
+        {optionList.map(option => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+        </TextField>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.handleQuestionAdd} color="primary">
-             Add
-            </Button>
+            {this.state.isEditMode ? (
+                     <Button onClick={this.handleSaveChanges} color="primary">
+                     Save
+                    </Button>
+            ) : (
+              <Button onClick={this.handleQuestionAdd} color="primary">
+              Add
+             </Button>
+            )}
+            
           </DialogActions>
         </Dialog>
+        <NoSsr>
+        <div className={classes.roottab} style={{marginTop:"10px"}}>
+          <AppBar position="static">
+            <Tabs variant="fullWidth" value={value} onChange={this.handleChangeTab}>
+              <LinkTab label="Level 1" href="page1" />
+              <LinkTab label="Level 2" href="page2" />
+              <LinkTab label="Level 3" href="page3" />
+            </Tabs>
+          </AppBar>
+          {value === 0 && <Cardquestion props={firstLevel} clicked={this.handleEditQuestions}/>}
+          {value === 1 && <Cardquestion props={secondLevel} clicked={this.handleEditQuestions}/>}
+          {value === 2 && <Cardquestion props={thirdLevel} clicked={this.handleEditQuestions}/>}
+        </div>
+      </NoSsr>
      
-        <Card className={classes.card}>
-        {this.state.allQuestions.map(card => {
-       return (
-           <CardContent>
-              <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label={card.questionstring}
-              type="text"
-              fullWidth
-              name="question"
-              
-            />
-             <TextField
-                  id="standard-with-placeholder"
-                  label="A"
-                    placeholder={card.option.a}
-                    
-              margin="normal"
-             
-              name="optionA"
-               />
-             <TextField
-             style={{marginLeft:"10px"}}
-             id="standard-with-placeholder"
-              label="B"
-                  placeholder={card.option.b}
-           
-              margin="normal"
-          
-                name="optionB"
-                />
-            <TextField
-            id="standard-with-placeholder"
-             label="C"
-              placeholder={card.option.c}
-             
-             margin="normal"
-             
-           name="optionC"
-            />
-           <TextField
-            style={{marginLeft:"10px"}}
-             id="standard-with-placeholder"
-          label="D"
-          placeholder={card.option.d}
-       
-           margin="normal"
-           
-            name="optionD"
-              />
-          <TextField
-            id="standard-with-placeholder"
-           label={card.answer}
-           placeholder="right option"
-           
-            margin="normal"
-              
-                name="answer"
-              />
-      </CardContent>
-       )}
-        )
-       }
-    </Card> 
+       {/* <Cardquestion props={this.state.allQuestions}/> */}
       </div>
-      </main>
+      </main> 
     </div>
   );
 }
@@ -360,3 +466,42 @@ Adminquiz.propTypes = {
 };
 
 export default withStyles(styles)(Adminquiz);
+
+
+
+
+
+{/* <Card className={classes.card}>
+{firstLevel.map(card => {
+return (
+   <CardContent>
+     <Typography variant="h6" gutterBottom fullWidth>
+                 {card.questionstring}
+           </Typography>
+           <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+           <Typography variant="subtitle1" gutterBottom fullWidth>
+                 A:  {card.option.a}
+           </Typography>
+           <Typography variant="subtitle1" gutterBottom fullWidth>
+           B:  {card.option.b}
+           </Typography></div>
+           <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+           <Typography variant="subtitle1" gutterBottom fullWidth>
+           C:  {card.option.c}
+           </Typography>
+           <Typography variant="subtitle1" gutterBottom fullWidth>
+           D:  {card.option.d}
+           </Typography></div>
+           <Typography variant="subtitle1" gutterBottom fullWidth>
+           Answer:  {card.option.a}
+           <Button onClick={() => this.handleEditQuestions(card)} color="primary" autoFocus>
+               Edit
+            </Button> 
+           </Typography>
+         
+      
+</CardContent>
+)}
+)
+}
+</Card>  */}

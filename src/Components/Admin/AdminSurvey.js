@@ -10,7 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
+import Typography from '@material-ui/core/Typography';
 import Adminsidebar from './AdminSidebar';
 import axios from 'axios';
 
@@ -78,6 +78,9 @@ class Adminsurvey extends Component  {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Paper className={classes.root} style={{marginTop:"45px",marginLeft:"250px"}}>
+        <Typography variant="h4" >
+       SurveyData
+      </Typography>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
