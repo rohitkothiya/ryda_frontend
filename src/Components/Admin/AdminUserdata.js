@@ -7,10 +7,11 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Adminsidebar from "./AdminSidebar";
 import axios from "axios";
+import Divider from '@material-ui/core/Divider';
+import Button from "@material-ui/core/Button";
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -24,9 +25,7 @@ const CustomTableCell = withStyles(theme => ({
 
 const styles = theme => ({
   root: {
-    width: "100%",
-    marginTop: theme.spacing.unit * 3,
-    overflowX: "auto"
+    display: 'flex'
   },
   table: {
     minWidth: 700
@@ -35,6 +34,12 @@ const styles = theme => ({
     "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.background.default
     }
+  },
+  toolbar: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing.unit * 3
   }
 });
 
@@ -79,12 +84,18 @@ class Adminuserdata extends Component {
 
         <main className={classes.content}>
           <div className={classes.toolbar} />
+            <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "16px 4px"
+              }}
+            >
+              <Typography variant="h4">UserData</Typography>
+            </div>
+            <Divider />
 
-          <Paper
-            className={classes.root}
-            style={{ marginTop: "45px", marginLeft: "250px" }}
-          >
-            <Typography variant="h4">UserData</Typography>
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
@@ -123,7 +134,7 @@ class Adminuserdata extends Component {
                 ))}
               </TableBody>
             </Table>
-          </Paper>
+            </div>
         </main>
       </div>
     );

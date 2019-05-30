@@ -16,6 +16,7 @@ import Tab from "@material-ui/core/Tab";
 import AppBar from "@material-ui/core/AppBar";
 import Cardquestion from "./Questions/Questions";
 import Divider from '@material-ui/core/Divider';
+import { DialogTitle } from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -27,20 +28,20 @@ function LinkTab(props) {
 
 const optionList = [
   {
-    value: "a",
-    label: "a"
+    value: "A",
+    label: "A"
   },
   {
-    value: "b",
-    label: "b"
+    value: "B",
+    label: "B"
   },
   {
-    value: "c",
-    label: "c"
+    value: "C",
+    label: "C"
   },
   {
-    value: "d",
-    label: "d"
+    value: "D",
+    label: "D"
   }
 ];
 const styles = theme => ({
@@ -292,9 +293,11 @@ class Adminquiz extends Component {
               open={this.state.isAddQns}
               onClose={this.handleClose}
               aria-labelledby="form-dialog-title"
+              maxWidth="md"
             >
+              <DialogTitle> { this.state.isEditMode ? "Edit Question" : "Add Question" } </DialogTitle>
+              <Divider />
               <DialogContent>
-
                 <TextField
                   name="level"
                   id="standard-with-placeholder"
@@ -310,6 +313,7 @@ class Adminquiz extends Component {
                   }}
                   margin="dense"
                   style={{ minWidth: '120px' }}
+                  variant="outlined"
                 >
                   {[1,2,3].map(level => (
                     <option key={level} value={level}>
@@ -319,57 +323,68 @@ class Adminquiz extends Component {
                 </TextField>
 
                 <TextField
-                  autoFocus
                   margin="dense"
                   id="name"
                   label="Enter Question"
+                  multiline
                   type="text"
                   fullWidth
                   name="question"
                   onChange={this.handleChangeInput}
                   value={this.state.question}
+                  variant="outlined"
                 />
+                <div>
+                <div>
+                  <TextField
+                    id="standard-with-placeholder"
+                    label="A"
+                    placeholder="option A"
+                    margin="dense"
+                    onChange={this.handleChangeInput}
+                    name="optionA"
+                    value={this.state.optionA}
+                    variant="outlined"
+                  />
+                  <TextField
+                    style={{ marginLeft: "10px" }}
+                    id="standard-with-placeholder"
+                    label="B"
+                    placeholder="option B"
+                    margin="dense"
+                    onChange={this.handleChangeInput}
+                    name="optionB"
+                    value={this.state.optionB}
+                    variant="outlined"
+                  />
+                </div>
+                <div> 
+                  <TextField
+                    id="standard-with-placeholder"
+                    label="C"
+                    placeholder="option C"
+                    margin="dense"
+                    onChange={this.handleChangeInput}
+                    name="optionC"
+                    value={this.state.optionC}
+                    variant="outlined"
+                  />
+                  <TextField
+                    style={{ marginLeft: "10px" }}
+                    id="standard-with-placeholder"
+                    label="D"
+                    placeholder="option D"
+                    margin="dense"
+                    onChange={this.handleChangeInput}
+                    name="optionD"
+                    value={this.state.optionD}
+                    variant="outlined"
+                  />
+                </div>
+                </div>
+                
                 <TextField
-                  id="standard-with-placeholder"
-                  label="A"
-                  placeholder="option A"
-                  margin="normal"
-                  onChange={this.handleChangeInput}
-                  name="optionA"
-                  value={this.state.optionA}
-                />
-                <TextField
-                  style={{ marginLeft: "10px" }}
-                  id="standard-with-placeholder"
-                  label="B"
-                  placeholder="option B"
-                  margin="normal"
-                  onChange={this.handleChangeInput}
-                  name="optionB"
-                  value={this.state.optionB}
-                />
-                <TextField
-                  id="standard-with-placeholder"
-                  label="C"
-                  placeholder="option C"
-                  margin="normal"
-                  onChange={this.handleChangeInput}
-                  name="optionC"
-                  value={this.state.optionC}
-                />
-                <TextField
-                  style={{ marginLeft: "10px" }}
-                  id="standard-with-placeholder"
-                  label="D"
-                  placeholder="option D"
-                  margin="normal"
-                  onChange={this.handleChangeInput}
-                  name="optionD"
-                  value={this.state.optionD}
-                />
-
-                <TextField
-                  name="rightOption"
+                  name="answer"
                   id="standard-with-placeholder"
                   select
                   label="Correct Answer"
@@ -382,8 +397,9 @@ class Adminquiz extends Component {
                       className: classes.menu
                     }
                   }}
-                  helperText="Please select right answer"
-                  margin="normal"
+                  helperText="Please select correct answer"
+                  margin="dense"
+                  variant="outlined"
                 >
                   {optionList.map(option => (
                     <option key={option.value} value={option.value}>
@@ -393,15 +409,15 @@ class Adminquiz extends Component {
                 </TextField>
               </DialogContent>
               <DialogActions>
-                <Button onClick={this.handleClose} color="primary">
+                <Button onClick={this.handleClose} color="default">
                   Cancel
                 </Button>
                 {this.state.isEditMode ? (
-                  <Button onClick={this.handleSaveChanges} color="primary">
+                  <Button variant="contained" onClick={this.handleSaveChanges} color="primary">
                     Save
                   </Button>
                 ) : (
-                  <Button onClick={this.handleQuestionAdd} color="primary">
+                  <Button variant="contained" onClick={this.handleQuestionAdd} color="primary">
                     Add
                   </Button>
                 )}

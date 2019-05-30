@@ -20,6 +20,7 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 
 import axios from "axios";
+import { Divider } from "@material-ui/core";
 
 const drawerWidth = 240;
 const styles = theme => ({
@@ -82,7 +83,7 @@ class Adminnews extends Component {
     link: "",
     lastDate: "",
     allNews: [],
-    isEdit: false,
+    isEditMode: false,
     id: ""
   };
 
@@ -123,13 +124,12 @@ class Adminnews extends Component {
   }
 
   handleAddnewsOpen = () => {
-    this.setState({ isNewsModel: !this.state.isNewsModel });
+    this.setState({ isNewsModel: !this.state.isNewsModel, isEditMode: false });
   };
   handleAddNews = () => {
     this.setState({ isNewsModel: false });
     let data = localStorage.getItem("usertoken");
 
-    console.log(data);
     let headers = {
       headers: {
         Authorization: `bearer ${data}`
@@ -157,28 +157,14 @@ class Adminnews extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
   handleEditNews = card => {
-    console.log(
-      "edit card ",
-      card._id,
-      card.newsstring,
-      card.link,
-      card.lastdate
-    );
     this.setState({
       isNewsModel: true,
-      isEdit: true,
+      isEditMode: true,
       questionstring: card.newsstring,
       link: card.link,
       lastDate: card.lastdate,
       id: card._id
     });
-
-    console.log(
-      "news update id",
-      this.state.id,
-      this.state.questionstring,
-      this.state.lastDate
-    );
   };
 
   handleSaveChanges = () => {
@@ -225,22 +211,33 @@ class Adminnews extends Component {
         <Adminsidebar />
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography variant="h4">News</Typography>
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={this.handleAddnewsOpen}
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "16px 4px"
+              }}
             >
-              Create a Latest News
-            </Button>
-          </div>
+              <Typography variant="h4">News</Typography>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={this.handleAddnewsOpen}
+              >
+                Create a Latest News
+              </Button>
+            </div>
+            <Divider />
+
+
           <Dialog
             open={this.state.isNewsModel}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="alert-dialog-title">{"Latest News?"}</DialogTitle>
+            <DialogTitle id="alert-dialog-title">{ this.state.isEditMode ? "Edit News" : "Add News"}</DialogTitle>
+            <Divider />
             <DialogContent>
               <TextField
                 name="questionstring"
@@ -252,22 +249,9 @@ class Adminnews extends Component {
                 fullWidth
                 onChange={this.handleChangeInputText}
                 value={this.state.questionstring}
+                variant="outlined"
               />
               <TextField
-                name="lastDate"
-                id="date"
-                label="Last Date"
-                type="date"
-                //  defaultValue="2018-04-18"
-                className={classes.textField}
-                onChange={this.handleChangeInputText}
-                value={this.state.lastDate}
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
-              <TextField
-                autoFocus
                 margin="dense"
                 id="linkaddress"
                 label="Link Address"
@@ -276,33 +260,38 @@ class Adminnews extends Component {
                 onChange={this.handleChangeInputText}
                 value={this.state.link}
                 name="link"
+                variant="outlined"
+              />
+              <TextField
+                name="lastDate"
+                id="date"
+                margin="dense"
+                label="Last Date"
+                type="date"
+                onChange={this.handleChangeInputText}
+                value={this.state.lastDate}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                variant="outlined"
               />
             </DialogContent>
-            <DialogActions>
-              {this.state.isEditNews ? (
-                <Button onClick={this.handleAddNews} color="primary" autoFocus>
-                  Add
+              <DialogActions>
+                <Button onClick={this.handleNewsClose} color="default">
+                  Cancel
                 </Button>
-              ) : (
-                <div>
-                  <Button
-                    onClick={this.handleSaveChanges}
-                    color="primary"
-                    autoFocus
-                  >
+                {this.state.isEditMode ? (
+                  <Button variant="contained" onClick={this.handleSaveChanges} color="primary">
                     Save
                   </Button>
-                  <Button
-                    onClick={this.handleNewsClose}
-                    color="primary"
-                    autoFocus
-                  >
-                    {" "}
-                    Cancel
+                ) : (
+                  <Button variant="contained" onClick={this.handleAddNews} color="primary">
+                    Add
                   </Button>
-                </div>
-              )}
-            </DialogActions>
+                )}
+              </DialogActions>
+
+
           </Dialog>
 
           <Container
