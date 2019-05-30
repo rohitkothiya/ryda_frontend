@@ -1,5 +1,3 @@
-
-
 import React from "react";
 // react component for creating beautiful carousel
 import Carousel from "react-slick";
@@ -34,66 +32,54 @@ class SectionCarousel extends React.Component {
       autoplay: true
     };
     return (
-        <div style={{ height: '500px' }}>
-              <Card carousel style={{ marginTop: '0', marginBottom: '0' }}>
-                <Carousel {...settings}>
-                  <div>
-                    <img
-                      src={image1}
-                      alt="First slide"
-                      style={{ width: '100%' }}
-                    />
-                    {/* <div className="slick-caption">
+      <div style={{ height: "500px" }}>
+        <Card carousel style={{ marginTop: "0", marginBottom: "0" }}>
+          <Carousel {...settings}>
+            <div>
+              <img src={image1} alt="First slide" style={{ width: "100%" }} />
+              {/* <div className="slick-caption">
                     Going on a vacation? Don’t forget your travel vaccinations. These and regular immunizations, such as flu shots, are part of our every day services.
                     </div>   */}
-                    {/* <div className="slick-sub-caption">
+              {/* <div className="slick-sub-caption">
                       
                         Yellowstone
                         National Park, United States
                       
                     </div>   */}
-                  </div>
-                  <div>
-                    <img
-                      src={image1}
-                      alt="Second slide"
-                      style={{ width: '100%' }}
-                    />
-                    {/* <div className="slick-caption">
+            </div>
+            <div>
+              <img src={image1} alt="Second slide" style={{ width: "100%" }} />
+              {/* <div className="slick-caption">
                       
                         Somewhere Beyond,
                         United States
                       
                     </div> */}
-                    {/* <div className="slick-sub-caption">
+              {/* <div className="slick-sub-caption">
                       
                         Yellowstone
                         National Park, United States
                       
                     </div>   */}
-                  </div>
-                  <div>
-                    <img
-                      src={image1}
-                      alt="Third slide"
-                      style={{ width: '100%' }}
-                    />
-                    {/* <div className="slick-caption">
+            </div>
+            <div>
+              <img src={image1} alt="Third slide" style={{ width: "100%" }} />
+              {/* <div className="slick-caption">
                       
                         Yellowstone
                         National Park, United States
                       
                     </div> */}
-                    {/* <div className="slick-sub-caption">
+              {/* <div className="slick-sub-caption">
                       
                         Yellowstone
                         National Park, United States
                       
                     </div>   */}
-                  </div>
-                </Carousel>
-              </Card>
-        </div>
+            </div>
+          </Carousel>
+        </Card>
+      </div>
     );
   }
 }

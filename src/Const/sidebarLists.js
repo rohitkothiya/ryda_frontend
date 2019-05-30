@@ -1,18 +1,18 @@
- export const adminSidebarList = [
-    {
-    name:"Quiz",
-    path:"/quiz"
+export const adminSidebarList = [
+  {
+    name: "Quiz",
+    path: "/quiz"
   },
   {
-    name:"Register",
-    path:"/admin/userdata"
+    name: "Register",
+    path: "/admin/userdata"
   },
   {
-    name:"News",
-    path:"/admin/news"
+    name: "News",
+    path: "/admin/news"
   },
   {
-    name:"Survay",
-    path:"/admin/survey"
-  },
-  ]
+    name: "Survay",
+    path: "/admin/survey"
+  }
+];
