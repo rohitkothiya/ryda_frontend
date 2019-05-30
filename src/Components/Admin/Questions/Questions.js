@@ -2,11 +2,10 @@ import React from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
 
 const Cardquestion = props => {
-  console.log(props);
-
   return (
     <div>
       <ol type="1" style={{ fontSize: "20px" }}>
@@ -21,13 +20,9 @@ const Cardquestion = props => {
                     <Typography variant="h6" gutterBottom fullWidth>
                       {card.questionstring}
                     </Typography>
-                    <Button
-                      onClick={() => props.clicked(card)}
-                      color="primary"
-                      autoFocus
-                    >
-                      Edit
-                    </Button>{" "}
+                    <IconButton aria-label="Edit" onClick={() => props.clicked(card)}>
+                        <EditIcon fontSize="small" />
+                    </IconButton>
                   </div>
                   <div style={{ display: "flex", flexDirection: "row" }}>
                     <Typography

@@ -7,8 +7,6 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 import Adminsidebar from "./AdminSidebar";
 import axios from "axios";
 import Typography from "@material-ui/core/Typography";
@@ -17,6 +15,7 @@ import NoSsr from "@material-ui/core/NoSsr";
 import Tab from "@material-ui/core/Tab";
 import AppBar from "@material-ui/core/AppBar";
 import Cardquestion from "./Questions/Questions";
+import Divider from '@material-ui/core/Divider';
 
 const drawerWidth = 240;
 
@@ -26,13 +25,6 @@ function LinkTab(props) {
   );
 }
 
-function TabContainer(props) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  );
-}
 const optionList = [
   {
     value: "a",
@@ -101,6 +93,7 @@ const styles = theme => ({
 });
 
 class Adminquiz extends Component {
+
   fetchQns = headers => {
     axios
       .get(
@@ -108,14 +101,9 @@ class Adminquiz extends Component {
         headers
       )
       .then(response => {
-        console.log("response", response);
-        console.log("response .data.data", response.data.data);
-        // console.log("respnse level wise data")
         this.setState({
-          allQuestions: [...this.state.allQuestions, ...response.data.data]
+          allQuestions: response.data.data
         });
-
-        console.log("fetch question State:", this.state.allQuestions);
       })
       .catch(error => {
         console.log(error);
@@ -140,7 +128,7 @@ class Adminquiz extends Component {
       rightOption: "a"
     };
   }
-  handleChangeTab = (event, value) => {
+  handleChangeInputTab = (event, value) => {
     this.setState({ value });
   };
 
@@ -148,19 +136,9 @@ class Adminquiz extends Component {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleSelectLevel = value => {
-    this.setState({ anchorEl: null, level: value });
-    console.log("level", this.state.level);
-  };
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value
-    });
-  };
   componentDidMount() {
     let data = localStorage.getItem("usertoken");
 
-    console.log(data);
     // console.log(newdata)
     let headers = {
       headers: {
@@ -168,19 +146,6 @@ class Adminquiz extends Component {
       }
     };
     this.fetchQns(headers);
-    //  axios
-    //  .get(`http://157.230.174.240:3006/api/v1/question/getallforadmin`, headers)
-    //      .then(response => {
-    //        console.log("response",response);
-    //        console.log("response .data.data",response.data.data)
-    //         // console.log("respnse level wise data")
-    //        this.setState({allQuestions:[...this.state.allQuestions,...response.data.data]})
-
-    //       console.log("fetch question State:",this.state.allQuestions)
-    //        })
-    //    .catch(error => {
-    //         console.log(error);
-    //       });
   }
 
   handleQuestionAdd = () => {
@@ -198,14 +163,11 @@ class Adminquiz extends Component {
       answer: this.state.answer
     };
     let data = localStorage.getItem("usertoken");
-    //  let newdata= JSON.stringify(data);
-    console.log(data);
     let headers = {
       headers: {
         Authorization: `bearer ${data}`
       }
     };
-    console.log("body", body);
 
     axios
       .post(
@@ -214,18 +176,21 @@ class Adminquiz extends Component {
         headers
       )
       .then(response => {
-        console.log("response", response);
-
-        console.log("response .data.data", response.data.data);
+        let data = localStorage.getItem("usertoken");
+        let headers = {
+          headers: {
+            Authorization: `bearer ${data}`
+          }
+        };
+        this.fetchQns(headers);
       })
       .catch(error => {
         console.log(error);
       });
   };
 
-  handleInputTextChange = () => {
+  handleChangeInput = () => {
     this.setState({ [event.target.name]: event.target.value });
-    console.log(event.target.name);
   };
 
   handleClickOpen = () => {
@@ -235,17 +200,8 @@ class Adminquiz extends Component {
   handleClose = () => {
     this.setState({ isAddQns: false });
   };
+
   handleEditQuestions = card => {
-    console.log(
-      "card detail",
-      card.questionstring,
-      card.option.a,
-      card.optionB,
-      card.option.c,
-      card.option.d,
-      card.answer,
-      card._id
-    );
     this.setState({
       isEditMode: true,
       isAddQns: true,
@@ -259,6 +215,7 @@ class Adminquiz extends Component {
       level: card.level
     });
   };
+  
   handleSaveChanges = () => {
     let body = {
       level: this.state.level,
@@ -272,14 +229,11 @@ class Adminquiz extends Component {
       answer: this.state.answer
     };
     let data = localStorage.getItem("usertoken");
-
-    console.log(data);
     let headers = {
       headers: {
         Authorization: `bearer ${data}`
       }
     };
-    console.log("body", body);
     this.setState({ isAddQns: false });
     axios
       .patch(
@@ -288,9 +242,12 @@ class Adminquiz extends Component {
         headers
       )
       .then(response => {
-        console.log("response", response);
-
-        console.log("response .data.data", response.data.data);
+        let data = localStorage.getItem("usertoken");
+        let headers = {
+          headers: {
+            Authorization: `bearer ${data}`
+          }
+        };
         this.fetchQns(headers);
       })
       .catch(error => {
@@ -300,13 +257,12 @@ class Adminquiz extends Component {
 
   render() {
     let firstLevel = this.state.allQuestions.filter(item => item.level == 1);
-    console.log("first level Questions", firstLevel);
     let secondLevel = this.state.allQuestions.filter(item => item.level == 2);
-    console.log("second level Questions", secondLevel);
     let thirdLevel = this.state.allQuestions.filter(item => item.level == 3);
-    console.log("third level Questions", thirdLevel);
+
     const { classes } = this.props;
     const { value } = this.state;
+    
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -331,36 +287,37 @@ class Adminquiz extends Component {
                 Add Quiz Question
               </Button>
             </div>
+            <Divider />
             <Dialog
               open={this.state.isAddQns}
               onClose={this.handleClose}
               aria-labelledby="form-dialog-title"
             >
               <DialogContent>
-                <Typography>Selected Level :{this.state.level}</Typography>
-                <Button
-                  aria-owns={this.state.anchorEl ? "simple-menu" : undefined}
-                  aria-haspopup="true"
-                  onClick={this.handleLevalClick}
+
+                <TextField
+                  name="level"
+                  id="standard-with-placeholder"
+                  select
+                  label="Level"
+                  value={this.state.level}
+                  onChange={this.handleChangeInput}
+                  SelectProps={{
+                    native: true,
+                    MenuProps: {
+                      className: classes.menu
+                    }
+                  }}
+                  margin="dense"
+                  style={{ minWidth: '120px' }}
                 >
-                  Select level
-                </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={this.state.anchorEl}
-                  open={Boolean(this.state.anchorEl)}
-                  onClose={this.handleLevalClose}
-                >
-                  <MenuItem onClick={() => this.handleSelectLevel(1)}>
-                    1
-                  </MenuItem>
-                  <MenuItem onClick={() => this.handleSelectLevel(2)}>
-                    2
-                  </MenuItem>
-                  <MenuItem onClick={() => this.handleSelectLevel(3)}>
-                    3
-                  </MenuItem>
-                </Menu>
+                  {[1,2,3].map(level => (
+                    <option key={level} value={level}>
+                      {level}
+                    </option>
+                  ))}
+                </TextField>
+
                 <TextField
                   autoFocus
                   margin="dense"
@@ -369,7 +326,7 @@ class Adminquiz extends Component {
                   type="text"
                   fullWidth
                   name="question"
-                  onChange={this.handleInputTextChange}
+                  onChange={this.handleChangeInput}
                   value={this.state.question}
                 />
                 <TextField
@@ -377,7 +334,7 @@ class Adminquiz extends Component {
                   label="A"
                   placeholder="option A"
                   margin="normal"
-                  onChange={this.handleInputTextChange}
+                  onChange={this.handleChangeInput}
                   name="optionA"
                   value={this.state.optionA}
                 />
@@ -387,7 +344,7 @@ class Adminquiz extends Component {
                   label="B"
                   placeholder="option B"
                   margin="normal"
-                  onChange={this.handleInputTextChange}
+                  onChange={this.handleChangeInput}
                   name="optionB"
                   value={this.state.optionB}
                 />
@@ -396,7 +353,7 @@ class Adminquiz extends Component {
                   label="C"
                   placeholder="option C"
                   margin="normal"
-                  onChange={this.handleInputTextChange}
+                  onChange={this.handleChangeInput}
                   name="optionC"
                   value={this.state.optionC}
                 />
@@ -406,7 +363,7 @@ class Adminquiz extends Component {
                   label="D"
                   placeholder="option D"
                   margin="normal"
-                  onChange={this.handleInputTextChange}
+                  onChange={this.handleChangeInput}
                   name="optionD"
                   value={this.state.optionD}
                 />
@@ -418,7 +375,7 @@ class Adminquiz extends Component {
                   label="Correct Answer"
                   // className={classes.textField}
                   value={this.state.answer}
-                  onChange={this.handleChange("answer")}
+                  onChange={this.handleChangeInput}
                   SelectProps={{
                     native: true,
                     MenuProps: {
@@ -456,7 +413,7 @@ class Adminquiz extends Component {
                   <Tabs
                     variant="fullWidth"
                     value={value}
-                    onChange={this.handleChangeTab}
+                    onChange={this.handleChangeInputTab}
                   >
                     <LinkTab label="Level 1" href="page1" />
                     <LinkTab label="Level 2" href="page2" />
