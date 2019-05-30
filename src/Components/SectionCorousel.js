@@ -55,7 +55,7 @@ class SectionCarousel extends React.Component {
                   </div>
                   <div>
                     <img
-                      src={image2}
+                      src={image1}
                       alt="Second slide"
                       style={{ width: '100%' }}
                     />
@@ -74,7 +74,7 @@ class SectionCarousel extends React.Component {
                   </div>
                   <div>
                     <img
-                      src={image3}
+                      src={image1}
                       alt="Third slide"
                       style={{ width: '100%' }}
                     />
