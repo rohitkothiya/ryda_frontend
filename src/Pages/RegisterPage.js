@@ -161,6 +161,7 @@ class Register extends Component {
                 autoFocus
                 onChange={this.handleChangeInputText}
                 defaultValue="rohit"
+                required
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>

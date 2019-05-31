@@ -28,7 +28,7 @@ class App extends Component {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/resetpassword" component={Resetpassword} />
-          <Route path="/admin" exact component={Admindash} />
+          {/* <Route path="/admin" exact component={Admindash} /> */}
           <Route path="/studentdashboard" exact component={Studentdash} />
           <Route path="/profile" exact component={Profile} />
           <Route path="/admin/news" exact component={Adminnews} />

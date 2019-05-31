@@ -59,8 +59,8 @@ class SignIn extends Component {
     super(props);
     this.state = {
       role: 1,
-      email: "admin@gmail.com",
-      password: "admin",
+      email: "rohitl@gmail.com",
+      password: "123",
       open: false,
       backtoDashboard: false,
       backtoAdmin: false
@@ -81,16 +81,23 @@ class SignIn extends Component {
       .post(`http://157.230.174.240:3006/api/v1/user/login`, body)
       .then(response => {
         console.log("response", response);
-        console.log("response .data.data", response.data.data.token);
+        console.log("response .data.data", Boolean(response.data.data.token));
         console.log("responserole", response.data.data.role);
-        console.log("tokenrole", response.data.data.User.role);
+        // console.log("tokenrole", response.data.data.User.role);
+        console.log("respnse data level",Boolean(response.data.data.level))
         localStorage.setItem("usertoken", response.data.data.token);
+        
         if (response.data.flag === true && response.data.data.User.role === 2) {
           this.setState({ backtoDashboard: true });
         }
         if (response.data.flag === true && response.data.data.User.role === 1) {
           this.setState({ backtoAdmin: true });
         }
+        if(Boolean(response.data.data.token) === false)
+        {
+          alert("Please Enter Valid Username & Password")
+        }
+      
       })
       .catch(error => {
         console.log(error);
@@ -113,7 +120,7 @@ class SignIn extends Component {
 
   render() {
     if (this.state.backtoAdmin) {
-      return <Redirect to="/admin" />;
+      return <Redirect to="/admin/addquiz" />;
     }
 
     if (this.state.backtoDashboard) {

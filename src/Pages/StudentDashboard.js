@@ -53,6 +53,42 @@ const useStyles = makeStyles(theme => ({
 }));
 
 class Quiz extends Component {
+  state = {
+    level:""
+  }
+
+  componentDidMount() {
+    let data = localStorage.getItem("usertoken");
+
+    console.log(data);
+    let headers = {
+      headers: {
+        Authorization: `bearer ${data}`
+      }
+    };
+    axios
+    .get(`http://157.230.174.240:3006/api/v1/user/getuserbytoken`, headers)
+    .then(response => {
+      console.log("response", response);
+      this.setState({level:response.data.data.clearedlevel})
+      console.log("getch state data",this.state.level)
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
   handleLogout = () => {
     let data = localStorage.getItem("usertoken");
 
@@ -80,7 +116,7 @@ class Quiz extends Component {
 
   render() {
     console.log(this.state);
-
+  //  console.log("props",this.props.props);
     // const classes = useStyles();
     return (
       <React.Fragment>
@@ -128,11 +164,12 @@ class Quiz extends Component {
                     />
                     {/* className={classes.cardContent} */}
                     <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
+                       <Typography gutterBottom variant="h5" component="h2">
                         {card.title}
-                      </Typography>
-                      <Typography>{card.description}</Typography>
-                    </CardContent>
+                       </Typography>
+                       <Typography>{card.description} {card.type ? this.state.level=== 0 ? <div>You have not cleared Any Level </div> : <div>you have cleared {this.state.level} </div> : null } </Typography>
+                    
+ </CardContent>
                     <CardActions>
                       <Link to={`${card.pathname}`}>
                         <Button size="small" color="primary">
