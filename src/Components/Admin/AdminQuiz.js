@@ -103,10 +103,11 @@ class Adminquiz extends Component {
       )
       .then(response => {
         this.setState({
-          allQuestions: response.data.data
+          allQuestions: response.data.data,loading:false
         });
       })
       .catch(error => {
+        this.setState({loading:false});
         console.log(error);
       });
   };
@@ -126,7 +127,8 @@ class Adminquiz extends Component {
       level: 1,
       allQuestions: [],
       isEditMode: false,
-      rightOption: "a"
+      rightOption: "a",
+      loading:false
     };
   }
   handleChangeInputTab = (event, value) => {
@@ -138,6 +140,7 @@ class Adminquiz extends Component {
   };
 
   componentDidMount() {
+    this.setState({loading:true});
     let data = localStorage.getItem("usertoken");
 
     // console.log(newdata)
@@ -183,6 +186,9 @@ class Adminquiz extends Component {
             Authorization: `bearer ${data}`
           }
         };
+        if(response.data.flag ===  false) {
+          alert("Already 10 Question Added ot this level!")
+        }
         this.fetchQns(headers);
       })
       .catch(error => {
@@ -255,14 +261,38 @@ class Adminquiz extends Component {
         console.log(error);
       });
   };
+ handleDeleteQuestions = (card) => {
+ 
 
+   this.setState({id:card._id})
+  let data = localStorage.getItem("usertoken");
+  let headers = {
+    headers: {
+      Authorization: `bearer ${data}`
+    }
+  };
+  axios
+  .delete(`http://157.230.174.240:3006/api/v1/question/deletequestion/${this.state.id}`, headers)
+  .then(response => {
+    console.log("response", response);
+    this.fetchQns(headers);
+  })
+  .catch(error => {
+    console.log(error);
+  });
+
+
+
+
+ 
+ }
   render() {
     let firstLevel = this.state.allQuestions.filter(item => item.level == 1);
     let secondLevel = this.state.allQuestions.filter(item => item.level == 2);
     let thirdLevel = this.state.allQuestions.filter(item => item.level == 3);
 
     const { classes } = this.props;
-    const { value } = this.state;
+    const { value ,loading} = this.state;
     
     return (
       <div className={classes.root}>
@@ -440,18 +470,24 @@ class Adminquiz extends Component {
                   <Cardquestion
                     props={firstLevel}
                     clicked={this.handleEditQuestions}
+                    loading={loading}
+                    deleted={this.handleDeleteQuestions}
                   />
                 )}
                 {value === 1 && (
                   <Cardquestion
                     props={secondLevel}
                     clicked={this.handleEditQuestions}
+                    loading={loading}
+                    deleted={this.handleDeleteQuestions}
                   />
                 )}
                 {value === 2 && (
                   <Cardquestion
                     props={thirdLevel}
                     clicked={this.handleEditQuestions}
+                    loading={loading}
+                    deleted={this.handleDeleteQuestions}
                   />
                 )}
               </div>

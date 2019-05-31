@@ -21,6 +21,7 @@ import Container from "@material-ui/core/Container";
 
 import axios from "axios";
 import { Divider } from "@material-ui/core";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const drawerWidth = 240;
 const styles = theme => ({
@@ -88,20 +89,23 @@ class Adminnews extends Component {
   };
 
   fetchNews = headers => {
+  
     axios
       .get(`http://157.230.174.240:3006/api/v1/news/getallforadmin`, headers)
       .then(response => {
         console.log("response", response);
         console.log("response data data", response.data.data);
-        this.setState({ allNews: response.data.data });
+        this.setState({ allNews: response.data.data ,loading:false});
         console.log("fetch all news :", this.state.allNews);
       })
       .catch(error => {
+        this.setState({loading:false})
         console.log(error);
       });
   };
 
   componentDidMount() {
+    this.setState({loading:true})
     let data = localStorage.getItem("usertoken");
 
     console.log(data);
@@ -204,7 +208,7 @@ class Adminnews extends Component {
   };
   render() {
     const { classes } = this.props;
-
+    const { loading } = this.state;
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -299,6 +303,9 @@ class Adminnews extends Component {
             maxWidth="md"
             style={{ paddingTop: "18px" }}
           >
+               {loading ? <div style={{display:"flex",justifyContent:"center",marginTop:"200px"}}>
+      <CircularProgress className={classes.progress}  />
+   </div> : null }
             {/* End hero unit */}
             <Grid container spacing={4}>
               {this.state.allNews.map((card, index) => (
