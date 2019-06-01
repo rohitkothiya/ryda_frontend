@@ -1,27 +1,26 @@
-
-import React from 'react';
-import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
-import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
+import React from "react";
+import PropTypes from "prop-types";
+import AppBar from "@material-ui/core/AppBar";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Divider from "@material-ui/core/Divider";
+import Drawer from "@material-ui/core/Drawer";
+import Hidden from "@material-ui/core/Hidden";
+import IconButton from "@material-ui/core/IconButton";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import MailIcon from "@material-ui/icons/Mail";
+import MenuIcon from "@material-ui/icons/Menu";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import {NavLink,Redirect} from 'react-router-dom'
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import { NavLink, Redirect } from "react-router-dom";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -29,7 +28,6 @@ import DialogContent from "@material-ui/core/DialogContent";
 import Button from "@material-ui/core/Button";
 
 import { DialogTitle } from "@material-ui/core";
-
 
 const Slidebar = [
   {
@@ -50,77 +48,58 @@ const Slidebar = [
   }
 ];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
-    display: 'flex',
+    display: "flex"
   },
   drawer: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
-      flexShrink: 0,
-    },
+      flexShrink: 0
+    }
   },
   appBar: {
     marginLeft: drawerWidth,
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-    },
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(100% - ${drawerWidth}px)`
+    }
   },
   menuButton: {
     marginRight: 20,
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
+    [theme.breakpoints.up("sm")]: {
+      display: "none"
+    }
   },
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
-    width: drawerWidth,
+    width: drawerWidth
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 3
   },
-  active :{
-    color:"red"
+  active: {
+    color: "red"
   }
 });
 
 class Adminsidebar extends React.Component {
   state = {
-    name:"",
-    email:"",
-    qualification:"Btech",
-    age:"",
+    name: "",
+    email: "",
+    qualification: "Btech",
+    age: "",
     mobileOpen: false,
     backtoDash: false,
-    isAccountMenu:false,
-    isProfileShow:false,
-    btnLoading:false,
- 
+    isAccountMenu: false,
+    isProfileShow: false,
+    btnLoading: false
   };
-   
-
-
 
   componentDidMount() {
-    this.setState({btnLoading:false})
+    this.setState({ btnLoading: false });
     let data = localStorage.getItem("usertoken");
 
     console.log(data);
@@ -130,15 +109,28 @@ class Adminsidebar extends React.Component {
       }
     };
     axios
-    .get(`http://157.230.174.240:3006/api/v1/user/getuserbytoken`, headers)
-    .then(response => {
-      console.log("response", response);
-      this.setState({name:response.data.data.name,email:response.data.data.email,age:response.data.data.age,qualification:response.data.data.qualification,id:response.data.data._id})
-      console.log("getch state data",this.state.name,this.state.email,this.state.age,this.state.qualification,this.state.id)
-    })
-    .catch(error => {
-      console.log(error);
-    });
+      .get(`http://157.230.174.240:3006/api/v1/user/getuserbytoken`, headers)
+      .then(response => {
+        console.log("response", response);
+        this.setState({
+          name: response.data.data.name,
+          email: response.data.data.email,
+          age: response.data.data.age,
+          qualification: response.data.data.qualification,
+          id: response.data.data._id
+        });
+        console.log(
+          "getch state data",
+          this.state.name,
+          this.state.email,
+          this.state.age,
+          this.state.qualification,
+          this.state.id
+        );
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
   handleChangeInput = () => {
     this.setState({ [event.target.name]: event.target.value });
@@ -169,95 +161,84 @@ class Adminsidebar extends React.Component {
   };
 
   handleOpenAccountMenu = () => {
-    this.setState({isAccountMenu:true})
-  }
+    this.setState({ isAccountMenu: true });
+  };
 
-  
-handleCloseAccountMenu = () =>{
-  this.setState({isAccountMenu:false})
-}
-
+  handleCloseAccountMenu = () => {
+    this.setState({ isAccountMenu: false });
+  };
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
-  handelOpenProfile =() => {
-this.setState({isProfileShow:true})
+  handelOpenProfile = () => {
+    this.setState({ isProfileShow: true });
+  };
 
-};
+  handleCloseProfile = () => {
+    this.setState({ isProfileShow: false });
+  };
 
+  handelSaveProfile = () => {
+    this.setState({ btnLoading: true });
+    let body = {
+      name: this.state.name,
+      email: this.state.email,
+      age: this.state.age,
+      qualification: this.state.qualification
+    };
+    console.log("body", body);
+    let data = localStorage.getItem("usertoken");
 
-
-
-
-  
- handleCloseProfile = () => {
-   this.setState({isProfileShow:false})
- }
-
-
-
-
-
-
-
-
- handelSaveProfile = () => {
-   this.setState({btnLoading:true})
-   let body ={
-     name:this.state.name,
-     email:this.state.email,
-     age:this.state.age,
-     qualification:this.state.qualification
-   }
-   console.log("body",body)
-   let data = localStorage.getItem("usertoken");
-
-   console.log("data",data);
-   let headers = {
-     headers: {
-       Authorization: `bearer ${data}`
-     }
-   };
-   axios
-   .patch(`http://157.230.174.240:3006/api/v1/user/userupdate/${this.state.id}`,body,headers)
-   .then(response => {
-     console.log("response", response);
-     this.setState({isProfileShow:false,isAccountMenu:false,btnLoading:false})
-   })
-   .catch(error => {
-    this.setState({btnLoading:false})
-     console.log(error);
-     
-   });
-
-  }
+    console.log("data", data);
+    let headers = {
+      headers: {
+        Authorization: `bearer ${data}`
+      }
+    };
+    axios
+      .patch(
+        `http://157.230.174.240:3006/api/v1/user/userupdate/${this.state.id}`,
+        body,
+        headers
+      )
+      .then(response => {
+        console.log("response", response);
+        this.setState({
+          isProfileShow: false,
+          isAccountMenu: false,
+          btnLoading: false
+        });
+      })
+      .catch(error => {
+        this.setState({ btnLoading: false });
+        console.log(error);
+      });
+  };
   render() {
-
     if (this.state.backtoDash) {
-             return <Redirect to="/" />;
-          }
+      return <Redirect to="/" />;
+    }
 
-    
     const { classes, theme } = this.props;
-     const {isAccountMenu,name,email,age,qualification} = this.state;
+    const { isAccountMenu, name, email, age, qualification } = this.state;
     const drawer = (
       <div>
         <div className={classes.toolbar} />
         <Divider />
-        <List> 
-           {Slidebar.map((text, index) => (
-              <NavLink to={`${text.path}`} activeClassName={classes.active}>
-                <ListItem button key={index}>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text.name} />
-                </ListItem>
-              </NavLink>
-            ))}
-          </List>
+        <List>
+          {Slidebar.map((text, index) => (
+            <NavLink to={`${text.path}`} activeClassName={classes.active}>
+              <ListItem button key={index}>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text.name} />
+              </ListItem>
+            </NavLink>
+          ))}
+        </List>
         <Divider />
       </div>
     );
@@ -265,8 +246,8 @@ this.setState({isProfileShow:true})
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <AppBar position="fixed" className={classes.appBar} >
-          <Toolbar style={{display:"flex",justifyContent:"space-between"}}>
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
             <IconButton
               color="inherit"
               aria-label="Open drawer"
@@ -276,34 +257,33 @@ this.setState({isProfileShow:true})
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>
-             Admin Dashboard
+              Admin Dashboard
             </Typography>
             <IconButton
-                  aria-owns={open ? 'menu-appbar' : undefined}
-                  aria-haspopup="true"
-                  onClick={this.handleOpenAccountMenu}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={isAccountMenu}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={isAccountMenu}
-                  onClose={this.handleCloseAccountMenu}
-                >
-                  <MenuItem onClick={this.handelOpenProfile}>Profile</MenuItem>
-                  <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
-                </Menu>
-                <Dialog
+              aria-owns={open ? "menu-appbar" : undefined}
+              aria-haspopup="true"
+              onClick={this.handleOpenAccountMenu}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={isAccountMenu}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right"
+              }}
+              paper={{
+                top: '0 !important'
+              }}
+              open={isAccountMenu}
+              onClose={this.handleCloseAccountMenu}
+            >
+              <MenuItem onClick={this.handelOpenProfile}>Profile</MenuItem>
+              <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
+            </Menu>
+            <Dialog
               open={this.state.isProfileShow}
               onClose={this.handleCloseProfile}
               aria-labelledby="form-dialog-title"
@@ -312,8 +292,6 @@ this.setState({isProfileShow:true})
               <DialogTitle> Profile </DialogTitle>
               <Divider />
               <DialogContent>
-                
-
                 <TextField
                   margin="dense"
                   id="name"
@@ -326,7 +304,7 @@ this.setState({isProfileShow:true})
                   value={name}
                   variant="outlined"
                 />
-                   <TextField
+                <TextField
                   margin="dense"
                   id="email"
                   label="Email"
@@ -338,7 +316,7 @@ this.setState({isProfileShow:true})
                   value={email}
                   variant="outlined"
                 />
-                   <TextField
+                <TextField
                   margin="dense"
                   id="age"
                   label="Age"
@@ -351,47 +329,43 @@ this.setState({isProfileShow:true})
                   variant="outlined"
                 />
 
-                
                 <div>
-               
-               
                   <TextField
-                  name="qualification"
-                  id="standard-with-placeholder"
-                  select
-                  label="Qualification"
-                  value={qualification}
-                  onChange={this.handleChangeInput}
-                  SelectProps={{
-                    native: true,
-                    MenuProps: {
-                      className: classes.menu
-                    }
-                  }}
-                  margin="dense"
-                  style={{ minWidth: '120px' }}
-                  variant="outlined"
-                >
-                  {["Btech","MBA","BA"].map(level => (
-                    <option key={level} value={level}>
-                      {level}
-                    </option>
-                  ))}
-                </TextField>
+                    name="qualification"
+                    id="standard-with-placeholder"
+                    select
+                    label="Qualification"
+                    value={qualification}
+                    onChange={this.handleChangeInput}
+                    SelectProps={{
+                      native: true,
+                      MenuProps: {
+                        className: classes.menu
+                      }
+                    }}
+                    margin="dense"
+                    style={{ minWidth: "120px" }}
+                    variant="outlined"
+                  >
+                    {["Btech", "MBA", "BA"].map(level => (
+                      <option key={level} value={level}>
+                        {level}
+                      </option>
+                    ))}
+                  </TextField>
                 </div>
-              
-              
               </DialogContent>
               <DialogActions>
-                <Button  color="default" onClick={this.handleCloseProfile}>
+                <Button color="default" onClick={this.handleCloseProfile}>
                   Cancel
-                </Button>  
-                <Button variant="contained"  onClick={this.handelSaveProfile} color="primary">
-                         {this.state.btnLoading ? "Saving" : "Save"}
-                         </Button>
-                   
-                 
-               
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={this.handelSaveProfile}
+                  color="primary"
+                >
+                  {this.state.btnLoading ? "Saving" : "Save"}
+                </Button>
               </DialogActions>
             </Dialog>
           </Toolbar>
@@ -402,11 +376,11 @@ this.setState({isProfileShow:true})
             <Drawer
               container={this.props.container}
               variant="temporary"
-              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+              anchor={theme.direction === "rtl" ? "right" : "left"}
               open={this.state.mobileOpen}
               onClose={this.handleDrawerToggle}
               classes={{
-                paper: classes.drawerPaper,
+                paper: classes.drawerPaper
               }}
             >
               {drawer}
@@ -415,7 +389,7 @@ this.setState({isProfileShow:true})
           <Hidden xsDown implementation="css">
             <Drawer
               classes={{
-                paper: classes.drawerPaper,
+                paper: classes.drawerPaper
               }}
               variant="permanent"
               open
@@ -434,70 +408,10 @@ Adminsidebar.propTypes = {
   // Injected by the documentation to work in an iframe.
   // You won't need it on your project.
   container: PropTypes.object,
-  theme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired
 };
 
 export default withStyles(styles, { withTheme: true })(Adminsidebar);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import React, { Component } from "react";
 // import PropTypes from "prop-types";

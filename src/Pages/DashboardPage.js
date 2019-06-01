@@ -96,7 +96,9 @@ class Dashboard extends Component {
           </Toolbar>
         </AppBar>
         <SectionCorousel />
-        {this.state.showSurveyForm ? <SurveyForm  open={this.state.showSurveyForm}/> : null}
+        {this.state.showSurveyForm ? (
+          <SurveyForm open={this.state.showSurveyForm} />
+        ) : null}
       </div>
     );
   }

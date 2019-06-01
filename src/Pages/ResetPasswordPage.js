@@ -58,59 +58,54 @@ class SignIn extends Component {
     super(props);
     this.state = {
       email: "",
-      password:"",
-     confirmPassword:"",
-     errorPassword:false
+      password: "",
+      confirmPassword: "",
+      errorPassword: false
     };
-
   }
   handleResetPassword = () => {
-event.preventDefault();
+    event.preventDefault();
 
+    if (this.state.password === this.state.confirmPassword) {
+      this.setState({ errorPassword: false });
+      let body = {
+        email: this.state.email,
+        password: this.state.confirmPassword
+      };
 
-if(this.state.password === this.state.confirmPassword) {
-  this.setState({errorPassword:false})
- let body ={
-   email:this.state.email,
-   password:this.state.confirmPassword
- }
+      axios
+        .post(`http://157.230.174.240:3006/api/v1/user/resetpassword`, body)
+        .then(response => {
+          console.log("response", response);
 
-axios
-.post(`http://157.230.174.240:3006/api/v1/user/resetpassword`,body)
-.then(response => {
-  console.log("response", response);
-
-  if (response.data.data._id)
-   {
-     alert("Password reset Succesfully")
-    this.setState({ backToLogin: true });
-      }
-      else{
-        alert("Please enter valid Email Id");
-        // this.setState({backToLogin:true})
-      }
-      })
-     .catch(error => {
-                   console.log(error);
-   });
-  }
-   else {
-          this.setState({errorPassword:true})
-   }
-  }
+          if (response.data.data._id) {
+            alert("Password reset Succesfully");
+            this.setState({ backToLogin: true });
+          } else {
+            alert("Please enter valid Email Id");
+            // this.setState({backToLogin:true})
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      this.setState({ errorPassword: true });
+    }
+  };
   handleChangeInputText = () => {
     console.log(event.target.name);
     this.setState({
       [event.target.name]: event.target.value
     });
-   
+
     // console.log(event.target.password.value === event.target.confirmPassword.value);
   };
 
   render() {
     if (this.state.backToLogin) {
       return <Redirect to="/login" />;
-    } 
+    }
     const { classes } = this.props;
 
     return (
@@ -145,10 +140,12 @@ axios
                 onChange={this.handleChangeInputText}
                 variant="outlined"
               />
-            
             </FormControl>
             <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="confirm password"> Confirm Password</InputLabel>
+              <InputLabel htmlFor="confirm password">
+                {" "}
+                Confirm Password
+              </InputLabel>
               <Input
                 // error={this.state.password === this.state.confirmPassword}
                 id="confirmpassword"
@@ -159,7 +156,9 @@ axios
                 variant="outlined"
               />
             </FormControl>
-            {this.state.confirmPassword === this.state.password ? null : <div style={{color:"red"}}>Password does not Matched</div>}
+            {this.state.confirmPassword === this.state.password ? null : (
+              <div style={{ color: "red" }}>Password does not Matched</div>
+            )}
             <Button
               type="submit"
               style={{ marginRight: "25px" }}

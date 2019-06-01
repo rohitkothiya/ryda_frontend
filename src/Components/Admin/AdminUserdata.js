@@ -1,4 +1,3 @@
-
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
@@ -8,7 +7,7 @@ import Adminsidebar from "./AdminSidebar";
 
 import Button from "@material-ui/core/Button";
 
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Card from "@material-ui/core/Card";
 
 import CardContent from "@material-ui/core/CardContent";
@@ -73,18 +72,18 @@ const styles = theme => ({
     flexGrow: 1
   },
   progress: {
-    margin: theme.spacing.unit * 2,
-  },
+    margin: theme.spacing.unit * 2
+  }
 });
 
 class Adminuserdata extends Component {
-   state = {
+  state = {
     userData: [],
-    loading:false
+    loading: false
   };
 
   componentDidMount() {
-    this.setState({loading:true})
+    this.setState({ loading: true });
     let data = localStorage.getItem("usertoken");
     let headers = {
       headers: {
@@ -101,73 +100,82 @@ class Adminuserdata extends Component {
         console.log("response", response);
         console.log("response .data.data", response.data.data);
         this.setState({
-          userData: [...this.state.userData, ...response.data.data],loading:false
+          userData: [...this.state.userData, ...response.data.data],
+          loading: false
         });
         console.log("fetched user data", this.state.userData);
       })
       .catch(error => {
-        this.setState({loading:false})
+        this.setState({ loading: false });
         console.log(error);
       });
   }
   render() {
     const { classes } = this.props;
-   const {loading} = this.state;
+    const { loading } = this.state;
     return (
       <div className={classes.root}>
         <CssBaseline />
         <Adminsidebar />
-       
+
         <main className={classes.content}>
           <div className={classes.toolbar} />
-         
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                padding: "16px 4px"
-              }}
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "16px 4px"
+            }}
+          >
+            <Typography variant="h4">User Information</Typography>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={this.handleAddnewsOpen}
+              style={{ display: "none" }}
             >
-              <Typography variant="h4">User Information</Typography>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={this.handleAddnewsOpen}
-                style={{display:"none"}}
-              >
-                Create a Latest News
-              </Button>
-            </div>
-            <Divider />
+              Create a Latest News
+            </Button>
+          </div>
+          <Divider />
 
           <Container
             className={classes.cardGrid}
             maxWidth="md"
             style={{ paddingTop: "18px" }}
           >
-         {loading ? <div style={{display:"flex",justifyContent:"center",marginTop:"200px"}}>
-      <CircularProgress className={classes.progress}  />
-   </div> : null }
- 
+            {loading ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "200px"
+                }}
+              >
+                <CircularProgress className={classes.progress} />
+              </div>
+            ) : null}
+
             {/* End hero unit */}
             <Grid container spacing={4}>
-         { this.state.userData.map((user,index) => (
-                <Grid item  xs={12} sm={6} md={4}>
+              {this.state.userData.map((user, index) => (
+                <Grid item xs={12} sm={6} md={4}>
                   <Card className={classes.card}>
                     <CardContent className={classes.cardContent}>
-                      <Typography gutterBottom  >
-                       Name :{user.name}
-                      </Typography>
+                      <Typography gutterBottom>Name :{user.name}</Typography>
                       <Typography>Email :{user.email}</Typography>
                       <Typography>Age :{user.Age}</Typography>
-                      <Typography>Qualification:{user.qualification}</Typography>
-                      <Typography>Cleared level :{user.clearedlevel}</Typography>
-                   
+                      <Typography>
+                        Qualification:{user.qualification}
+                      </Typography>
+                      <Typography>
+                        Cleared level :{user.clearedlevel}
+                      </Typography>
                     </CardContent>
-                   </Card>
+                  </Card>
                 </Grid>
-          )) }
-          
+              ))}
             </Grid>
           </Container>
         </main>
@@ -181,90 +189,6 @@ Adminuserdata.propTypes = {
 };
 
 export default withStyles(styles)(Adminuserdata);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import React, { Component } from "react";
 // import PropTypes from "prop-types";

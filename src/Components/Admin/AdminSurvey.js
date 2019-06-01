@@ -1,6 +1,3 @@
-
-
-
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
@@ -8,11 +5,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Adminsidebar from "./AdminSidebar";
 
-
-
 import Button from "@material-ui/core/Button";
 
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Card from "@material-ui/core/Card";
 
 import CardContent from "@material-ui/core/CardContent";
@@ -79,25 +74,26 @@ const styles = theme => ({
 });
 
 class Adminsurvey extends Component {
-             state = {
-           surveyerData: [],
-             loading:false
+  state = {
+    surveyerData: [],
+    loading: false
   };
 
   componentDidMount() {
-    this.setState({loading:true})
+    this.setState({ loading: true });
     axios
       .get(`http://157.230.174.240:3006/api/v1/survey/getall`)
       .then(response => {
         console.log("response", response);
         console.log("response .data.data", response.data.data);
         this.setState({
-          surveyerData: [...this.state.surveyerData, ...response.data.data],loading:false
+          surveyerData: [...this.state.surveyerData, ...response.data.data],
+          loading: false
         });
         console.log("fetched survey data", this.state.surveyerData);
       })
       .catch(error => {
-        this.setState({loading:false})
+        this.setState({ loading: false });
         console.log(error);
       });
   }
@@ -111,42 +107,48 @@ class Adminsurvey extends Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                padding: "16px 4px"
-              }}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "16px 4px"
+            }}
+          >
+            <Typography variant="h4">Survey Data</Typography>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={this.handleAddnewsOpen}
+              style={{ display: "none" }}
             >
-              <Typography variant="h4">Survey Data</Typography>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={this.handleAddnewsOpen}
-                style={{display:"none"}}
-              >
-                Create a Latest News
-              </Button>
-            </div>
-            <Divider />
+              Create a Latest News
+            </Button>
+          </div>
+          <Divider />
 
           <Container
             className={classes.cardGrid}
             maxWidth="md"
             style={{ paddingTop: "18px" }}
           >
-          {loading ? <div style={{display:"flex",justifyContent:"center",marginTop:"200px"}}>
-          <CircularProgress className={classes.progress}  />
-       </div> : null }
+            {loading ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "200px"
+                }}
+              >
+                <CircularProgress className={classes.progress} />
+              </div>
+            ) : null}
             {/* End hero unit */}
             <Grid container spacing={4}>
-         { this.state.surveyerData.map((survey,index) => (
-                <Grid item  xs={12} sm={6} md={4}>
+              {this.state.surveyerData.map((survey, index) => (
+                <Grid item xs={12} sm={6} md={4}>
                   <Card className={classes.card}>
                     <CardContent className={classes.cardContent}>
-                      <Typography gutterBottom  >
-                       Name :{survey.name}
-                      </Typography>
+                      <Typography gutterBottom>Name :{survey.name}</Typography>
                       <Typography>Email :{survey.email}</Typography>
                       <Typography>Age :{survey.Age}</Typography>
                       <Typography>School Name :{survey.school_name}</Typography>
@@ -155,10 +157,9 @@ class Adminsurvey extends Component {
                       <Typography>Answer 2 :{survey.que_2_ans}</Typography>
                       <Typography>Answer 3 :{survey.que_3_ans}</Typography>
                     </CardContent>
-                   </Card>
+                  </Card>
                 </Grid>
-          )) }
-          
+              ))}
             </Grid>
           </Container>
         </main>
@@ -172,45 +173,6 @@ Adminsurvey.propTypes = {
 };
 
 export default withStyles(styles)(Adminsurvey);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import React, { Component } from "react";
 // import PropTypes from "prop-types";
@@ -300,7 +262,6 @@ export default withStyles(styles)(Adminsurvey);
 //             </div>
 //             <Divider />
 
-            
 //             <Table className={classes.table}>
 //               <TableHead>
 //                 <TableRow>

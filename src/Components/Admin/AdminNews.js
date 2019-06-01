@@ -21,7 +21,7 @@ import Container from "@material-ui/core/Container";
 
 import axios from "axios";
 import { Divider } from "@material-ui/core";
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const drawerWidth = 240;
 const styles = theme => ({
@@ -89,23 +89,22 @@ class Adminnews extends Component {
   };
 
   fetchNews = headers => {
-  
     axios
       .get(`http://157.230.174.240:3006/api/v1/news/getallforadmin`, headers)
       .then(response => {
         console.log("response", response);
         console.log("response data data", response.data.data);
-        this.setState({ allNews: response.data.data ,loading:false});
+        this.setState({ allNews: response.data.data, loading: false });
         console.log("fetch all news :", this.state.allNews);
       })
       .catch(error => {
-        this.setState({loading:false})
+        this.setState({ loading: false });
         console.log(error);
       });
   };
 
   componentDidMount() {
-    this.setState({loading:true})
+    this.setState({ loading: true });
     let data = localStorage.getItem("usertoken");
 
     console.log(data);
@@ -216,31 +215,32 @@ class Adminnews extends Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                padding: "16px 4px"
-              }}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "16px 4px"
+            }}
+          >
+            <Typography variant="h4">News</Typography>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={this.handleAddnewsOpen}
             >
-              <Typography variant="h4">News</Typography>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={this.handleAddnewsOpen}
-              >
-                Create a Latest News
-              </Button>
-            </div>
-            <Divider />
-
+              Create a Latest News
+            </Button>
+          </div>
+          <Divider />
 
           <Dialog
             open={this.state.isNewsModel}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="alert-dialog-title">{ this.state.isEditMode ? "Edit News" : "Add News"}</DialogTitle>
+            <DialogTitle id="alert-dialog-title">
+              {this.state.isEditMode ? "Edit News" : "Add News"}
+            </DialogTitle>
             <Divider />
             <DialogContent>
               <TextField
@@ -280,22 +280,28 @@ class Adminnews extends Component {
                 variant="outlined"
               />
             </DialogContent>
-              <DialogActions>
-                <Button onClick={this.handleNewsClose} color="default">
-                  Cancel
+            <DialogActions>
+              <Button onClick={this.handleNewsClose} color="default">
+                Cancel
+              </Button>
+              {this.state.isEditMode ? (
+                <Button
+                  variant="contained"
+                  onClick={this.handleSaveChanges}
+                  color="primary"
+                >
+                  Save
                 </Button>
-                {this.state.isEditMode ? (
-                  <Button variant="contained" onClick={this.handleSaveChanges} color="primary">
-                    Save
-                  </Button>
-                ) : (
-                  <Button variant="contained" onClick={this.handleAddNews} color="primary">
-                    Add
-                  </Button>
-                )}
-              </DialogActions>
-
-
+              ) : (
+                <Button
+                  variant="contained"
+                  onClick={this.handleAddNews}
+                  color="primary"
+                >
+                  Add
+                </Button>
+              )}
+            </DialogActions>
           </Dialog>
 
           <Container
@@ -303,9 +309,17 @@ class Adminnews extends Component {
             maxWidth="md"
             style={{ paddingTop: "18px" }}
           >
-               {loading ? <div style={{display:"flex",justifyContent:"center",marginTop:"200px"}}>
-      <CircularProgress className={classes.progress}  />
-   </div> : null }
+            {loading ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "200px"
+                }}
+              >
+                <CircularProgress className={classes.progress} />
+              </div>
+            ) : null}
             {/* End hero unit */}
             <Grid container spacing={4}>
               {this.state.allNews.map((card, index) => (
