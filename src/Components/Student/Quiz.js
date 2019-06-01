@@ -27,7 +27,7 @@ class Userquiz extends Component {
     this.state = {
       questions: [],
       quizAnswers: {},
-      option: "a",
+      option: "",
       loading:false,
       total:"",
       count:"",
@@ -94,7 +94,7 @@ class Userquiz extends Component {
     console.log("id:", id);
 
     console.log("value", value);
-    this.setState({ [id]: event.target.value }, () => console.log("hello"));
+    this.setState({ [id]: event.target.checked });
     this.setState({
       quizAnswers: Object.assign(this.state.quizAnswers, { [id]: value })
     });
@@ -208,9 +208,10 @@ class Userquiz extends Component {
                    
                   <FormControlLabel
                     id={qns._id}
-                    value="a"
+                   
                     control={
                       <Radio
+                      value="a"
                         color="primary"
                         checked={this.state.option === "a"}
                         onClick={() =>
@@ -223,9 +224,10 @@ class Userquiz extends Component {
                   />
                     <FormControlLabel
                     id={qns._id}
-                    value="b"
+                   
                     control={
                       <Radio
+                     
                         color="primary"
                         checked={this.state.option === "b"}
                         onClick={() =>
@@ -238,8 +240,9 @@ class Userquiz extends Component {
                   />
                   
                     <FormControlLabel
+                    
                     id={qns._id}
-                    value="c"
+                   
                     control={
                       <Radio
                         color="primary"
@@ -253,8 +256,9 @@ class Userquiz extends Component {
                     labelPlacement="end"
                   />
                     <FormControlLabel
+                  
                     id={qns._id}
-                    value="d"
+                
                     control={
                       <Radio
                         color="primary"
