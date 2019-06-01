@@ -11,6 +11,7 @@ import { Link, withRouter } from "react-router-dom";
 import SurveyForm from "../Components/SurveyForm";
 import axios from "axios";
 import SectionCorousel from "../Components/SectionCorousel";
+import logo from '../images/logo1.jpg';
 
 const styles = {
   root: {
@@ -53,15 +54,16 @@ class Dashboard extends Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton
+            {/* <IconButton
               color="inherit"
               aria-label="Menu"
               style={{ marginRight: '8px' }}
             >
               <DirectionsCar />
-            </IconButton>
-            <Typography variant="h6" color="inherit" className={classes.grow}>
-              RYDA
+            </IconButton> */}
+            <img height="48" src={logo} style={{ borderRadius: '6px' }} />
+            <Typography variant="h6" color="inherit" className={classes.grow} style={{ marginLeft: '14px' }}>
+              Road Safety Education
             </Typography>
             {/* <Button color="Primary" onClick={this.handleSurveyform}>
               Surveyform
