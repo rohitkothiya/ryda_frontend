@@ -18,6 +18,7 @@ import Cardquestion from "./Questions/Questions";
 import Divider from '@material-ui/core/Divider';
 import { DialogTitle } from "@material-ui/core";
 
+
 const drawerWidth = 240;
 
 function LinkTab(props) {
@@ -128,7 +129,8 @@ class Adminquiz extends Component {
       allQuestions: [],
       isEditMode: false,
       rightOption: "a",
-      loading:false
+      loading:false,
+      btnLoading:false
     };
   }
   handleChangeInputTab = (event, value) => {
@@ -153,7 +155,7 @@ class Adminquiz extends Component {
   }
 
   handleQuestionAdd = () => {
-    this.setState({ isAddQns: false });
+    this.setState({ isAddQns: false,btnLoading:true,question:null,optionA:null,optionB:null,optionC:null,optionD:null });
 
     let body = {
       level: this.state.level,
@@ -189,9 +191,11 @@ class Adminquiz extends Component {
         if(response.data.flag ===  false) {
           alert("Already 10 Question Added ot this level!")
         }
+        this.setState({btnLoading:false})
         this.fetchQns(headers);
       })
       .catch(error => {
+         this.setState({btnLoading:false})
         console.log(error);
       });
   };
@@ -205,7 +209,7 @@ class Adminquiz extends Component {
   };
 
   handleClose = () => {
-    this.setState({ isAddQns: false });
+    this.setState({ isAddQns: false,isEditMode:false });
   };
 
   handleEditQuestions = card => {
@@ -219,11 +223,13 @@ class Adminquiz extends Component {
       optionD: card.option.d,
       answer: card.answer,
       id: card._id,
-      level: card.level
+      level: card.level,
+     
     });
   };
   
   handleSaveChanges = () => {
+    this.setState({btnLoading:true})
     let body = {
       level: this.state.level,
       questionstring: this.state.question,
@@ -255,9 +261,11 @@ class Adminquiz extends Component {
             Authorization: `bearer ${data}`
           }
         };
+        this.setState({btnLoading:false})
         this.fetchQns(headers);
       })
       .catch(error => {
+        this.setState({btnLoading:false})
         console.log(error);
       });
   };
@@ -292,7 +300,7 @@ class Adminquiz extends Component {
     let thirdLevel = this.state.allQuestions.filter(item => item.level == 3);
 
     const { classes } = this.props;
-    const { value ,loading} = this.state;
+    const { value ,loading,btnLoading,} = this.state;
     
     return (
       <div className={classes.root}>
@@ -319,6 +327,7 @@ class Adminquiz extends Component {
               </Button>
             </div>
             <Divider />
+          
             <Dialog
               open={this.state.isAddQns}
               onClose={this.handleClose}
@@ -444,11 +453,11 @@ class Adminquiz extends Component {
                 </Button>
                 {this.state.isEditMode ? (
                   <Button variant="contained" onClick={this.handleSaveChanges} color="primary">
-                    Save
+                   {btnLoading ? "Saving" : "Save"}
                   </Button>
                 ) : (
                   <Button variant="contained" onClick={this.handleQuestionAdd} color="primary">
-                    Add
+                   {btnLoading ? "Adding" : "Add"}
                   </Button>
                 )}
               </DialogActions>

@@ -112,6 +112,7 @@ class Adminsidebar extends React.Component {
     backtoDash: false,
     isAccountMenu:false,
     isProfileShow:false,
+    btnLoading:false,
  
   };
    
@@ -119,6 +120,7 @@ class Adminsidebar extends React.Component {
 
 
   componentDidMount() {
+    this.setState({btnLoading:false})
     let data = localStorage.getItem("usertoken");
 
     console.log(data);
@@ -202,6 +204,7 @@ this.setState({isProfileShow:true})
 
 
  handelSaveProfile = () => {
+   this.setState({btnLoading:true})
    let body ={
      name:this.state.name,
      email:this.state.email,
@@ -221,10 +224,12 @@ this.setState({isProfileShow:true})
    .patch(`http://157.230.174.240:3006/api/v1/user/userupdate/${this.state.id}`,body,headers)
    .then(response => {
      console.log("response", response);
-     this.setState({isProfileShow:false,isAccountMenu:false})
+     this.setState({isProfileShow:false,isAccountMenu:false,btnLoading:false})
    })
    .catch(error => {
+    this.setState({btnLoading:false})
      console.log(error);
+     
    });
 
   }
@@ -381,10 +386,11 @@ this.setState({isProfileShow:true})
                 <Button  color="default" onClick={this.handleCloseProfile}>
                   Cancel
                 </Button>  
-                
-                  <Button variant="contained"  onClick={this.handelSaveProfile} color="primary">
-                    Save
-                  </Button>
+                <Button variant="contained"  onClick={this.handelSaveProfile} color="primary">
+                         {this.state.btnLoading ? "Saving" : "Save"}
+                         </Button>
+                   
+                 
                
               </DialogActions>
             </Dialog>

@@ -18,7 +18,7 @@ import { Redirect } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 
 import axios from "axios";
-axios.default.baseURl = "http://157.230.174.240:3006/api";
+// axios.default.baseURl = "http://157.230.174.240:3006/api";
 
 const styles = theme => ({
   main: {
@@ -57,23 +57,60 @@ class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: ""
+      email: "",
+      password:"",
+     confirmPassword:"",
+     errorPassword:false
     };
-  }
 
+  }
+  handleResetPassword = () => {
+event.preventDefault();
+
+
+if(this.state.password === this.state.confirmPassword) {
+  this.setState({errorPassword:false})
+ let body ={
+   email:this.state.email,
+   password:this.state.confirmPassword
+ }
+
+axios
+.post(`http://157.230.174.240:3006/api/v1/user/resetpassword`,body)
+.then(response => {
+  console.log("response", response);
+
+  if (response.data.data._id)
+   {
+     alert("Password reset Succesfully")
+    this.setState({ backToLogin: true });
+      }
+      else{
+        alert("Please enter valid Email Id");
+        // this.setState({backToLogin:true})
+      }
+      })
+     .catch(error => {
+                   console.log(error);
+   });
+  }
+   else {
+          this.setState({errorPassword:true})
+   }
+  }
   handleChangeInputText = () => {
     console.log(event.target.name);
     this.setState({
       [event.target.name]: event.target.value
     });
+   
+    // console.log(event.target.password.value === event.target.confirmPassword.value);
   };
 
   render() {
-    if (this.state.backtoDashboard) {
-      return <Redirect to="/student" />;
-    } else {
-      <Redirect to="/admin" />;
-    }
+    if (this.state.backToLogin) {
+      return <Redirect to="/login" />;
+    } 
     const { classes } = this.props;
 
     return (
@@ -95,8 +132,34 @@ class SignIn extends Component {
                 autoComplete="email"
                 autoFocus
                 onChange={this.handleChangeInputText}
+                variant="outlined"
               />
             </FormControl>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="password">Enter Password</InputLabel>
+              <Input
+                id="password"
+                name="password"
+                autoComplete="password"
+                type="password"
+                onChange={this.handleChangeInputText}
+                variant="outlined"
+              />
+            
+            </FormControl>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="confirm password"> Confirm Password</InputLabel>
+              <Input
+                // error={this.state.password === this.state.confirmPassword}
+                id="confirmpassword"
+                name="confirmPassword"
+                autoComplete="password"
+                type="password"
+                onChange={this.handleChangeInputText}
+                variant="outlined"
+              />
+            </FormControl>
+            {this.state.confirmPassword === this.state.password ? null : <div style={{color:"red"}}>Password does not Matched</div>}
             <Button
               type="submit"
               style={{ marginRight: "25px" }}
@@ -104,7 +167,7 @@ class SignIn extends Component {
               color="primary"
               fullWidth
               className={classes.submit}
-              onClick={this.handleLogin}
+              onClick={this.handleResetPassword}
             >
               Reset
             </Button>

@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 // import PropTypes from 'prop-types';
-import Avatar from "@material-ui/core/Avatar";
+
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import FormControl from "@material-ui/core/FormControl";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
+
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-
+// import FormControlLabel from "@material-ui/core/FormControlLabel";
+// import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+// import Avatar from "@material-ui/core/Avatar";
 import { Link } from "react-router-dom";
 
 import { Redirect } from "react-router-dom";
@@ -59,17 +59,19 @@ class SignIn extends Component {
     super(props);
     this.state = {
       role: 1,
-      email: "rohitl@gmail.com",
+      email: "rohitkl@gmail.com",
       password: "123",
       open: false,
       backtoDashboard: false,
-      backtoAdmin: false
+      backtoAdmin: false,
+      btnLoading:false
     };
   }
 
   handleLogin = () => {
+    this.setState({btnLoading:true})
     event.preventDefault();
-    console.log("login clicked");
+    
 
     let body = {
       email: this.state.email,
@@ -88,28 +90,24 @@ class SignIn extends Component {
         localStorage.setItem("usertoken", response.data.data.token);
         
         if (response.data.flag === true && response.data.data.User.role === 2) {
-          this.setState({ backtoDashboard: true });
+          this.setState({ backtoDashboard: true ,btnLoading:false });
         }
         if (response.data.flag === true && response.data.data.User.role === 1) {
-          this.setState({ backtoAdmin: true });
+          this.setState({ backtoAdmin: true ,btnLoading:false});
         }
         if(Boolean(response.data.data.token) === false)
         {
+          this.setState({btnLoading:false})
           alert("Please Enter Valid Username & Password")
         }
       
       })
       .catch(error => {
+        this.setState({btnLoading:true})
         console.log(error);
       });
   };
 
-  handleRadioButton = value => {
-    console.log(value);
-    console.log("radio button clicked");
-    this.setState({ role: value });
-    console.log("role value", this.state.role);
-  };
 
   handleChangeInputText = () => {
     console.log(event.target.name);
@@ -128,7 +126,7 @@ class SignIn extends Component {
     }
 
     const { classes } = this.props;
-
+    const {btnLoading} = this.state;
     return (
       <main className={classes.main}>
         <CssBaseline />
@@ -136,15 +134,17 @@ class SignIn extends Component {
           <Typography component="h1" variant="h5">
             Login
           </Typography>
-          <form className={classes.form}>
+          <form className={classes.form} >
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email</InputLabel>
               <Input
+              type="email"
                 id="email"
                 name="email"
                 autoComplete="email"
                 autoFocus
                 onChange={this.handleChangeInputText}
+                required
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
@@ -155,6 +155,7 @@ class SignIn extends Component {
                 id="password"
                 autoComplete="current-password"
                 onChange={this.handleChangeInputText}
+                required
               />
             </FormControl>
             <Grid container>
@@ -186,8 +187,13 @@ class SignIn extends Component {
               className={classes.submit}
               onClick={this.handleLogin}
             >
-              Login
+             {btnLoading ? "Loading" : "Login" }
             </Button>
+           
+
+        
+            
+           
           </form>
         </Paper>
       </main>

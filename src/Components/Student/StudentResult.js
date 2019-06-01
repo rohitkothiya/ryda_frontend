@@ -5,11 +5,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { Divider } from '@material-ui/core';
 
 const  Studentresult = (props) => {
-        console.log("props");
+     
       const {open,result,count,total} =props
-      console.log(props.result)
+      
       console.log(result === "Fail");
     return (
           <div>
@@ -19,11 +20,13 @@ const  Studentresult = (props) => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Your result?"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{ result === "Fail"  ?  <div style={{color:"red",fontSize:"20px"}}>Better luck next time </div> :  <div style={{color:"green",fontSize:"20px"}}>"Congratulations You Have passed this level"</div> }</DialogTitle>
+          <Divider/>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-             your result {count} out of {total}
+           You got {count} of {total}
             </DialogContentText>
+           
           </DialogContent>
           <DialogActions>
            

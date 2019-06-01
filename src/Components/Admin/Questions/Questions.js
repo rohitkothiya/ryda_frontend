@@ -49,7 +49,7 @@ const Cardquestion = props => {
                         <EditIcon fontSize="small" />
                     </IconButton>
                     <IconButton aria-label="Delete"  color="action" onClick={() =>props.deleted(card)}>
-                        <DeleteIcon fontSize="small" color="action"  />
+                        <DeleteIcon fontSize="small" color="action" onClick={() =>props.deleted(card)}  />
                     </IconButton>
                     </div>
                   </div>

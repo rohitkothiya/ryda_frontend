@@ -167,7 +167,7 @@ class Quiz extends Component {
                        <Typography gutterBottom variant="h5" component="h2">
                         {card.title}
                        </Typography>
-                       <Typography>{card.description} {card.type ? this.state.level=== 0 ? <div>You have not cleared Any Level </div> : <div>you have cleared {this.state.level} </div> : null } </Typography>
+                       <Typography>{card.description} {card.type ? this.state.level=== 0 ? <div>You have not cleared Any Level </div> : <div>You have cleared {this.state.level} </div> : null } </Typography>
                     
  </CardContent>
                     <CardActions>

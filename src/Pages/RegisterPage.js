@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import PropTypes from 'prop-types';
-import Avatar from "@material-ui/core/Avatar";
+// import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import FormControl from "@material-ui/core/FormControl";
@@ -17,7 +17,7 @@ import axios from "axios";
 import Grid from "@material-ui/core/Grid";
 import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
-// axios.default.baseURl = "http://157.230.174.240:3006/api";
+
 
 const optionList = [
   {

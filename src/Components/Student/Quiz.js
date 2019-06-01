@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
 import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -34,7 +33,8 @@ class Userquiz extends Component {
       count:"",
       result:"",
       quizResult:{},
-      backtodash:false
+      backtodash:false,
+      id:""
     };
   }
     
@@ -94,7 +94,7 @@ class Userquiz extends Component {
     console.log("id:", id);
 
     console.log("value", value);
-    this.setState({ [id]: event.target.value });
+    this.setState({ [id]: event.target.value }, () => console.log("hello"));
     this.setState({
       quizAnswers: Object.assign(this.state.quizAnswers, { [id]: value })
     });
@@ -104,9 +104,9 @@ class Userquiz extends Component {
 
   handleQuizResult = () => {
     this.setState({isResultShow:true})
-    let body = {
-      quizAnswers: this.state.quizAnswers
-    };
+    let body = this.state.quizAnswers ;
+      
+    console.log("check result body",body)
     let data = localStorage.getItem("usertoken");
     console.log(data);
     let headers = {
