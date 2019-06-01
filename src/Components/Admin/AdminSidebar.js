@@ -274,9 +274,8 @@ class Adminsidebar extends React.Component {
                 vertical: "top",
                 horizontal: "right"
               }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right"
+              paper={{
+                top: '0 !important'
               }}
               open={isAccountMenu}
               onClose={this.handleCloseAccountMenu}

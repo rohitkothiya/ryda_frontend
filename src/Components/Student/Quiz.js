@@ -14,6 +14,8 @@ import Studentresult from "./StudentResult";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { withStyles } from "@material-ui/core/styles";
 import { Redirect } from "react-router-dom";
+import RadioGroup from '@material-ui/core/RadioGroup';
+
 const styles = theme => ({
   progress: {
     margin: theme.spacing.unit * 2
@@ -33,7 +35,7 @@ class Userquiz extends Component {
       result: "",
       quizResult: {},
       backtodash: false,
-      id: ""
+      id: "",
     };
   }
 
@@ -41,15 +43,10 @@ class Userquiz extends Component {
     axios
       .post(`http://157.230.174.240:3006/api/v1/question/getall`, body, headers)
       .then(response => {
-        console.log("response", response);
-        console.log("response .data.data", response.data.data);
-        // let updatedObj = Object.assign(this.state.questions,response.data.data);
-        // console.log("updated obj",updatedObj)
         this.setState({
           questions: response.data.data,
           loading: false
         });
-        console.log("fetch question State:", this.state.questions);
       })
       .catch(error => {
         this.setState({ loading: false });
@@ -62,9 +59,6 @@ class Userquiz extends Component {
       level: 1
     };
     let data = localStorage.getItem("usertoken");
-
-    console.log(data);
-    // console.log(newdata)
     let headers = {
       headers: {
         Authorization: `bearer ${data}`
@@ -74,15 +68,10 @@ class Userquiz extends Component {
     axios
       .post(`http://157.230.174.240:3006/api/v1/question/getall`, body, headers)
       .then(response => {
-        console.log("response", response);
-        console.log("response .data.data", response.data.data);
-        // let updatedObj = Object.assign(this.state.questions,response.data.data);
-        // console.log("updated obj",updatedObj)
         this.setState({
           questions: [...this.state.questions, ...response.data.data],
           loading: false
         });
-        console.log("fetch question State:", this.state.questions);
       })
       .catch(error => {
         this.setState({ loading: false });
@@ -90,25 +79,16 @@ class Userquiz extends Component {
       });
   }
 
-  handleRadioButton = (id, value) => {
-    console.log("id:", id);
-
-    console.log("value", value);
-    this.setState({ [id]: event.target.value }, () => console.log("hello"));
+  handleRadioButton = questionId => event => {
     this.setState({
-      quizAnswers: Object.assign(this.state.quizAnswers, { [id]: value })
+      quizAnswers: Object.assign(this.state.quizAnswers, { [questionId]: event.target.value })
     });
-
-    console.log("quizanswers", this.state.quizAnswers);
   };
 
   handleQuizResult = () => {
-    this.setState({ isResultShow: true });
+    this.setState({ isResultShow: true, gettingResult: true });
     let body = this.state.quizAnswers;
-
-    console.log("check result body", body);
     let data = localStorage.getItem("usertoken");
-    console.log(data);
     let headers = {
       headers: {
         Authorization: `bearer ${data}`
@@ -118,35 +98,20 @@ class Userquiz extends Component {
     axios
       .post(`http://157.230.174.240:3006/api/v1/question/result`, body, headers)
       .then(response => {
-        console.log("response", response);
-        console.log("response .data.data", response.data.data);
-        this.setState({ quizResult: response.data.data });
-        console.log(this.state.quizResult);
+        this.setState({ quizResult: response.data.data, gettingResult: false });
       })
       .catch(error => {
         console.log(error);
+        this.setState({ gettingResult: false })
       });
   };
-  handleContinue = () => {
-    console.log("continue");
-    this.setState({ isResultShow: false });
-    console.log(this.state.quizResult.result);
-    if (this.state.quizResult.result === "Fail") {
-      let body = {
-        level: 1
-      };
-      let data = localStorage.getItem("usertoken");
 
-      console.log(data);
-      // console.log(newdata)
-      let headers = {
-        headers: {
-          Authorization: `bearer ${data}`
-        }
-      };
-      this.fetchQns(body, headers);
-    } else {
+  handleContinue = () => {
+    this.setState({ isResultShow: false, quizAnswers: {} });
+    if (this.state.quizResult.result === "Pass") {
       this.setState({ backtodash: true, isResultShow: false });
+    } else {
+      window.location.reload();
     }
   };
   render() {
@@ -159,9 +124,6 @@ class Userquiz extends Component {
     if (backtodash === true) {
       return <Redirect to="/studentdashboard" />;
     }
-    //  console.log(this.state.quizAnswers)
-
-    console.log("fetch Question", this.state.questions);
     const { classes } = this.props;
     return (
       <div>
@@ -196,11 +158,11 @@ class Userquiz extends Component {
           >
             <CircularProgress className={classes.progress} />
           </div>
-        ) : null}
+        ) : ''}
         <ol type="1" style={{ fontSize: "20px" }}>
-          {this.state.questions.map(qns => {
+          {this.state.questions.map((qns, i) => {
             return (
-              <li>
+              <li key={qns._id}>
                 <Card style={{ margin: "12px 12px 12px" }}>
                   <CardContent>
                     <div
@@ -214,67 +176,18 @@ class Userquiz extends Component {
                       </Typography>
                     </div>
                     <div style={{ display: "flex", flexDirection: "row" }}>
-                      <FormControlLabel
-                        id={qns._id}
-                        value="a"
-                        control={
-                          <Radio
-                            color="primary"
-                            checked={this.state.option === "a"}
-                            onClick={() =>
-                              this.handleRadioButton(`"${qns._id}"`, "a")
-                            }
-                          />
-                        }
-                        label={qns.option.a}
-                        labelPlacement="end"
-                      />
-                      <FormControlLabel
-                        id={qns._id}
-                        value="b"
-                        control={
-                          <Radio
-                            color="primary"
-                            checked={this.state.option === "b"}
-                            onClick={() =>
-                              this.handleRadioButton(`"${qns._id}"`, "b")
-                            }
-                          />
-                        }
-                        label={qns.option.b}
-                        labelPlacement="end"
-                      />
-
-                      <FormControlLabel
-                        id={qns._id}
-                        value="c"
-                        control={
-                          <Radio
-                            color="primary"
-                            checked={this.state.option === "c"}
-                            onClick={() =>
-                              this.handleRadioButton(`"${qns._id}"`, "c")
-                            }
-                          />
-                        }
-                        label={qns.option.c}
-                        labelPlacement="end"
-                      />
-                      <FormControlLabel
-                        id={qns._id}
-                        value="d"
-                        control={
-                          <Radio
-                            color="primary"
-                            checked={this.state.option === "d"}
-                            onClick={() =>
-                              this.handleRadioButton(`"${qns._id}"`, "d")
-                            }
-                          />
-                        }
-                        label={qns.option.d}
-                        labelPlacement="end"
-                      />
+                      <RadioGroup
+                        aria-label="Gender"
+                        name={qns._id}
+                        className={classes.group}
+                        value={this.state.quizAnswers[qns._id]}
+                        onChange={this.handleRadioButton(qns._id)}
+                      >
+                        <FormControlLabel value="a" control={<Radio />} label={qns.option.a} />
+                        <FormControlLabel value="b" control={<Radio />} label={qns.option.b} />
+                        <FormControlLabel value="c" control={<Radio />} label={qns.option.c} />
+                        <FormControlLabel value="d" control={<Radio />} label={qns.option.d} />
+                      </RadioGroup>
                     </div>
                   </CardContent>{" "}
                 </Card>
@@ -285,14 +198,15 @@ class Userquiz extends Component {
           {loading ? null : (
             <Button
               variant="contained"
-              color="secondary"
+              color="primary"
               onClick={this.handleQuizResult}
             >
-              Check Result
+              Submit
             </Button>
           )}
           <Studentresult
             open={isResultShow}
+            gettingResult={this.state.gettingResult}
             clickedContinue={this.handleContinue}
             result={result}
             count={count}
@@ -305,188 +219,3 @@ class Userquiz extends Component {
 }
 
 export default withStyles(styles)(Userquiz);
-
-// import React, { Component } from "react";
-
-// import Radio from "@material-ui/core/Radio";
-// import RadioGroup from "@material-ui/core/RadioGroup";
-// import FormControlLabel from "@material-ui/core/FormControlLabel";
-
-// import Typography from "@material-ui/core/Typography";
-// //import  {QuestionsList } from '../../Const/questions';
-
-// import axios from "axios";
-// import Button from "@material-ui/core/Button";
-// import StudentAppbar from "./StudentAppbar";
-
-// class Userquiz extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       questions: [],
-//       quizAnswers: {},
-//       option: "a"
-//     };
-//   }
-
-//   componentDidMount() {
-//     let body = {
-//       level: 1
-//     };
-//     let data = localStorage.getItem("usertoken");
-
-//     console.log(data);
-//     // console.log(newdata)
-//     let headers = {
-//       headers: {
-//         Authorization: `bearer ${data}`
-//       }
-//     };
-
-//     axios
-//       .post(`http://157.230.174.240:3006/api/v1/question/getall`, body, headers)
-//       .then(response => {
-//         console.log("response", response);
-//         console.log("response .data.data", response.data.data);
-//         // let updatedObj = Object.assign(this.state.questions,response.data.data);
-//         // console.log("updated obj",updatedObj)
-//         this.setState({
-//           questions: [...this.state.questions, ...response.data.data]
-//         });
-//         console.log("fetch question State:", this.state.questions);
-//       })
-//       .catch(error => {
-//         console.log(error);
-//       });
-//   }
-
-//   handleRadioButton = (id, value) => {
-//     console.log("id:", id);
-
-//     console.log("value", value);
-//     this.setState({ [id]: event.target.value });
-//     this.setState({
-//       quizAnswers: Object.assign(this.state.quizAnswers, { [id]: value })
-//     });
-
-//     console.log("quizanswers", this.state.quizAnswers);
-//   };
-
-//   handleQuizResult = () => {
-//     console.log("result is :");
-//     let body = {
-//       quizAnswers: this.state.quizAnswers
-//     };
-//     let data = localStorage.getItem("usertoken");
-//     console.log(data);
-//     let headers = {
-//       headers: {
-//         Authorization: `bearer ${data}`
-//       }
-//     };
-
-//     axios
-//       .post(`http://157.230.174.240:3006/api/v1/question/result`, body, headers)
-//       .then(response => {
-//         console.log("response", response);
-//         console.log("response .data.data", response.data.data);
-//       })
-//       .catch(error => {
-//         console.log(error);
-//       });
-//   };
-
-//   render() {
-//     //  console.log(this.state.quizAnswers)
-
-//     console.log("fetch Question", this.state.questions);
-//     return (
-//       <div>
-//         <StudentAppbar />
-//         <ol type="1" style={{ marginLeft: "25%",marginTop:"100px" }}>
-//           {this.state.questions.map(itm => {
-//             return (
-//               <li>
-//                 <Typography variant="h6" gutterBottom>
-//                   {itm.questionstring}
-//                 </Typography>
-//                 <RadioGroup aria-label="position" name="position" row>
-//                   <FormControlLabel
-//                     id={itm._id}
-//                     value="a"
-//                     control={
-//                       <Radio
-//                         color="primary"
-//                         checked={this.state.option === "a"}
-//                         onClick={() =>
-//                           this.handleRadioButton(`"${itm._id}"`, "a")
-//                         }
-//                       />
-//                     }
-//                     label={itm.option.a}
-//                     labelPlacement="end"
-//                   />
-//                   <FormControlLabel
-//                     id={itm._id}
-//                     value="b"
-//                     control={
-//                       <Radio
-//                         color="primary"
-//                         checked={this.state.option === "b"}
-//                         onClick={() =>
-//                           this.handleRadioButton(`"${itm._id}"`, "b")
-//                         }
-//                       />
-//                     }
-//                     label={itm.option.b}
-//                     labelPlacement="end"
-//                   />
-//                   <FormControlLabel
-//                     id={itm._id}
-//                     value="c"
-//                     control={
-//                       <Radio
-//                         color="primary"
-//                         checked={this.state.option === "c"}
-//                         onClick={() =>
-//                           this.handleRadioButton(`"${itm._id}"`, "c")
-//                         }
-//                       />
-//                     }
-//                     label={itm.option.c}
-//                     labelPlacement="end"
-//                   />
-//                   <FormControlLabel
-//                     id={itm._id}
-//                     value="d"
-//                     control={
-//                       <Radio
-//                         color="primary"
-//                         checked={this.state.option === "d"}
-//                         onClick={() =>
-//                           this.handleRadioButton(`"${itm._id}"`, "d")
-//                         }
-//                       />
-//                     }
-//                     label={itm.option.c}
-//                     labelPlacement="end"
-//                   />
-//                 </RadioGroup>
-//               </li>
-//             );
-//           })}
-//           {/* className={classes.button} */}
-//           <Button
-//             variant="contained"
-//             color="secondary"
-//             onClick={this.handleQuizResult}
-//           >
-//             Check Result
-//           </Button>
-//         </ol>
-//       </div>
-//     );
-//   }
-// }
-
-// export default Userquiz;
