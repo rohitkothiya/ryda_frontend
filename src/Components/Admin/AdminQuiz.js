@@ -17,7 +17,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Cardquestion from "./Questions/Questions";
 import Divider from "@material-ui/core/Divider";
 import { DialogTitle } from "@material-ui/core";
-
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 const drawerWidth = 240;
 
 function LinkTab(props) {
@@ -129,7 +130,9 @@ class Adminquiz extends Component {
       isEditMode: false,
       rightOption: "a",
       loading: false,
-      btnLoading: false
+      btnLoading: false,
+      avatar:null,
+      checkedQns: false,
     };
   }
   handleChangeInputTab = (event, value) => {
@@ -205,6 +208,21 @@ class Adminquiz extends Component {
         this.setState({ btnLoading: false });
         console.log(error);
       });
+  };
+  handleChangeImage = e => {
+    e.preventDefault();
+
+    const file = e.target.files[0];
+    const path = e.target.value;
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      this.setState({
+        avatarFile: { file, path },
+        avatar: reader.result
+      });
+    };
+    reader.readAsDataURL(file);
   };
 
   handleChangeInput = () => {
@@ -297,6 +315,11 @@ class Adminquiz extends Component {
         console.log(error);
       });
   };
+
+ handleChange =  event => {
+    this.setState({ checkedQns : !this.state.checkedQns });
+  };
+
   render() {
     let firstLevel = this.state.allQuestions.filter(item => item.level == 1);
     let secondLevel = this.state.allQuestions.filter(item => item.level == 2);
@@ -343,6 +366,7 @@ class Adminquiz extends Component {
               </DialogTitle>
               <Divider />
               <DialogContent>
+                <div style={{display:"flex",justifyContent:"space-between"}}>
                 <TextField
                   name="level"
                   id="standard-with-placeholder"
@@ -366,7 +390,23 @@ class Adminquiz extends Component {
                     </option>
                   ))}
                 </TextField>
-
+                <input  style={{width:"calc(100% - 110px)",display:"inline-block",position:"absolute",bottom:"0px",right:"8px",opacity:"0",height:"26px",cursor:"pointer",marginLeft:"10px"}}
+                    type="file"
+                    onChange={this.handleChangeImage}
+                    accept="image/*"
+                  />
+                <FormControlLabel
+                    control={
+                  <Checkbox
+                    checked={this.state.checkedQns}
+                 onChange={this.handleChange}
+                  value="chekedQns"
+                  color="primary"
+                 />
+              }
+        label="Upload Image Question"
+      />
+  </div>
                 <TextField
                   margin="dense"
                   id="name"
@@ -379,7 +419,17 @@ class Adminquiz extends Component {
                   value={this.state.question}
                   variant="outlined"
                 />
+                   
+                     <img style={{width:"100px",height:"100px",objectFit:"contain",backgroundColor:"#e4e4e4",display:"inline-block",verticalAlign:"bottom",marginRight:"100px"}}
+                    src={this.state.avatar}
+                    className="imageBox"
+                    alt=""
+                  />
+                
+                  
+                  <abbr>Upload Photo</abbr>
                 <div>
+
                   <div>
                     <TextField
                       id="standard-with-placeholder"
