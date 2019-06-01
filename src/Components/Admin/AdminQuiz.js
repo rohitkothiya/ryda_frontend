@@ -19,6 +19,7 @@ import Divider from "@material-ui/core/Divider";
 import { DialogTitle } from "@material-ui/core";
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Deletedailog from "./DeleteDailog";
 const drawerWidth = 240;
 
 function LinkTab(props) {
@@ -133,6 +134,7 @@ class Adminquiz extends Component {
       btnLoading: false,
       avatar:null,
       checkedQns: false,
+      isDeleteAlert:false
     };
   }
   handleChangeInputTab = (event, value) => {
@@ -294,6 +296,12 @@ class Adminquiz extends Component {
         console.log(error);
       });
   };
+  handleDeleteAlert = () => {
+    this.setState({isDeleteAlert:true})
+  }
+  handleCloseDeleteAlert = () => {
+    this.setState({isDeleteAlert:false})
+  }
   handleDeleteQuestions = card => {
     let data = localStorage.getItem("usertoken");
     let headers = {
@@ -529,6 +537,7 @@ class Adminquiz extends Component {
                 )}
               </DialogActions>
             </Dialog>
+            <Deletedailog openAlert={this.state.isDeleteAlert} deletedConfirm={this.handleCloseDeleteAlert} deletedCancel={this.handleDeleteQuestions}/>
             <NoSsr>
               <div className={classes.roottab} style={{ marginTop: "10px" }}>
                 <AppBar position="static">
@@ -547,7 +556,7 @@ class Adminquiz extends Component {
                     props={firstLevel}
                     clicked={this.handleEditQuestions}
                     loading={loading}
-                    deleted={this.handleDeleteQuestions}
+                    deleted={this.handleDeleteAlert}
                   />
                 )}
                 {value === 1 && (
@@ -555,7 +564,7 @@ class Adminquiz extends Component {
                     props={secondLevel}
                     clicked={this.handleEditQuestions}
                     loading={loading}
-                    deleted={this.handleDeleteQuestions}
+                    deleted={this.handleDeleteAlert}
                   />
                 )}
                 {value === 2 && (
@@ -563,12 +572,12 @@ class Adminquiz extends Component {
                     props={thirdLevel}
                     clicked={this.handleEditQuestions}
                     loading={loading}
-                    deleted={this.handleDeleteQuestions}
+                    deleted={this.handleDeleteAlert}
                   />
                 )}
               </div>
             </NoSsr>
-
+       
             {/* <Cardquestion props={this.state.allQuestions}/> */}
           </div>
         </main>
