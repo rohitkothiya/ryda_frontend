@@ -52,7 +52,7 @@ class Dashboard extends Component {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
             {/* <IconButton
               color="inherit"
@@ -76,13 +76,12 @@ class Dashboard extends Component {
             </Link>
           </Toolbar>
         </AppBar>
-        <SectionCorousel />
-        <div>
-            
+        <div style={{ marginTop: '64px' }}>  
+          <SectionCorousel />
+          {this.state.showSurveyForm ? (
+            <SurveyForm open={this.state.showSurveyForm} />
+          ) : null}
         </div>
-        {this.state.showSurveyForm ? (
-          <SurveyForm open={this.state.showSurveyForm} />
-        ) : null}
       </div>
     );
   }

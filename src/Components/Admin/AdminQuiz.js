@@ -131,7 +131,7 @@ class Adminquiz extends Component {
       rightOption: "a",
       loading: false,
       btnLoading: false,
-      avatar:null,
+      image:null,
       checkedQns: false,
     };
   }
@@ -156,7 +156,8 @@ class Adminquiz extends Component {
     this.fetchQns(headers);
   }
 
-  handleQuestionAdd = () => {
+  handleQuestionAdd = (e) => {
+    e.preventDefault();
     this.setState({
       isAddQns: false,
       btnLoading: true,
@@ -176,7 +177,8 @@ class Adminquiz extends Component {
         c: this.state.optionC,
         d: this.state.optionD
       },
-      answer: this.state.answer
+      answer: this.state.answer,
+      image: this.state.image
     };
     let data = localStorage.getItem("usertoken");
     let headers = {
@@ -218,8 +220,8 @@ class Adminquiz extends Component {
 
     reader.onload = () => {
       this.setState({
-        avatarFile: { file, path },
-        avatar: reader.result
+        imageFile: { file, path },
+        image: reader.result
       });
     };
     reader.readAsDataURL(file);
@@ -248,11 +250,14 @@ class Adminquiz extends Component {
       optionD: card.option.d,
       answer: card.answer,
       id: card._id,
-      level: card.level
+      level: card.level,
+      image: card.image,
+      checkedQns: !!card.image,
     });
   };
 
-  handleSaveChanges = () => {
+  handleSaveChanges = (e) => {
+    e.preventDefault();
     this.setState({ btnLoading: true });
     let body = {
       level: this.state.level,
@@ -264,7 +269,7 @@ class Adminquiz extends Component {
         d: this.state.optionD
       },
       answer: this.state.answer,
-      // avtar:this.state.avatar
+      image:this.state.image
     };
     let data = localStorage.getItem("usertoken");
     let headers = {
@@ -361,8 +366,8 @@ class Adminquiz extends Component {
               aria-labelledby="form-dialog-title"
               maxWidth="md"
             >
+              <form onSubmit={ this.state.isEditMode ? this.handleSaveChanges : this.handleQuestionAdd }>
               <DialogTitle>
-                {" "}
                 {this.state.isEditMode ? "Edit Question" : "Add Question"}{" "}
               </DialogTitle>
               <Divider />
@@ -397,14 +402,14 @@ class Adminquiz extends Component {
                     control={
                   <Checkbox
                     checked={this.state.checkedQns}
-                 onChange={this.handleChange}
-                  value="chekedQns"
-                  color="primary"
-                 />
-              }
-        label="Upload Image Question"
-      />
-  </div>
+                    onChange={this.handleChange}
+                      value="chekedQns"
+                      color="primary"
+                    />
+                   }
+                  label="Upload Image Question"
+                />
+            </div>
                 <TextField
                   margin="dense"
                   id="name"
@@ -416,14 +421,15 @@ class Adminquiz extends Component {
                   onChange={this.handleChangeInput}
                   value={this.state.question}
                   variant="outlined"
+                  required
                 />
-              {this.state.checkedQns ? <div>
-                     <img style={{width:"100px",height:"100px",objectFit:"contain",backgroundColor:"#e4e4e4",display:"inline-block",verticalAlign:"bottom",marginRight:"100px"}}
-                    src={this.state.avatar}
+              {this.state.checkedQns ? <div style={{ padding: '8px 0px' }}>
+                  <img style={{width:"100px",height:"100px",objectFit:"contain",backgroundColor:"#e4e4e4",display:"inline-block",verticalAlign:"bottom",marginRight:"78px"}}
+                    src={this.state.image}
                     className="imageBox"
                     alt=""
                   /> 
-                   <input  style={{width:"calc(100% - 110px)",display:"inline-block",position:"absolute",bottom:"0px",top:"281px",right:"-113px",opacity:"0",height:"26px",cursor:"pointer",marginLeft:"10px"}}
+                   <input  style={{width:"80px",display:"inline-block",position:"absolute",bottom:"0px",top:"281px",opacity:"0",height:"26px",cursor:"pointer",marginLeft:"10px"}}
                     type="file"
                     onChange={this.handleChangeImage}
                     accept="image/*"
@@ -443,6 +449,7 @@ class Adminquiz extends Component {
                       name="optionA"
                       value={this.state.optionA}
                       variant="outlined"
+                      required
                     />
                     <TextField
                       style={{ marginLeft: "10px" }}
@@ -454,6 +461,7 @@ class Adminquiz extends Component {
                       name="optionB"
                       value={this.state.optionB}
                       variant="outlined"
+                      required
                     />
                   </div>
                   <div>
@@ -466,6 +474,7 @@ class Adminquiz extends Component {
                       name="optionC"
                       value={this.state.optionC}
                       variant="outlined"
+                      required
                     />
                     <TextField
                       style={{ marginLeft: "10px" }}
@@ -477,6 +486,7 @@ class Adminquiz extends Component {
                       name="optionD"
                       value={this.state.optionD}
                       variant="outlined"
+                      required
                     />
                   </div>
                 </div>
@@ -513,21 +523,22 @@ class Adminquiz extends Component {
                 {this.state.isEditMode ? (
                   <Button
                     variant="contained"
-                    onClick={this.handleSaveChanges}
                     color="primary"
+                    type="submit"
                   >
                     {btnLoading ? "Saving" : "Save"}
                   </Button>
                 ) : (
                   <Button
                     variant="contained"
-                    onClick={this.handleQuestionAdd}
                     color="primary"
+                    type="submit"
                   >
                     {btnLoading ? "Adding" : "Add"}
                   </Button>
                 )}
               </DialogActions>
+              </form>
             </Dialog>
             <NoSsr>
               <div className={classes.roottab} style={{ marginTop: "10px" }}>

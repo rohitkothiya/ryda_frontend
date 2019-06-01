@@ -248,17 +248,19 @@ class Adminsidebar extends React.Component {
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.handleDrawerToggle}
-              className={classes.menuButton}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" color="inherit" noWrap>
-              Admin Dashboard
-            </Typography>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <IconButton
+                color="inherit"
+                aria-label="Open drawer"
+                onClick={this.handleDrawerToggle}
+                className={classes.menuButton}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" color="inherit" noWrap>
+                Admin Dashboard
+              </Typography>
+            </div>
             <IconButton
               aria-owns={open ? "menu-appbar" : undefined}
               aria-haspopup="true"
