@@ -26,3 +26,8 @@
 .MuiPopover-paper {
   top: 4px !important;
 }
+
+.MuiAppBar-colorPrimary {
+  color: #fff;
+  background-color: #3f98b5 !important;
+}

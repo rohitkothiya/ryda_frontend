@@ -15,8 +15,9 @@ import NoSsr from "@material-ui/core/NoSsr";
 import Tab from "@material-ui/core/Tab";
 import AppBar from "@material-ui/core/AppBar";
 import Cardquestion from "./Questions/Questions";
-import Divider from "@material-ui/core/Divider";
+import Divider from '@material-ui/core/Divider';
 import { DialogTitle } from "@material-ui/core";
+
 
 const drawerWidth = 240;
 
@@ -94,6 +95,7 @@ const styles = theme => ({
 });
 
 class Adminquiz extends Component {
+
   fetchQns = headers => {
     axios
       .get(
@@ -102,12 +104,11 @@ class Adminquiz extends Component {
       )
       .then(response => {
         this.setState({
-          allQuestions: response.data.data,
-          loading: false
+          allQuestions: response.data.data,loading:false
         });
       })
       .catch(error => {
-        this.setState({ loading: false });
+        this.setState({loading:false});
         console.log(error);
       });
   };
@@ -128,8 +129,8 @@ class Adminquiz extends Component {
       allQuestions: [],
       isEditMode: false,
       rightOption: "a",
-      loading: false,
-      btnLoading: false
+      loading:false,
+      btnLoading:false
     };
   }
   handleChangeInputTab = (event, value) => {
@@ -141,7 +142,7 @@ class Adminquiz extends Component {
   };
 
   componentDidMount() {
-    this.setState({ loading: true });
+    this.setState({loading:true});
     let data = localStorage.getItem("usertoken");
 
     // console.log(newdata)
@@ -154,15 +155,7 @@ class Adminquiz extends Component {
   }
 
   handleQuestionAdd = () => {
-    this.setState({
-      isAddQns: false,
-      btnLoading: true,
-      question: null,
-      optionA: null,
-      optionB: null,
-      optionC: null,
-      optionD: null
-    });
+    this.setState({ isAddQns: false,btnLoading:true,question:null,optionA:null,optionB:null,optionC:null,optionD:null });
 
     let body = {
       level: this.state.level,
@@ -195,14 +188,14 @@ class Adminquiz extends Component {
             Authorization: `bearer ${data}`
           }
         };
-        if (response.data.flag === false) {
-          alert("Already 10 Question Added ot this level!");
+        if(response.data.flag ===  false) {
+          alert("Already 10 Question Added ot this level!")
         }
-        this.setState({ btnLoading: false });
+        this.setState({btnLoading:false})
         this.fetchQns(headers);
       })
       .catch(error => {
-        this.setState({ btnLoading: false });
+         this.setState({btnLoading:false})
         console.log(error);
       });
   };
@@ -216,7 +209,7 @@ class Adminquiz extends Component {
   };
 
   handleClose = () => {
-    this.setState({ isAddQns: false, isEditMode: false });
+    this.setState({ isAddQns: false,isEditMode:false });
   };
 
   handleEditQuestions = card => {
@@ -230,12 +223,14 @@ class Adminquiz extends Component {
       optionD: card.option.d,
       answer: card.answer,
       id: card._id,
-      level: card.level
+      level: card.level,
+     
     });
   };
-
-  handleSaveChanges = () => {
-    this.setState({ btnLoading: true });
+  
+  handleSaveChanges = (e) => {
+    e.preventDefault();
+    this.setState({btnLoading:true})
     let body = {
       level: this.state.level,
       questionstring: this.state.question,
@@ -267,44 +262,41 @@ class Adminquiz extends Component {
             Authorization: `bearer ${data}`
           }
         };
-        this.setState({ btnLoading: false });
+        this.setState({btnLoading:false})
         this.fetchQns(headers);
       })
       .catch(error => {
-        this.setState({ btnLoading: false });
+        this.setState({btnLoading:false})
         console.log(error);
       });
   };
-  handleDeleteQuestions = card => {
-    let data = localStorage.getItem("usertoken");
-    let headers = {
-      headers: {
-        Authorization: `bearer ${data}`
-      }
-    };
-    axios
-      .delete(
-        `http://157.230.174.240:3006/api/v1/question/deletequestion/${
-          card._id
-        }`,
-        headers
-      )
-      .then(response => {
-        console.log("response", response);
-        this.fetchQns(headers);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+
+ handleDeleteQuestions = (card) => {
+  let data = localStorage.getItem("usertoken");
+  let headers = {
+    headers: {
+      Authorization: `bearer ${data}`
+    }
   };
+  axios
+  .delete(`http://157.230.174.240:3006/api/v1/question/deletequestion/${card._id}`, headers)
+  .then(response => {
+    console.log("response", response);
+    this.fetchQns(headers);
+  })
+  .catch(error => {
+    console.log(error);
+  });
+ 
+ }
   render() {
     let firstLevel = this.state.allQuestions.filter(item => item.level == 1);
     let secondLevel = this.state.allQuestions.filter(item => item.level == 2);
     let thirdLevel = this.state.allQuestions.filter(item => item.level == 3);
 
     const { classes } = this.props;
-    const { value, loading, btnLoading } = this.state;
-
+    const { value ,loading,btnLoading,} = this.state;
+    
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -330,17 +322,15 @@ class Adminquiz extends Component {
               </Button>
             </div>
             <Divider />
-
+          
             <Dialog
               open={this.state.isAddQns}
               onClose={this.handleClose}
               aria-labelledby="form-dialog-title"
               maxWidth="md"
             >
-              <DialogTitle>
-                {" "}
-                {this.state.isEditMode ? "Edit Question" : "Add Question"}{" "}
-              </DialogTitle>
+              <form onSubmit={this.handleSaveChanges}>
+              <DialogTitle> { this.state.isEditMode ? "Edit Question" : "Add Question" } </DialogTitle>
               <Divider />
               <DialogContent>
                 <TextField
@@ -357,10 +347,10 @@ class Adminquiz extends Component {
                     }
                   }}
                   margin="dense"
-                  style={{ minWidth: "120px" }}
+                  style={{ minWidth: '120px' }}
                   variant="outlined"
                 >
-                  {[1, 2, 3].map(level => (
+                  {[1,2,3].map(level => (
                     <option key={level} value={level}>
                       {level}
                     </option>
@@ -378,56 +368,61 @@ class Adminquiz extends Component {
                   onChange={this.handleChangeInput}
                   value={this.state.question}
                   variant="outlined"
+                  required
                 />
                 <div>
-                  <div>
-                    <TextField
-                      id="standard-with-placeholder"
-                      label="A"
-                      placeholder="option A"
-                      margin="dense"
-                      onChange={this.handleChangeInput}
-                      name="optionA"
-                      value={this.state.optionA}
-                      variant="outlined"
-                    />
-                    <TextField
-                      style={{ marginLeft: "10px" }}
-                      id="standard-with-placeholder"
-                      label="B"
-                      placeholder="option B"
-                      margin="dense"
-                      onChange={this.handleChangeInput}
-                      name="optionB"
-                      value={this.state.optionB}
-                      variant="outlined"
-                    />
-                  </div>
-                  <div>
-                    <TextField
-                      id="standard-with-placeholder"
-                      label="C"
-                      placeholder="option C"
-                      margin="dense"
-                      onChange={this.handleChangeInput}
-                      name="optionC"
-                      value={this.state.optionC}
-                      variant="outlined"
-                    />
-                    <TextField
-                      style={{ marginLeft: "10px" }}
-                      id="standard-with-placeholder"
-                      label="D"
-                      placeholder="option D"
-                      margin="dense"
-                      onChange={this.handleChangeInput}
-                      name="optionD"
-                      value={this.state.optionD}
-                      variant="outlined"
-                    />
-                  </div>
+                <div>
+                  <TextField
+                    id="standard-with-placeholder"
+                    label="A"
+                    placeholder="option A"
+                    margin="dense"
+                    onChange={this.handleChangeInput}
+                    name="optionA"
+                    value={this.state.optionA}
+                    variant="outlined"
+                    required
+                  />
+                  <TextField
+                    style={{ marginLeft: "10px" }}
+                    id="standard-with-placeholder"
+                    label="B"
+                    placeholder="option B"
+                    margin="dense"
+                    onChange={this.handleChangeInput}
+                    name="optionB"
+                    value={this.state.optionB}
+                    variant="outlined"
+                    required
+                  />
                 </div>
-
+                <div> 
+                  <TextField
+                    id="standard-with-placeholder"
+                    label="C"
+                    placeholder="option C"
+                    margin="dense"
+                    onChange={this.handleChangeInput}
+                    name="optionC"
+                    value={this.state.optionC}
+                    variant="outlined"
+                    required
+                  />
+                  <TextField
+                    style={{ marginLeft: "10px" }}
+                    id="standard-with-placeholder"
+                    label="D"
+                    placeholder="option D"
+                    margin="dense"
+                    onChange={this.handleChangeInput}
+                    name="optionD"
+                    value={this.state.optionD}
+                    variant="outlined"
+                    required
+                  />
+                </div>
+                </div>
+                
                 <TextField
                   name="answer"
                   id="standard-with-placeholder"
@@ -458,23 +453,16 @@ class Adminquiz extends Component {
                   Cancel
                 </Button>
                 {this.state.isEditMode ? (
-                  <Button
-                    variant="contained"
-                    onClick={this.handleSaveChanges}
-                    color="primary"
-                  >
-                    {btnLoading ? "Saving" : "Save"}
+                  <Button variant="contained" type="submit" color="primary">
+                   {btnLoading ? "Saving" : "Save"}
                   </Button>
                 ) : (
-                  <Button
-                    variant="contained"
-                    onClick={this.handleQuestionAdd}
-                    color="primary"
-                  >
-                    {btnLoading ? "Adding" : "Add"}
+                  <Button variant="contained" type="submit" color="primary">
+                   {btnLoading ? "Adding" : "Add"}
                   </Button>
                 )}
               </DialogActions>
+            </form>
             </Dialog>
             <NoSsr>
               <div className={classes.roottab} style={{ marginTop: "10px" }}>
@@ -530,39 +518,3 @@ Adminquiz.propTypes = {
 
 export default withStyles(styles)(Adminquiz);
 
-{
-  /* <Card className={classes.card}>
-{firstLevel.map(card => {
-return (
-   <CardContent>
-     <Typography variant="h6" gutterBottom fullWidth>
-                 {card.questionstring}
-           </Typography>
-           <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-           <Typography variant="subtitle1" gutterBottom fullWidth>
-                 A:  {card.option.a}
-           </Typography>
-           <Typography variant="subtitle1" gutterBottom fullWidth>
-           B:  {card.option.b}
-           </Typography></div>
-           <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-           <Typography variant="subtitle1" gutterBottom fullWidth>
-           C:  {card.option.c}
-           </Typography>
-           <Typography variant="subtitle1" gutterBottom fullWidth>
-           D:  {card.option.d}
-           </Typography></div>
-           <Typography variant="subtitle1" gutterBottom fullWidth>
-           Answer:  {card.option.a}
-           <Button onClick={() => this.handleEditQuestions(card)} color="primary" autoFocus>
-               Edit
-            </Button> 
-           </Typography>
-         
-      
-</CardContent>
-)}
-)
-}
-</Card>  */
-}

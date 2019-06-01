@@ -6,7 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
+import DirectionsCar from "@material-ui/icons/DirectionsCar";
 import { Link, withRouter } from "react-router-dom";
 import SurveyForm from "../Components/SurveyForm";
 import axios from "axios";
@@ -54,44 +54,23 @@ class Dashboard extends Component {
         <AppBar position="static">
           <Toolbar>
             <IconButton
-              className={classes.menuButton}
               color="inherit"
               aria-label="Menu"
+              style={{ marginRight: '8px' }}
             >
-              <MenuIcon />
+              <DirectionsCar />
             </IconButton>
             <Typography variant="h6" color="inherit" className={classes.grow}>
-              Home Dashboard
+              RYDA
             </Typography>
-            <Button color="Primary" onClick={this.handleSurveyform}>
+            {/* <Button color="Primary" onClick={this.handleSurveyform}>
               Surveyform
-            </Button>
+            </Button> */}
 
-            <Link to={{ pathname: "/login" }}>
+            <Link to={{ pathname: "/login" }} style={{ textDecoration: 'unset' }}>
               <Button tag={Link} color="Primary">
-                Login
+                <span style={{ color: 'white' }} > Login </span>
               </Button>
-            </Link>
-            <Link to={{ pathname: "/admin" }}>
-              <Button color="Primary">Admin</Button>
-            </Link>
-            <Link to={{ pathname: "/studentdashboard" }}>
-              <Button color="Primary">Student</Button>
-            </Link>
-            <Link to={{ pathname: "/admin/news" }}>
-              <Button color="Primary">news</Button>
-            </Link>
-            <Link to={{ pathname: "/admin/userdata" }}>
-              <Button color="Primary">Register</Button>
-            </Link>
-            <Link to={{ pathname: "/admin/survey" }}>
-              <Button color="Primary">Survay</Button>
-            </Link>
-            <Link to={{ pathname: "/quiz" }}>
-              <Button color="Primary">Quiz</Button>
-            </Link>
-            <Link to={{ pathname: "/admin/addquiz" }}>
-              <Button color="Primary">Addquiz</Button>
             </Link>
           </Toolbar>
         </AppBar>
