@@ -263,7 +263,8 @@ class Adminquiz extends Component {
         c: this.state.optionC,
         d: this.state.optionD
       },
-      answer: this.state.answer
+      answer: this.state.answer,
+      // avtar:this.state.avatar
     };
     let data = localStorage.getItem("usertoken");
     let headers = {
@@ -390,6 +391,8 @@ class Adminquiz extends Component {
                     </option>
                   ))}
                 </TextField>
+               
+                 
                 <FormControlLabel
                     control={
                   <Checkbox
@@ -414,16 +417,21 @@ class Adminquiz extends Component {
                   value={this.state.question}
                   variant="outlined"
                 />
-                   
+              {this.state.checkedQns ? <div>
                      <img style={{width:"100px",height:"100px",objectFit:"contain",backgroundColor:"#e4e4e4",display:"inline-block",verticalAlign:"bottom",marginRight:"100px"}}
                     src={this.state.avatar}
                     className="imageBox"
                     alt=""
+                  /> 
+                   <input  style={{width:"calc(100% - 110px)",display:"inline-block",position:"absolute",bottom:"0px",top:"281px",right:"-113px",opacity:"0",height:"26px",cursor:"pointer",marginLeft:"10px"}}
+                    type="file"
+                    onChange={this.handleChangeImage}
+                    accept="image/*"
                   />
-                
                   
                   <abbr>Upload Photo</abbr>
-                <div>
+                  </div> : "" }
+                 <div>
 
                   <div>
                     <TextField
