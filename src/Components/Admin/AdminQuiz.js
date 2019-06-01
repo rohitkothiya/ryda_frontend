@@ -390,11 +390,6 @@ class Adminquiz extends Component {
                     </option>
                   ))}
                 </TextField>
-                <input  style={{width:"calc(100% - 110px)",display:"inline-block",position:"absolute",bottom:"0px",right:"8px",opacity:"0",height:"26px",cursor:"pointer",marginLeft:"10px"}}
-                    type="file"
-                    onChange={this.handleChangeImage}
-                    accept="image/*"
-                  />
                 <FormControlLabel
                     control={
                   <Checkbox
