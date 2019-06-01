@@ -64,14 +64,13 @@ class SignIn extends Component {
       open: false,
       backtoDashboard: false,
       backtoAdmin: false,
-      btnLoading:false
+      btnLoading: false
     };
   }
 
   handleLogin = () => {
-    this.setState({btnLoading:true})
+    this.setState({ btnLoading: true });
     event.preventDefault();
-    
 
     let body = {
       email: this.state.email,
@@ -86,28 +85,25 @@ class SignIn extends Component {
         console.log("response .data.data", Boolean(response.data.data.token));
         console.log("responserole", response.data.data.role);
         // console.log("tokenrole", response.data.data.User.role);
-        console.log("respnse data level",Boolean(response.data.data.level))
+        console.log("respnse data level", Boolean(response.data.data.level));
         localStorage.setItem("usertoken", response.data.data.token);
-        
+
         if (response.data.flag === true && response.data.data.User.role === 2) {
-          this.setState({ backtoDashboard: true ,btnLoading:false });
+          this.setState({ backtoDashboard: true, btnLoading: false });
         }
         if (response.data.flag === true && response.data.data.User.role === 1) {
-          this.setState({ backtoAdmin: true ,btnLoading:false});
+          this.setState({ backtoAdmin: true, btnLoading: false });
         }
-        if(Boolean(response.data.data.token) === false)
-        {
-          this.setState({btnLoading:false})
-          alert("Please Enter Valid Username & Password")
+        if (Boolean(response.data.data.token) === false) {
+          this.setState({ btnLoading: false });
+          alert("Please Enter Valid Username & Password");
         }
-      
       })
       .catch(error => {
-        this.setState({btnLoading:true})
+        this.setState({ btnLoading: true });
         console.log(error);
       });
   };
-
 
   handleChangeInputText = () => {
     console.log(event.target.name);
@@ -126,7 +122,7 @@ class SignIn extends Component {
     }
 
     const { classes } = this.props;
-    const {btnLoading} = this.state;
+    const { btnLoading } = this.state;
     return (
       <main className={classes.main}>
         <CssBaseline />
@@ -134,11 +130,11 @@ class SignIn extends Component {
           <Typography component="h1" variant="h5">
             Login
           </Typography>
-          <form className={classes.form} >
+          <form className={classes.form}>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email</InputLabel>
               <Input
-              type="email"
+                type="email"
                 id="email"
                 name="email"
                 autoComplete="email"
@@ -187,13 +183,8 @@ class SignIn extends Component {
               className={classes.submit}
               onClick={this.handleLogin}
             >
-             {btnLoading ? "Loading" : "Login" }
+              {btnLoading ? "Loading" : "Login"}
             </Button>
-           
-
-        
-            
-           
           </form>
         </Paper>
       </main>

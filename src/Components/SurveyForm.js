@@ -1,8 +1,3 @@
-
-
-
-
-
 import React, { Component } from "react";
 // import PropTypes from 'prop-types';
 import Avatar from "@material-ui/core/Avatar";
@@ -325,36 +320,6 @@ class Register extends Component {
 
 export default withStyles(styles)(withRouter(Register));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // import React, { Component } from "react";
 // // import PropTypes from 'prop-types';
 // import Avatar from "@material-ui/core/Avatar";
@@ -500,8 +465,8 @@ export default withStyles(styles)(withRouter(Register));
 //     >
 //       <DialogTitle> Survey Form</DialogTitle>
 //       <Divider />
-//       <DialogContent> 
-     
+//       <DialogContent>
+
 //         <TextField
 //           margin="dense"
 //           id="name"
@@ -511,9 +476,9 @@ export default withStyles(styles)(withRouter(Register));
 //           fullWidth
 //           name="nameSurvey"
 //           onChange={this.handleChangeInputText}
-        
+
 //           variant="outlined"
-          
+
 //         />
 //           <TextField
 //           margin="dense"
@@ -524,9 +489,9 @@ export default withStyles(styles)(withRouter(Register));
 //           fullWidth
 //           name="emailSurvey"
 //           onChange={this.handleChangeInputText}
-        
+
 //           variant="outlined"
-//         /> 
+//         />
 //         <TextField
 //           margin="dense"
 //           id="school"
@@ -536,9 +501,9 @@ export default withStyles(styles)(withRouter(Register));
 //           fullWidth
 //           name="schoolName"
 //           onChange={this.handleChangeInputText}
-         
+
 //           variant="outlined"
-          
+
 //         />
 //         <TextField
 //           margin="dense"
@@ -549,9 +514,9 @@ export default withStyles(styles)(withRouter(Register));
 //           fullWidth
 //           name="age"
 //           onChange={this.handleChangeInputText}
-       
+
 //           variant="outlined"
-          
+
 //         />
 //                <FormControl margin="normal" required fullWidth>
 //             <FormLabel component="legend">Gender</FormLabel>
@@ -648,7 +613,7 @@ export default withStyles(styles)(withRouter(Register));
 //           onChange={this.handleChangeInputText}
 
 //           variant="outlined"
-          
+
 //         />
 //         <TextField
 //           margin="dense"
@@ -661,7 +626,7 @@ export default withStyles(styles)(withRouter(Register));
 //           onChange={this.handleChangeInputText}
 
 //           variant="outlined"
-          
+
 //         />
 //         <TextField
 //           margin="dense"
@@ -674,9 +639,9 @@ export default withStyles(styles)(withRouter(Register));
 //           onChange={this.handleChangeInputText}
 
 //           variant="outlined"
-          
+
 //         />
-       
+
 //       </DialogContent>
 //       <DialogActions>
 //       <Button
@@ -692,7 +657,6 @@ export default withStyles(styles)(withRouter(Register));
 //       </DialogActions>
 //     </Dialog>
 
-
 //     );
 //   }
 // }
@@ -702,39 +666,3 @@ export default withStyles(styles)(withRouter(Register));
 // // };
 
 // export default withStyles(styles)(withRouter(Register));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
