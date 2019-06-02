@@ -17,42 +17,30 @@ import { Link } from "react-router-dom";
 import StudentAppbar from "../Components/Student/StudentAppbar";
 
 import { cards } from "../Const/studentCardList";
+import { withStyles } from "@material-ui/core/styles";
+import CardActionArea from '@material-ui/core/CardActionArea';
+import MaterialImage from '../images/material.jpg';
+import { Divider } from "@material-ui/core";
 
 import axios from "axios";
 
-const useStyles = makeStyles(theme => ({
-  icon: {
-    marginRight: theme.spacing(2)
-  },
-  heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6)
-  },
-  heroButtons: {
-    marginTop: theme.spacing(4)
-  },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8)
-  },
-  card: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column"
-  },
-  cardMedia: {
-    paddingTop: "56.25%" // 16:9
-  },
-  cardContent: {
+const styles = {
+  root: {
     flexGrow: 1
   },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6)
+  grow: {
+    flexGrow: 1
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20
+  },
+  media: {
+    height: '140px'
   }
-}));
+};
 
-class Quiz extends Component {
+class StudentDashboard extends Component {
   state = {
     level: ""
   };
@@ -104,6 +92,7 @@ class Quiz extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     console.log(this.state);
     //  console.log("props",this.props.props);
     // const classes = useStyles();
@@ -142,6 +131,34 @@ class Quiz extends Component {
           <Container maxWidth="md">
             {/* End hero unit */}
             <Grid container spacing={6}>
+
+              <Card className={classes.card} style={{ width: '370px', margin: '12px 0' }}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={MaterialImage}
+                    title="Contemplative Reptile"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Material
+                    </Typography>
+                    <Typography component="p">
+                      This reading material will help you to clear the exams. <br/>
+                      It's important to understand the road rules wherever your journey takes you.
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <Divider />
+                <CardActions>
+                <a target="_blank" href={"http://www.legislation.vic.gov.au/domino/Web_Notes/LDMS/LTObject_Store/ltobjst10.nsf/DDE300B846EED9C7CA257616000A3571/1AEF94CB51024A3ACA2582250073051A/$FILE/17-41sra002%20authorised.pdf"} style={{ textDecoration: 'unset' }}>
+                  <Button size="small" color="primary" >
+                      Download
+                  </Button>
+                </a>
+                </CardActions>
+              </Card>
+
               {cards.map((card, i) => (
                 <Grid item key={i} xs={12} sm={6} md={4}>
                   {/* className={classes.card} */}
@@ -185,4 +202,4 @@ class Quiz extends Component {
   }
 }
 
-export default Quiz;
+export default withStyles(styles)(StudentDashboard);

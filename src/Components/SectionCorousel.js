@@ -6,7 +6,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Card from "./Card/Card.jsx";
 import image1 from "../images/slideshow1.jpg";
 import image3 from "../images/slideshow3.jpg";
-import image4 from "../images/slideshow4.jpg";
 
 const carouselStyle = {
   section: {
@@ -37,7 +36,6 @@ class SectionCarousel extends React.Component {
           <Carousel {...settings}>
               <img src={image1} alt="First slide" style={{ width: "100%" }} />
               <img src={image3} alt="Third slide" style={{ width: "100%" }} />
-              <img src={image4} alt="Third slide" style={{ width: "100%" }} />
           </Carousel>
         </Card>
       </div>

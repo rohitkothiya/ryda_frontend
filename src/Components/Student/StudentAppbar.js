@@ -21,6 +21,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import Button from "@material-ui/core/Button";
 
+import logo from '../../images/logo1.jpg';
+
 import { DialogTitle } from "@material-ui/core";
 
 const drawerWidth = 240;
@@ -197,18 +199,13 @@ class Adminsidebar extends React.Component {
         <AppBar position="fixed">
           <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
           <div style={{display:"flex", alignItems: 'center'}}>
-            <NavLink to="/studentdashboard" style={{ color: 'white' }} >
-              <IconButton
-                color="inherit"
-                aria-label="Open drawer"
-                onClick={this.handleDrawerToggle}
-              >
-                <HomeIcon />
-              </IconButton>
+            <NavLink to="/studentdashboard" style={{ color: 'white', display: 'flex', alignItems: 'center', textDecoration: 'unset' }} >
+                <img height="48px" src={logo} style={{ borderRadius: '6px' }} />
+              <Typography variant="h6" color="inherit" noWrap style={{ marginLeft: '12px' }}>
+                Student Dashboard
+              </Typography>
             </NavLink>
-            <Typography variant="h6" color="inherit" noWrap style={{ marginLeft: '12px' }}>
-              Student Dashboard
-            </Typography>
+            
             </div>
             <div>
               {/* <NavLink to="/studentdashboard" activeClassName={classes.active}>

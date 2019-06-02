@@ -1,10 +1,10 @@
 export const cards = [
-  {
-    pathname: "/material",
-    title: "Reading Material",
-    description: "you can read material about study",
-    type: false
-  },
+  // {
+  //   pathname: "/material",
+  //   title: "Reading Material",
+  //   description: "you can read material about study",
+  //   type: false
+  // },
   {
     pathname: "/quiz",
     title: "Quiz",

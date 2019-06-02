@@ -18,6 +18,10 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { IoLogoFacebook, IoLogoInstagram, IoLogoTwitter, IoLogoYoutube } from "react-icons/io";
+import SurveyImage from '../images/survey.jpg';
+import MaterialImage from '../images/material.jpg';
+import NewsImage from '../images/news.jpg';
+import { Divider } from "@material-ui/core";
 
 const styles = {
   root: {
@@ -29,6 +33,9 @@ const styles = {
   menuButton: {
     marginLeft: -12,
     marginRight: 20
+  },
+  media: {
+    height: '140px'
   }
 };
 
@@ -104,7 +111,7 @@ class Dashboard extends Component {
               <CardActionArea>
                 <CardMedia
                   className={classes.media}
-                  image={logo}
+                  image={NewsImage}
                   title="Contemplative Reptile"
                 />
                 <CardContent>
@@ -117,6 +124,7 @@ class Dashboard extends Component {
                   </Typography>
                 </CardContent>
               </CardActionArea>
+              <Divider />
               <CardActions>
                 <Button size="small" color="primary">
                   View More
@@ -127,30 +135,33 @@ class Dashboard extends Component {
             <CardActionArea>
               <CardMedia
                 className={classes.media}
-                image={logo}
+                image={MaterialImage}
                 title="Contemplative Reptile"
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
-                  Materials
+                  Material
                 </Typography>
                 <Typography component="p">
-                  Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                  across all continents except Antarctica
+                  This reading material will help you to clear the exams. <br/>
+                  It's important to understand the road rules wherever your journey takes you.
                 </Typography>
               </CardContent>
             </CardActionArea>
+            <Divider />
             <CardActions>
-              <Button size="small" color="primary">
-                Download
+            <a target="_blank" href={"http://www.legislation.vic.gov.au/domino/Web_Notes/LDMS/LTObject_Store/ltobjst10.nsf/DDE300B846EED9C7CA257616000A3571/1AEF94CB51024A3ACA2582250073051A/$FILE/17-41sra002%20authorised.pdf"} style={{ textDecoration: 'unset' }}>
+              <Button size="small" color="primary" >
+                  Download
               </Button>
+            </a>
             </CardActions>
           </Card>
           <Card className={classes.card} style={{ width: '370px', margin: '12px 0' }}>
             <CardActionArea>
               <CardMedia
                 className={classes.media}
-                image={logo}
+                image={SurveyImage}
                 title="Contemplative Reptile"
               />
               <CardContent>
@@ -158,11 +169,11 @@ class Dashboard extends Component {
                   Survey
                 </Typography>
                 <Typography component="p">
-                  Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                  across all continents except Antarctica
+                  These surveys provide important input for us. Your opinion is greatly valued.
                 </Typography>
               </CardContent>
             </CardActionArea>
+            <Divider />
             <CardActions>
               <Button size="small" color="primary" onClick={this.handleSurveyform}>
                 Take survey
@@ -173,27 +184,22 @@ class Dashboard extends Component {
           <div id="aboutus" style={{ padding: '5vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', textAlign: 'center' }}>
             <h1> About Us </h1>
             <Typography component="p">
-            It's important to understand the road rules wherever your journey takes you. <br/>
-            RSE is often asked to clarify common  road rules and this page has a number of links to help.<br/>
-            <br/>
-            Below are explanations of the road rules we are commonly asked to explain. <br/>
-            RSE encourages all road users to treat each other with respect, and remember that <br/>
-            the rules talk about ‘giving way’ to other road users, and not who has ‘right of way’.  <br/>
-            In fact under the rules no user has ‘right of way’.<br/>
-            <br/>
-            The Road Safety Road Rules were updated on 1 July 2017. 
-            Advice on this page is based on RSE is in the process of updating our information based upon <br/>
-            the &nbsp;
-            <a target="_blank" href="http://www.legislation.vic.gov.au/domino/Web_Notes/LDMS/LTObject_Store/ltobjst10.nsf/DDE300B846EED9C7CA257616000A3571/1AEF94CB51024A3ACA2582250073051A/$FILE/17-41sra002%20authorised.pdf">
-             updated Victorian Road Safety Road Rules 2017 (version 30/1/2018) (534 pages).
-            </a><br/>
-            For detailed information on the rules, refer to the rules referenced in each section.<br/>
-            <br/>
-            This information on this website is general information only.  <br/>
-            The information is not legal advice, and should not be treated as such. <br/>
-            RSE does not provide legal advice to Members or the public in relation to particular incidents and <br/>
-            you should not rely on the information on this website as an alternative to legal advice.   <br/>
-            If you have any specific questions about any legal matter you should consult a lawyer or other professional legal services provider.
+              We understand how important it is to have complete transparency about our test creation methods, <br />
+              especially since we work with educational non-profit organisations, like schools and libraries.<br />
+              Our team of professional writers actually takes the time to look at each state’s driver’s licence manual. <br />
+              A test is then created using the information directly from the manual.<br />
+              <br/>
+              Once a practice test is ready, we triple-check each test before uploading it, <br/>
+              to ensure the fewest errors possible. Additionally, once available publically, <br/>
+              each question has a button for reporting any issues, and we encourage and appreciate feedback <br/>
+              from test-takers, teachers, parents, librarians, or any other parties interested in driver safety. <br/>
+              We’re always happy to open a dialogue and correct any concern in a timely manner.<br/>
+              <br/>
+              We understand how important accuracy is, since we base our tests on driver’s licence manuals, <br/>
+              so when manuals are updated, our questions get updated as well. We constantly monitor government websites <br/>
+              for every state, and make certain that any test questions affected by a manual’s update are immediately updated on <br/>
+              our site, too. We also update the free electronic copy of the state’s driver’s licence manuals on our site, <br/>
+              normally within a few days after the official source.<br/>
             </Typography>
           </div>
 
