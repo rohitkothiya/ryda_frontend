@@ -65,7 +65,8 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3
+    padding: theme.spacing.unit * 3,
+    width: '100%'
   },
   card: {
     minWidth: 275
@@ -163,11 +164,17 @@ class Adminquiz extends Component {
     this.setState({
       isAddQns: false,
       btnLoading: true,
-      question: null,
-      optionA: null,
-      optionB: null,
-      optionC: null,
-      optionD: null
+      question: "",
+      optionA: "",
+      optionB: "",
+      optionC: "",
+      optionD: "",
+      answer: undefined,
+      isEditMode: false,
+      loading: false,
+      btnLoading: false,
+      image: null,
+      checkedQns: false,
     });
 
     let body = {
@@ -234,7 +241,21 @@ class Adminquiz extends Component {
   };
 
   handleClickOpen = () => {
-    this.setState({ isAddQns: !this.state.isAddQns });
+    this.setState({
+      isAddQns: !this.state.isAddQns,
+      btnLoading: true,
+      question: "",
+      optionA: "",
+      optionB: "",
+      optionC: "",
+      optionD: "",
+      answer: undefined,
+      isEditMode: false,
+      loading: false,
+      btnLoading: false,
+      image: null,
+      checkedQns: false
+    });
   };
 
   handleClose = () => {

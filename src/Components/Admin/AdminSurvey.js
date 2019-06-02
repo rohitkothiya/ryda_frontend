@@ -39,7 +39,8 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3
+    padding: theme.spacing.unit * 3,
+    width: '100%'
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -70,6 +71,9 @@ const styles = theme => ({
   },
   cardContent: {
     flexGrow: 1
+  },
+  title: {
+    fontSize: '12px'
   }
 });
 
@@ -148,14 +152,60 @@ class Adminsurvey extends Component {
                 <Grid item xs={12} sm={6} md={4}>
                   <Card className={classes.card}>
                     <CardContent className={classes.cardContent}>
-                      <Typography gutterBottom>Name :{survey.name}</Typography>
-                      <Typography>Email :{survey.email}</Typography>
-                      <Typography>Age :{survey.Age}</Typography>
-                      <Typography>School Name :{survey.school_name}</Typography>
-                      <Typography>Gender :{survey.gender}</Typography>
-                      <Typography>Answer 1 :{survey.que_1_ans}</Typography>
-                      <Typography>Answer 2 :{survey.que_2_ans}</Typography>
-                      <Typography>Answer 3 :{survey.que_3_ans}</Typography>
+
+
+                    <Typography className={classes.title} color="textSecondary" gutterBottom>
+                      Name:
+                    </Typography>
+                    <Typography gutterBottom style={ {wordBreak: 'break-all'} }>{survey.name}</Typography>
+
+                    <Typography className={classes.title} color="textSecondary" gutterBottom>
+                      Email:
+                    </Typography>
+                    <Typography gutterBottom style={ {wordBreak: 'break-all'} }>{survey.email}</Typography>
+
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Typography className={classes.title} color="textSecondary" gutterBottom>
+                      Age:
+                      </Typography>
+                      <Typography gutterBottom style={ {marginLeft: '4px', wordBreak: 'break-all'} }>{survey.Age}</Typography>
+                    </div>
+
+                    <Typography className={classes.title} color="textSecondary" gutterBottom>
+                      School Name:
+                    </Typography>
+                    <Typography gutterBottom style={ {wordBreak: 'break-all'} }>{survey.school_name}</Typography>
+
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Typography className={classes.title} color="textSecondary" gutterBottom>
+                      Gender:
+                      </Typography>
+                      <Typography gutterBottom style={ {marginLeft: '4px', wordBreak: 'break-all'} }>{survey.gender}</Typography>
+                    </div>
+                    
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Typography className={classes.title} color="textSecondary" gutterBottom>
+                      Answer-1:
+                      </Typography>
+                      <Typography gutterBottom style={ {marginLeft: '4px', wordBreak: 'break-all'} }>{survey.que_1_ans}</Typography>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Typography className={classes.title} color="textSecondary" gutterBottom>
+                      Answer-2:
+                      </Typography>
+                      <Typography gutterBottom style={ {marginLeft: '4px', wordBreak: 'break-all'} }>{survey.que_2_ans}</Typography>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Typography className={classes.title} color="textSecondary" gutterBottom>
+                      Answer-3:
+                      </Typography>
+                      <Typography gutterBottom style={ {marginLeft: '4px', wordBreak: 'break-all'} }>{survey.que_3_ans}</Typography>
+                    </div>
+
+
+
                     </CardContent>
                   </Card>
                 </Grid>

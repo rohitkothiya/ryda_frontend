@@ -42,7 +42,7 @@ const Cardquestion = props => {
                     <Typography variant="h6" gutterBottom fullWidth>
                       {card.questionstring}
                     </Typography>
-                    <div>
+                    <div style={{ display: 'flex' }}>
                       <IconButton
                         aria-label="Edit"
                         onClick={() => props.clicked(card)}
@@ -62,6 +62,12 @@ const Cardquestion = props => {
                       </IconButton>
                     </div>
                   </div>
+                  {
+                    card.image 
+                    ? (
+                      <div style={{ padding: '12px', maxWidth: '100%' }}> <img src={card.image} style={{ borderRadius: '6px' }} /> </div>
+                    ) : ''
+                  }
                   <div style={{ display: "flex", flexDirection: "row" }}>
                     <Typography
                       variant="subtitle1"
@@ -95,7 +101,7 @@ const Cardquestion = props => {
                     </Typography>
                   </div>
                   <Typography variant="subtitle1" gutterBottom fullWidth>
-                    Answer: {card.option.a}
+                    Correct Answer: {card.answer.toUpperCase()}
                   </Typography>
                 </CardContent>{" "}
               </Card>

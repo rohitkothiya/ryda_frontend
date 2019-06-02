@@ -43,7 +43,8 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3
+    padding: theme.spacing.unit * 3,
+    width: '100%'
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -127,7 +128,13 @@ class Adminnews extends Component {
   }
 
   handleAddnewsOpen = () => {
-    this.setState({ isNewsModel: !this.state.isNewsModel, isEditMode: false });
+    this.setState({ 
+      isNewsModel: !this.state.isNewsModel,
+      questionstring: "",
+      link: "",
+      lastDate: "",
+      isEditMode: false
+     });
   };
   handleAddNews = () => {
     this.setState({ isNewsModel: false });
@@ -238,6 +245,7 @@ class Adminnews extends Component {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
+          <form onSubmit={this.state.isEditMode ? this.handleSaveChanges : this.handleAddNews}>
             <DialogTitle id="alert-dialog-title">
               {this.state.isEditMode ? "Edit News" : "Add News"}
             </DialogTitle>
@@ -248,12 +256,13 @@ class Adminnews extends Component {
                 autoFocus
                 margin="dense"
                 id="name"
-                label="news"
+                label="News"
                 type="news"
                 fullWidth
                 onChange={this.handleChangeInputText}
                 value={this.state.questionstring}
                 variant="outlined"
+                required
               />
               <TextField
                 margin="dense"
@@ -265,6 +274,7 @@ class Adminnews extends Component {
                 value={this.state.link}
                 name="link"
                 variant="outlined"
+                required
               />
               <TextField
                 name="lastDate"
@@ -278,6 +288,7 @@ class Adminnews extends Component {
                   shrink: true
                 }}
                 variant="outlined"
+                required
               />
             </DialogContent>
             <DialogActions>
@@ -287,7 +298,7 @@ class Adminnews extends Component {
               {this.state.isEditMode ? (
                 <Button
                   variant="contained"
-                  onClick={this.handleSaveChanges}
+                  type="submit"
                   color="primary"
                 >
                   Save
@@ -295,13 +306,14 @@ class Adminnews extends Component {
               ) : (
                 <Button
                   variant="contained"
-                  onClick={this.handleAddNews}
+                  type="submit"
                   color="primary"
                 >
                   Add
                 </Button>
               )}
             </DialogActions>
+            </form>
           </Dialog>
 
           <Container
@@ -326,12 +338,18 @@ class Adminnews extends Component {
                 <Grid item key={index} xs={12} sm={6} md={4}>
                   <Card className={classes.card}>
                     <CardContent className={classes.cardContent}>
-                      <Typography gutterBottom variant="h6" component="h6">
+                      <Typography component="p">
                         {card.newsstring}
                       </Typography>
-                      <Typography>{card.lastdate}</Typography>
-                      <Typography>{card.link}</Typography>
+
+                      <Typography variant="subtitle1" color="textSecondary">
+                        <a href={card.link} > <Typography>{card.link}</Typography> </a>
+                      </Typography>
+
+                      <Typography className={classes.pos} color="textSecondary">{card.lastdate}</Typography>
+                      
                     </CardContent>
+                    <Divider />
                     <CardActions>
                       <Button
                         size="small"

@@ -31,3 +31,47 @@
   color: #fff;
   background-color: #3f98b5 !important;
 }
+
+.section2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  /* background: #3f98b5; */
+  flex-wrap: wrap;
+  padding: 10vh 5vh 5vh;
+}
+
+.section2-news {
+  display: flex;
+    width: 50%;
+    justify-content: center;
+    min-height: 30vh;
+    align-items: center;
+}
+
+.section2-takesurway {
+    display: flex;
+    width: 50%;
+    justify-content: center;
+    min-height: 30vh;
+    align-items: center;
+}
+
+.section2-takesurway span {
+  font-size: 23px;
+}
+
+.footer {
+  color: #fff;
+    background-color: #3f98b5 !important;
+    width: 100%;
+    display: flex;
+    z-index: 1100;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    flex-direction: column;
+}
+
+body {
+  scroll-behavior: smooth;
+}

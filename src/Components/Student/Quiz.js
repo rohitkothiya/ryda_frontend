@@ -126,7 +126,7 @@ class Userquiz extends Component {
     }
     const { classes } = this.props;
     return (
-      <div>
+      <div style={{ padding: '0 5vh' }} >
         <StudentAppbar />
 
         <div
@@ -137,14 +137,14 @@ class Userquiz extends Component {
             marginTop: "100px"
           }}
         >
-          <Typography variant="h4">Your Quiz Level</Typography>
+          <Typography variant="h4">Quiz: Level </Typography>
           <Button
             variant="outlined"
             color="primary"
             onClick={this.handleAddnewsOpen}
             style={{ display: "none" }}
           >
-            Create a Latest News
+            ""
           </Button>
         </div>
         <Divider />
@@ -175,6 +175,12 @@ class Userquiz extends Component {
                         {qns.questionstring}
                       </Typography>
                     </div>
+                    {
+                      qns.image 
+                      ? (
+                        <div style={{ padding: '12px', maxWidth: '100%' }}> <img src={qns.image} style={{ borderRadius: '6px' }} /> </div>
+                      ) : ''
+                    }
                     <div style={{ display: "flex", flexDirection: "row" }}>
                       <RadioGroup
                         aria-label="Gender"

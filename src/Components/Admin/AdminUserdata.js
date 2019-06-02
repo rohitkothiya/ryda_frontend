@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Adminsidebar from "./AdminSidebar";
+import CardActions from "@material-ui/core/CardActions";
 
 import Button from "@material-ui/core/Button";
 
@@ -39,7 +40,8 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3
+    padding: theme.spacing.unit * 3,
+    width: '100%'
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -73,6 +75,9 @@ const styles = theme => ({
   },
   progress: {
     margin: theme.spacing.unit * 2
+  },
+  title: {
+    fontSize: '12px'
   }
 });
 
@@ -160,19 +165,58 @@ class Adminuserdata extends Component {
             {/* End hero unit */}
             <Grid container spacing={4}>
               {this.state.userData.map((user, index) => (
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid item xs={12} sm={6} md={6} lg={4}>
                   <Card className={classes.card}>
                     <CardContent className={classes.cardContent}>
-                      <Typography gutterBottom>Name :{user.name}</Typography>
-                      <Typography>Email :{user.email}</Typography>
-                      <Typography>Age :{user.Age}</Typography>
-                      <Typography>
-                        Qualification:{user.qualification}
+                    <Typography className={classes.title} color="textSecondary" gutterBottom>
+                      Name:
+                    </Typography>
+                    <Typography gutterBottom style={ {wordBreak: 'break-all'} }><strong>{user.name}</strong></Typography>
+
+                    <Typography className={classes.title} color="textSecondary" gutterBottom>
+                      Email:
+                    </Typography>
+                    <Typography gutterBottom style={ {wordBreak: 'break-all'} }>{user.email}</Typography>
+
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Typography className={classes.title} color="textSecondary" gutterBottom>
+                        Age:
                       </Typography>
-                      <Typography>
-                        Cleared level :{user.clearedlevel}
+                      <Typography gutterBottom style={ {marginLeft: '4px', wordBreak: 'break-all'} }>{user.Age}</Typography>
+                    </div>                    
+
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Typography className={classes.title} color="textSecondary" gutterBottom>
+                        Quatlification:
                       </Typography>
+                      <Typography gutterBottom style={ {marginLeft: '4px', wordBreak: 'break-all'} }>{user.qualification}</Typography>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Typography className={classes.title} color="textSecondary" gutterBottom>
+                      Level: 
+                    </Typography>
+                    <Typography gutterBottom style={ {marginLeft: '4px', wordBreak: 'break-all'} }>{user.clearedlevel}</Typography>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Typography className={classes.title} color="textSecondary" gutterBottom>
+                      Feedback: 
+                    </Typography> 
+                    <Typography gutterBottom style={ {marginLeft: '4px', wordBreak: 'break-all'} }>{user.feedback || 'NA'}</Typography>
+                    </div>
+                    
                     </CardContent>
+                    <Divider />
+                    <CardActions>
+                      <Button
+                        size="small"
+                        color="primary"
+                        // onClick={() => this.handleEditNews(card)}
+                      >
+                        Give Feedback
+                      </Button>
+                    </CardActions>
                   </Card>
                 </Grid>
               ))}
@@ -189,207 +233,3 @@ Adminuserdata.propTypes = {
 };
 
 export default withStyles(styles)(Adminuserdata);
-
-// import React, { Component } from "react";
-// import PropTypes from "prop-types";
-// import { withStyles } from "@material-ui/core/styles";
-// import CssBaseline from "@material-ui/core/CssBaseline";
-// import Table from "@material-ui/core/Table";
-// import TableBody from "@material-ui/core/TableBody";
-// import TableCell from "@material-ui/core/TableCell";
-// import TableHead from "@material-ui/core/TableHead";
-// import TableRow from "@material-ui/core/TableRow";
-// import Typography from "@material-ui/core/Typography";
-// import Adminsidebar from "./AdminSidebar";
-// import axios from "axios";
-// import Divider from '@material-ui/core/Divider';
-// import Button from "@material-ui/core/Button";
-
-// const CustomTableCell = withStyles(theme => ({
-//   head: {
-//     backgroundColor: theme.palette.common.black,
-//     color: theme.palette.common.white
-//   },
-//   body: {
-//     fontSize: 14
-//   }
-// }))(TableCell);
-
-// const styles = theme => ({
-//   root: {
-//     display: 'flex'
-//   },
-//   table: {
-//     minWidth: 700
-//   },
-//   row: {
-//     "&:nth-of-type(odd)": {
-//       backgroundColor: theme.palette.background.default
-//     }
-//   },
-//   toolbar: theme.mixins.toolbar,
-//   content: {
-//     flexGrow: 1,
-//     backgroundColor: theme.palette.background.default,
-//     padding: theme.spacing.unit * 3
-//   }
-// });
-
-// class Adminuserdata extends Component {
-//   state = {
-//     userData: []
-//   };
-
-//   componentDidMount() {
-//     let data = localStorage.getItem("usertoken");
-//     let headers = {
-//       headers: {
-//         Authorization: `bearer ${data}`
-//       }
-//     };
-
-//     axios
-//       .get(
-//         `http://157.230.174.240:3006/api/v1/user/getalluserforadmin`,
-//         headers
-//       )
-//       .then(response => {
-//         console.log("response", response);
-//         console.log("response .data.data", response.data.data);
-//         this.setState({
-//           userData: [...this.state.userData, ...response.data.data]
-//         });
-//         console.log("fetched user data", this.state.userData);
-//       })
-//       .catch(error => {
-//         console.log(error);
-//       });
-//   }
-
-//   render() {
-//     const { classes } = this.props;
-
-//     return (
-//       <div className={classes.root}>
-//         <CssBaseline />
-//         <Adminsidebar />
-
-//         <main className={classes.content}>
-//           <div className={classes.toolbar} />
-//             <div>
-//             <div
-//               style={{
-//                 display: "flex",
-//                 justifyContent: "space-between",
-//                 padding: "16px 4px"
-//               }}
-//             >
-//               <Typography variant="h4">UserData</Typography>
-//             </div>
-//             <Divider />
-
-//             <Table className={classes.table}>
-//               <TableHead>
-//                 <TableRow>
-//                   <CustomTableCell>Name</CustomTableCell>
-//                   <CustomTableCell>Email</CustomTableCell>
-//                   <CustomTableCell>Age</CustomTableCell>
-//                   <CustomTableCell>Qualification</CustomTableCell>
-//                   <CustomTableCell>Cleared level</CustomTableCell>
-//                   <CustomTableCell>Password</CustomTableCell>
-//                 </TableRow>
-//               </TableHead>
-//               <TableBody>
-//                 {this.state.userData.map(row => (
-//                   <TableRow className={classes.row} key={row.id}>
-//                     <CustomTableCell
-//                       component="th"
-//                       scope="row"
-//                       style={{ width: "400px" }}
-//                     >
-//                       {row.name}
-//                     </CustomTableCell>
-//                     <CustomTableCell style={{ width: "400px" }}>
-//                       {row.email}
-//                     </CustomTableCell>
-//                     <CustomTableCell style={{ width: "50px" }}>
-//                       {row.age}
-//                     </CustomTableCell>
-//                     <CustomTableCell style={{ width: "50px" }}>
-//                       {row.qualification}
-//                     </CustomTableCell>
-//                     <CustomTableCell style={{ width: "50px" }}>
-//                       {row.clearedlevel}
-//                     </CustomTableCell>
-//                     <CustomTableCell>{row.password}</CustomTableCell>
-//                   </TableRow>
-//                 ))}
-//               </TableBody>
-//             </Table>
-//             </div>
-//         </main>
-//       </div>
-//     );
-//   }
-// }
-
-// Adminuserdata.propTypes = {
-//   classes: PropTypes.object.isRequired
-// };
-
-// export default withStyles(styles)(Adminuserdata);
-
-// // import React,{Component} from 'react';
-// // import PropTypes from 'prop-types';
-// // import { withStyles } from '@material-ui/core/styles';
-// // import CssBaseline from '@material-ui/core/CssBaseline';
-
-// // import Adminsidebar from './AdminSidebar';
-
-// // const drawerWidth = 240;
-
-// // const styles = theme => ({
-// //   root: {
-// //     display: 'flex',
-// //   },
-// //   appBar: {
-// //     width: `calc(100% - ${drawerWidth}px)`,
-// //     marginLeft: drawerWidth,
-// //   },
-// //   drawer: {
-// //     width: drawerWidth,
-// //     flexShrink: 0,
-// //   },
-// //   drawerPaper: {
-// //     width: drawerWidth,
-// //   },
-// //   toolbar: theme.mixins.toolbar,
-// //   content: {
-// //     flexGrow: 1,
-// //     backgroundColor: theme.palette.background.default,
-// //     padding: theme.spacing.unit * 3,
-// //   },
-// // });
-
-// // class Adminuserdata extends Component  {
-// //    render (){
-// //   const { classes } = this.props;
-
-// //   return (
-// //     <div className={classes.root}>
-// //       <CssBaseline />
-// //       <Adminsidebar />
-// //       <main className={classes.content}>
-// //         <div className={classes.toolbar} />
-
-// //       </main>
-// //     </div>
-// //   );
-// // }
-// // }
-
-// // Adminuserdata.propTypes = {
-// //   classes: PropTypes.object.isRequired,
-// // };
-
-// // export default withStyles(styles)(Adminuserdata);
