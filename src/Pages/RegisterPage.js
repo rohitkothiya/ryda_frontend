@@ -74,21 +74,26 @@ class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      nameRegister: "rohit",
-      emailRegister: " rohit@gmail.com",
-      passwordRegister: "123",
-      ageRegister: "24",
-      eductionRegister: "B.TECH",
-      backtoDashboard: false
+      nameRegister: "",
+      emailRegister: " ",
+      passwordRegister: "",
+      ageRegister: "",
+      eductionRegister: "",
+      backtoDashboard: false,
+      loading:false
     };
     this.handleRegister = this.handleRegister.bind(this);
   }
-  handleChange = name => event => {
+  handleChangeInputQualification = (event) => {
+    console.log(event.target.name)
+    console.log(event.target.value)
     this.setState({
-      [name]: event.target.value
+     eductionRegister:event.target.value
     });
   };
+ 
   handleRegister = () => {
+    this.setState({loading:true})
     event.preventDefault();
     console.log("Register clicked");
 
@@ -115,10 +120,11 @@ class Register extends Component {
         console.log(response.data.flag, response.data.flag === true);
 
         if (response.data.flag === true) {
-          this.setState({ backtoDashboard: true });
+          this.setState({ backtoDashboard: true ,loading:false});
         }
       })
       .catch(error => {
+        this.setState({loading:true})
         console.log(error);
       });
   };
@@ -150,7 +156,7 @@ class Register extends Component {
           <Typography component="h1" variant="h5">
             Student Register
           </Typography>
-          <form className={classes.form}>
+          <form className={classes.form} onSubmit={this.handleRegister}>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="name">Name</InputLabel>
               <Input
@@ -159,18 +165,19 @@ class Register extends Component {
                 autoComplete="name"
                 autoFocus
                 onChange={this.handleChangeInputText}
-                defaultValue="rohit"
+                // defaultValue="rohit"
                 required
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
               <Input
+              type="email"
                 id="email"
                 name="emailRegister"
                 autoComplete="email"
                 onChange={this.handleChangeInputText}
-                defaultValue="rohit@gmail.com"
+                // defaultValue="rohit@gmail.com"
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
@@ -181,7 +188,7 @@ class Register extends Component {
                 id="password"
                 autoComplete="current-password"
                 onChange={this.handleChangeInputText}
-                defaultValue="123"
+                // defaultValue="123"
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
@@ -192,18 +199,18 @@ class Register extends Component {
                 id="age"
                 autoComplete="current-password"
                 onChange={this.handleChangeInputText}
-                defaultValue="24"
+                // defaultValue="24"
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
-              <TextField
+              {/* <TextField
                 name="educationRegister"
                 id="standard-with-placeholder"
                 select
                 label="Education"
                 // className={classes.textField}
                 value={this.state.eductionRegister}
-                onChange={this.handleChange("educationRegister")}
+                onChange={this.handleChangeInput}
                 SelectProps={{
                   native: true,
                   MenuProps: {
@@ -213,12 +220,36 @@ class Register extends Component {
                 helperText="Please select right answer"
                 margin="normal"
               >
-                {optionList.map(option => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
+                {["B.TECH", "B.E", "M.B.A","B.A"].map(option => (
+                  <option key={option} value={option}>
+                    {option}
                   </option>
                 ))}
-              </TextField>
+              </TextField> */}
+              <TextField
+                    name="educationRegister"
+                    id="standard-with-placeholder"
+                    select
+                    label="Education Qualification"
+                    // value={this.state.eductionRegister}
+                    onChange={this.handleChangeInputQualification}
+                   
+                    SelectProps={{
+                      native: true,
+                      MenuProps: {
+                        className: classes.menu
+                      }
+                    }}
+                    margin="dense"
+                    // style={{ minWidth: "120px" }}
+                    
+                  >
+                    {["B.TECH", "B.E", "M.B.A","B.A"].map(level => (
+                      <option key={level} value={level}>
+                        {level}
+                      </option>
+                    ))}
+                  </TextField>
             </FormControl>
             <Grid container>
               <Grid item xs />
@@ -230,9 +261,10 @@ class Register extends Component {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={this.handleRegister}
+              style ={{backgroundColor:"#3f98b5"}}
+              // onClick={this.handleRegister}
             >
-              Register
+           {this.state.loading ? "Loading" : "Register" } 
             </Button>
             <Grid container style={{ marginTop: "20px" }}>
               <Grid item xs>

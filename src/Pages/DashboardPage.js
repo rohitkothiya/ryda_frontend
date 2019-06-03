@@ -46,7 +46,7 @@ class Dashboard extends Component {
 
   handleSurveyform = () => {
     console.log("clicked");
-    this.setState({ showSurveyForm: true });
+    this.setState({ showSurveyForm: !this.state.showSurveyForm });
   };
 
   componentDidMount() {
@@ -228,9 +228,9 @@ class Dashboard extends Component {
           </Toolbar>
         </div>
 
-          {this.state.showSurveyForm ? (
-            <SurveyForm open={this.state.showSurveyForm} />
-          ) : null} 
+         
+            <SurveyForm open={this.state.showSurveyForm} closed={this.handleSurveyform} />
+        
         </div>
       </div>
     );

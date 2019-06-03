@@ -19,7 +19,7 @@ import Divider from "@material-ui/core/Divider";
 import { DialogTitle } from "@material-ui/core";
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Deletedailog from "./DeleteDailog";
+
 const drawerWidth = 240;
 
 function LinkTab(props) {
@@ -135,7 +135,8 @@ class Adminquiz extends Component {
       btnLoading: false,
       image:null,
       checkedQns: false,
-      isDeleteAlert:false
+      isDeleteAlert:false,
+      dltbtnLoading:false
     };
   }
   handleChangeInputTab = (event, value) => {
@@ -329,6 +330,7 @@ class Adminquiz extends Component {
     this.setState({isDeleteAlert:false})
   }
   handleDeleteQuestions = card => {
+    this.setState({isDeleteAlert:false,dltbtnLoading:true})
     let data = localStorage.getItem("usertoken");
     let headers = {
       headers: {
@@ -344,9 +346,12 @@ class Adminquiz extends Component {
       )
       .then(response => {
         console.log("response", response);
+        this.setState({dltbtnLoading:false});
         this.fetchQns(headers);
+
       })
       .catch(error => {
+        this.setState({dltbtnLoading:false});
         console.log(error);
       });
   };
@@ -554,6 +559,7 @@ class Adminquiz extends Component {
                     variant="contained"
                     color="primary"
                     type="submit"
+                    style ={{backgroundColor:"#3f98b5"}}
                   >
                     {btnLoading ? "Saving" : "Save"}
                   </Button>
@@ -562,6 +568,7 @@ class Adminquiz extends Component {
                     variant="contained"
                     color="primary"
                     type="submit"
+                    style ={{backgroundColor:"#3f98b5"}}
                   >
                     {btnLoading ? "Adding" : "Add"}
                   </Button>
@@ -569,9 +576,9 @@ class Adminquiz extends Component {
               </DialogActions>
               </form>
             </Dialog>
-            <Deletedailog openAlert={this.state.isDeleteAlert} deletedConfirm={this.handleCloseDeleteAlert} deletedCancel={this.handleDeleteQuestions}/>
+            {/* <Deletedailog openAlert={this.state.isDeleteAlert} deletedConfirm={this.handleCloseDeleteAlert} deletedCancel={this.handleDeleteQuestions}/> */}
             <NoSsr>
-              <div className={classes.roottab} style={{ marginTop: "10px" }}>
+              <div className={classes.roottab} style={{ marginTop: "10px", textAlign: 'center' }}>
                 <AppBar position="static">
                   <Tabs
                     variant="fullWidth"
@@ -589,6 +596,10 @@ class Adminquiz extends Component {
                     clicked={this.handleEditQuestions}
                     loading={loading}
                     deleted={this.handleDeleteAlert}
+                    openAlert={this.state.isDeleteAlert}
+                    deletedCancel={this.handleCloseDeleteAlert}
+                    deletedConfirm={this.handleDeleteQuestions}
+                    dltbtnLoading={this.state.dltbtnLoading}
                   />
                 )}
                 {value === 1 && (
@@ -597,6 +608,10 @@ class Adminquiz extends Component {
                     clicked={this.handleEditQuestions}
                     loading={loading}
                     deleted={this.handleDeleteAlert}
+                    openAlert={this.state.isDeleteAlert}
+                    deletedCancel={this.handleCloseDeleteAlert}
+                    deletedConfirm={this.handleDeleteQuestions}
+                    dltbtnLoading={this.state.dltbtnLoading}
                   />
                 )}
                 {value === 2 && (
@@ -605,6 +620,11 @@ class Adminquiz extends Component {
                     clicked={this.handleEditQuestions}
                     loading={loading}
                     deleted={this.handleDeleteAlert}
+                    openAlert={this.state.isDeleteAlert}
+                    deletedCancel={this.handleCloseDeleteAlert}
+                    deletedConfirm={this.handleDeleteQuestions}
+                    dltbtnLoading={this.state.dltbtnLoading}
+
                   />
                 )}
               </div>

@@ -141,6 +141,7 @@ class SignIn extends Component {
                 autoFocus
                 onChange={this.handleChangeInputText}
                 required
+                
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
@@ -179,6 +180,8 @@ class SignIn extends Component {
               style={{ marginRight: "25px" }}
               variant="contained"
               color="primary"
+           
+               style ={{backgroundColor:"#3f98b5"}}
               fullWidth
               className={classes.submit}
               onClick={this.handleLogin}

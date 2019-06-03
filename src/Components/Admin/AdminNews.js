@@ -89,7 +89,7 @@ class Adminnews extends Component {
     id: ""
   };
 
-  fetchNews = headers => {
+  fetchNews = (headers) => {
     axios
       .get(`http://157.230.174.240:3006/api/v1/news/getallforadmin`, headers)
       .then(response => {
@@ -137,6 +137,7 @@ class Adminnews extends Component {
      });
   };
   handleAddNews = () => {
+    event.preventDefault();
     this.setState({ isNewsModel: false });
     let data = localStorage.getItem("usertoken");
 
@@ -156,6 +157,7 @@ class Adminnews extends Component {
       .then(response => {
         console.log("response", response);
         console.log("response data data", response.data.data);
+        this.fetchNews(headers);
       })
       .catch(error => {
         console.log(error);
@@ -215,6 +217,7 @@ class Adminnews extends Component {
   render() {
     const { classes } = this.props;
     const { loading } = this.state;
+    console.log("length",this.state.allNews.length)
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -233,6 +236,7 @@ class Adminnews extends Component {
             <Button
               variant="outlined"
               color="primary"
+              // style={{color:"#3f98b5"}}
               onClick={this.handleAddnewsOpen}
             >
               Create a Latest News
@@ -300,6 +304,7 @@ class Adminnews extends Component {
                   variant="contained"
                   type="submit"
                   color="primary"
+                  style ={{backgroundColor:"#3f98b5"}}
                 >
                   Save
                 </Button>
@@ -308,6 +313,7 @@ class Adminnews extends Component {
                   variant="contained"
                   type="submit"
                   color="primary"
+                  style ={{backgroundColor:"#3f98b5"}}
                 >
                   Add
                 </Button>
@@ -321,7 +327,7 @@ class Adminnews extends Component {
             maxWidth="md"
             style={{ paddingTop: "18px" }}
           >
-            {loading ? (
+            {loading && this.state.allNews.length >= 1 ? (
               <div
                 style={{
                   display: "flex",
@@ -334,8 +340,10 @@ class Adminnews extends Component {
             ) : null}
             {/* End hero unit */}
             <Grid container spacing={4}>
-              {this.state.allNews.map((card, index) => (
-                <Grid item key={index} xs={12} sm={6} md={4}>
+            
+              { this.state.allNews.length >= 1 ? (
+                  this.state.allNews.map((card, index) => (
+            <Grid item key={index} xs={12} sm={6} md={4}>
                   <Card className={classes.card}>
                     <CardContent className={classes.cardContent}>
                       <Typography component="p">
@@ -355,13 +363,17 @@ class Adminnews extends Component {
                         size="small"
                         color="primary"
                         onClick={() => this.handleEditNews(card)}
+                        
                       >
                         Edit
                       </Button>
                     </CardActions>
                   </Card>
                 </Grid>
-              ))}
+              ))   ) :  (
+              loading ? <div style={{marginTop:"200px",display:"flex",justifyContent:"center",width:"100%"}}><CircularProgress className={classes.progress}/></div> : <div style={{marginTop:"200px",fontSize:"28px",marginLeft:"150px"}}>You don't have any News available</div> 
+              ) }
+             
             </Grid>
           </Container>
         </main>

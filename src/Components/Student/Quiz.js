@@ -36,6 +36,7 @@ class Userquiz extends Component {
       quizResult: {},
       backtodash: false,
       id: "",
+      level:0
     };
   }
 
@@ -55,14 +56,26 @@ class Userquiz extends Component {
   };
   componentDidMount() {
     this.setState({ loading: true });
-    let body = {
-      level: 1
-    };
+  
     let data = localStorage.getItem("usertoken");
     let headers = {
       headers: {
         Authorization: `bearer ${data}`
       }
+    };
+    axios
+    .get(`http://157.230.174.240:3006/api/v1/user/getuserbytoken`, headers)
+    .then(response => {
+      console.log("response", response);
+      this.setState({ level: response.data.data.clearedlevel + 1});
+      console.log("getch state data", this.state.level);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
+    let body = {
+      level: this.state.level
     };
 
     axios
@@ -128,7 +141,7 @@ class Userquiz extends Component {
     return (
       <div style={{ padding: '0 5vh' }} >
         <StudentAppbar />
-
+       
         <div
           style={{
             display: "flex",
@@ -137,7 +150,7 @@ class Userquiz extends Component {
             marginTop: "100px"
           }}
         >
-          <Typography variant="h4">Quiz: Level </Typography>
+          <Typography variant="h4">Quiz: {!this.state.loading && `Level: ${this.state.level}`} </Typography>
           <Button
             variant="outlined"
             color="primary"
@@ -148,77 +161,84 @@ class Userquiz extends Component {
           </Button>
         </div>
         <Divider />
-        {loading ? (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginTop: "200px"
-            }}
-          >
-            <CircularProgress className={classes.progress} />
-          </div>
-        ) : ''}
-        <ol type="1" style={{ fontSize: "20px" }}>
-          {this.state.questions.map((qns, i) => {
-            return (
-              <li key={qns._id}>
-                <Card style={{ margin: "12px 12px 12px" }}>
-                  <CardContent>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between"
-                      }}
-                    >
-                      <Typography variant="h6" gutterBottom fullWidth>
-                        {qns.questionstring}
-                      </Typography>
-                    </div>
-                    {
-                      qns.image 
-                      ? (
-                        <div style={{ padding: '12px', maxWidth: '100%' }}> <img src={qns.image} style={{ borderRadius: '6px' }} /> </div>
-                      ) : ''
-                    }
-                    <div style={{ display: "flex", flexDirection: "row" }}>
-                      <RadioGroup
-                        aria-label="Gender"
-                        name={qns._id}
-                        className={classes.group}
-                        value={this.state.quizAnswers[qns._id]}
-                        onChange={this.handleRadioButton(qns._id)}
-                      >
-                        <FormControlLabel value="a" control={<Radio />} label={qns.option.a} />
-                        <FormControlLabel value="b" control={<Radio />} label={qns.option.b} />
-                        <FormControlLabel value="c" control={<Radio />} label={qns.option.c} />
-                        <FormControlLabel value="d" control={<Radio />} label={qns.option.d} />
-                      </RadioGroup>
-                    </div>
-                  </CardContent>{" "}
-                </Card>
-              </li>
-            );
-          })}
-          {/* className={classes.button} */}
-          {loading ? null : (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.handleQuizResult}
-            >
-              Submit
-            </Button>
-          )}
-          <Studentresult
-            open={isResultShow}
-            gettingResult={this.state.gettingResult}
-            clickedContinue={this.handleContinue}
-            result={result}
-            count={count}
-            total={total}
-          />
-        </ol>
+        {
+          loading 
+          ?  (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "200px"
+                }}
+              >
+                <CircularProgress className={classes.progress} />
+              </div>
+          ) 
+          : this.state.questions.length > 0 
+            ? (  
+              <ol type="1" style={{ fontSize: "20px" }}>
+                {this.state.questions.map((qns, i) => {
+                  return (
+                    <li key={qns._id}>
+                      <Card style={{ margin: "12px 12px 12px" }}>
+                        <CardContent>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between"
+                            }}
+                          >
+                            <Typography variant="h6" gutterBottom fullWidth>
+                              {qns.questionstring}
+                            </Typography>
+                          </div>
+                          {
+                            qns.image 
+                            ? (
+                              <div style={{ padding: '12px', maxWidth: '100%' }}> <img src={qns.image} style={{ borderRadius: '6px' }} /> </div>
+                            ) : ''
+                          }
+                          <div style={{ display: "flex", flexDirection: "row" }}>
+                            <RadioGroup
+                              aria-label="Gender"
+                              name={qns._id}
+                              className={classes.group}
+                              value={this.state.quizAnswers[qns._id]}
+                              onChange={this.handleRadioButton(qns._id)}
+                            >
+                              <FormControlLabel value="a" control={<Radio />} label={qns.option.a} />
+                              <FormControlLabel value="b" control={<Radio />} label={qns.option.b} />
+                              <FormControlLabel value="c" control={<Radio />} label={qns.option.c} />
+                              <FormControlLabel value="d" control={<Radio />} label={qns.option.d} />
+                            </RadioGroup>
+                          </div>
+                        </CardContent>{" "}
+                      </Card>
+                    </li>
+                  );
+                })}
+                {/* className={classes.button} */}
+                {loading ? null : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.handleQuizResult}
+                  >
+                    Submit
+                  </Button>
+                )}
+                <Studentresult
+                  open={isResultShow}
+                  gettingResult={this.state.gettingResult}
+                  clickedContinue={this.handleContinue}
+                  result={result}
+                  count={count}
+                  total={total}
+                />
+              </ol> 
+              ) : (
+                <div style={{marginTop:"200px",fontSize:"28px",marginLeft:"150px"}}>You don't have any User Data available</div>
+              )}
       </div>
     );
   }

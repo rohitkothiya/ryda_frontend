@@ -8,20 +8,24 @@ import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Paper from "@material-ui/core/Paper";
+
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
-
+import Dialog from '@material-ui/core/Dialog';
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle'
 import FormLabel from "@material-ui/core/FormLabel";
 
 import { withRouter } from "react-router-dom";
 
 import { Redirect } from "react-router-dom";
 import axios from "axios";
+import { Divider } from "@material-ui/core";
 
 const styles = theme => ({
   main: {
@@ -68,11 +72,13 @@ class Register extends Component {
       qns2: " hie",
       qns3: "hwllo",
       gender: "male",
-      country: "india"
+      country: "india",
+      isSubmitClose:true
     };
   }
 
   handleSubmitSurvey = () => {
+    this.setState({isSubmitClose:false})
     event.preventDefault();
     console.log("Register clicked");
 
@@ -132,14 +138,17 @@ class Register extends Component {
     return (
       <main className={classes.main} style={{ width: "500px" }}>
         <CssBaseline />
-        <Paper className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Survey Form
-          </Typography>
-          <form className={classes.form}>
+        <Dialog
+          open={this.props.open && this.state.isSubmitClose}
+          onClose={this.handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+         
+          <form className={classes.form} onSubmit={this.handleSubmitSurvey}>
+          <DialogContent>
+         
+          <DialogTitle id="form-dialog-title" style={{fontSize:"24px"}}>Survey Form</DialogTitle>
+          <Divider/>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="name">Name</InputLabel>
               <Input
@@ -148,15 +157,19 @@ class Register extends Component {
                 autoComplete="name"
                 autoFocus
                 onChange={this.handleChangeInputText}
+                required
+                type="text"
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
               <Input
+              type="email"
                 id="email"
                 name="emailSurvey"
                 autoComplete="email"
                 onChange={this.handleChangeInputText}
+                required
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
@@ -169,6 +182,7 @@ class Register extends Component {
                 id="school"
                 autoComplete="school"
                 onChange={this.handleChangeInputText}
+                required
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
@@ -264,6 +278,7 @@ class Register extends Component {
                 id="age"
                 autoComplete="age"
                 onChange={this.handleChangeInputText}
+                required
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
@@ -274,6 +289,7 @@ class Register extends Component {
                 id="qns1"
                 autoComplete="qns1"
                 onChange={this.handleChangeInputText}
+                required
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
@@ -284,6 +300,7 @@ class Register extends Component {
                 id="qns2"
                 autoComplete="qns2"
                 onChange={this.handleChangeInputText}
+                required
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
@@ -294,21 +311,23 @@ class Register extends Component {
                 id="qns3"
                 autoComplete="qns3"
                 onChange={this.handleChangeInputText}
+                required
               />
             </FormControl>
-
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={this.handleSubmitSurvey}
-            >
-              Submit
-            </Button>
+            </DialogContent>
+  
+            <DialogActions>
+          <Button onClick={this.props.closed} color="primary">
+            Cancel
+          </Button>
+          <Button  type="submit"  variant="contained" color="primary"  style ={{backgroundColor:"#3f98b5"}}  >
+            Submit
+          </Button>
+        </DialogActions>
+           
+         
           </form>
-        </Paper>
+          </Dialog>
       </main>
     );
   }

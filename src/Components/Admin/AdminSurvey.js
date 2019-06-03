@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -135,7 +135,7 @@ class Adminsurvey extends Component {
             maxWidth="md"
             style={{ paddingTop: "18px" }}
           >
-            {loading ? (
+            {loading && this.state.surveyerData.length >= 1 ?(
               <div
                 style={{
                   display: "flex",
@@ -148,12 +148,14 @@ class Adminsurvey extends Component {
             ) : null}
             {/* End hero unit */}
             <Grid container spacing={4}>
-              {this.state.surveyerData.map((survey, index) => (
+
+              { this.state.surveyerData >= 1 ? (
+                this.state.surveyerData.map((survey, index) => (
                 <Grid item xs={12} sm={6} md={4}>
                   <Card className={classes.card}>
                     <CardContent className={classes.cardContent}>
 
-
+                      
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
                       Name:
                     </Typography>
@@ -209,7 +211,9 @@ class Adminsurvey extends Component {
                     </CardContent>
                   </Card>
                 </Grid>
-              ))}
+              )) ) : (
+                loading ? <div style={{marginTop:"200px",display:"flex",justifyContent:"center",width:"100%"}}><CircularProgress className={classes.progress}/></div> : <div style={{marginTop:"200px",fontSize:"28px",marginLeft:"150px"}}>You don't have any Survey available</div> 
+              )}
             </Grid>
           </Container>
         </main>

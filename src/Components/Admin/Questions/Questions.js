@@ -7,6 +7,10 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { withStyles } from "@material-ui/core/styles";
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
 
 const styles = theme => ({
   progress: {
@@ -18,97 +22,125 @@ const Cardquestion = props => {
   const { classes } = props;
   return (
     <div>
-      {props.loading ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "200px"
-          }}
-        >
-          <CircularProgress className={classes.progress} />
-        </div>
-      ) : null}
+      {
+        props.loading
+        ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "200px"
+            }}
+          >
+            <CircularProgress className={classes.progress} />
+          </div>
+        ) 
+        : props.props.length > 0
+          ? (
+            <ol type="1" style={{ fontSize: "20px" }}>
+            {props.props.map(card => {
+              return (
+                <li key={card._id}>
+                  <Card style={{ margin: "12px 12px 12px" }}>
+                    <CardContent>
+                      <div
+                        style={{ display: "flex", justifyContent: "space-between" }}
+                      >
+                        <Typography variant="h6" gutterBottom fullWidth>
+                          {card.questionstring}
+                        </Typography>
+                        <div style={{ display: 'flex' }}>
+                          <IconButton
+                            aria-label="Edit"
+                            onClick={() => props.clicked(card)}
+                          >
+                            <EditIcon fontSize="small" />
+                          </IconButton>
+                          <IconButton
+                            aria-label="Delete"
+                            color="action"
+                            onClick={() => props.deleted(card)}
+                          >
+                            <DeleteIcon
+                              fontSize="small"
+                              color="action"
+                              onClick={props.deleted}
+                            />
+                          </IconButton>
+                        </div>
+                      </div>
+                      {
+                        card.image 
+                        ? (
+                          <div style={{ padding: '12px', maxWidth: '100%' }}> <img src={card.image} style={{ borderRadius: '6px' }} /> </div>
+                        ) : ''
+                      }
+                      <div style={{ display: "flex", flexDirection: "row" }}>
+                        <Typography
+                          variant="subtitle1"
+                          gutterBottom
+                          style={{ width: "50%" }}
+                        >
+                          A: {card.option.a}
+                        </Typography>
+                        <Typography
+                          variant="subtitle1"
+                          gutterBottom
+                          style={{ width: "50%" }}
+                        >
+                          B: {card.option.b}
+                        </Typography>
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "row" }}>
+                        <Typography
+                          variant="subtitle1"
+                          gutterBottom
+                          style={{ width: "50%" }}
+                        >
+                          C: {card.option.c}
+                        </Typography>
+                        <Typography
+                          variant="subtitle1"
+                          gutterBottom
+                          style={{ width: "50%" }}
+                        >
+                          D: {card.option.d}
+                        </Typography>
+                      </div>
+                      <Typography variant="subtitle1" gutterBottom fullWidth>
+                        Correct Answer: {card.answer.toUpperCase()}
+                      </Typography>
+                    </CardContent>{" "}
+                  </Card>
+                  <Dialog
+              open={props.openAlert}
+            //   onClose={this.handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">{ "Are you sure you want to delete ?"}</DialogTitle>
+            
+              <DialogActions>
+                <Button onClick={props.deletedCancel} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={() => props.deletedConfirm(card)} color="primary" autoFocus>
+                {props.dltbtnLoading ?  "Deleting" : "Continue" }
+                </Button>
+              </DialogActions>
+            </Dialog>
+                </li>
+              );
+            })}
+          </ol>
+      
+          )
+          : (
+            <div style={{marginTop:"200px",fontSize:"28px",marginLeft:"150px"}}>You don't have any Questions available</div>
+          )
+        }
 
-      <ol type="1" style={{ fontSize: "20px" }}>
-        {props.props.map(card => {
-          return (
-            <li>
-              <Card style={{ margin: "12px 12px 12px" }}>
-                <CardContent>
-                  <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <Typography variant="h6" gutterBottom fullWidth>
-                      {card.questionstring}
-                    </Typography>
-                    <div style={{ display: 'flex' }}>
-                      <IconButton
-                        aria-label="Edit"
-                        onClick={() => props.clicked(card)}
-                      >
-                        <EditIcon fontSize="small" />
-                      </IconButton>
-                      <IconButton
-                        aria-label="Delete"
-                        color="action"
-                        onClick={() => props.deleted(card)}
-                      >
-                        <DeleteIcon
-                          fontSize="small"
-                          color="action"
-                          onClick={() => props.deleted(card)}
-                        />
-                      </IconButton>
-                    </div>
-                  </div>
-                  {
-                    card.image 
-                    ? (
-                      <div style={{ padding: '12px', maxWidth: '100%' }}> <img src={card.image} style={{ borderRadius: '6px' }} /> </div>
-                    ) : ''
-                  }
-                  <div style={{ display: "flex", flexDirection: "row" }}>
-                    <Typography
-                      variant="subtitle1"
-                      gutterBottom
-                      style={{ width: "50%" }}
-                    >
-                      A: {card.option.a}
-                    </Typography>
-                    <Typography
-                      variant="subtitle1"
-                      gutterBottom
-                      style={{ width: "50%" }}
-                    >
-                      B: {card.option.b}
-                    </Typography>
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "row" }}>
-                    <Typography
-                      variant="subtitle1"
-                      gutterBottom
-                      style={{ width: "50%" }}
-                    >
-                      C: {card.option.c}
-                    </Typography>
-                    <Typography
-                      variant="subtitle1"
-                      gutterBottom
-                      style={{ width: "50%" }}
-                    >
-                      D: {card.option.d}
-                    </Typography>
-                  </div>
-                  <Typography variant="subtitle1" gutterBottom fullWidth>
-                    Correct Answer: {card.answer.toUpperCase()}
-                  </Typography>
-                </CardContent>{" "}
-              </Card>
-            </li>
-          );
-        })}
-      </ol>
+       
     </div>
   );
 };

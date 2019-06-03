@@ -21,7 +21,10 @@ import { withStyles } from "@material-ui/core/styles";
 import CardActionArea from '@material-ui/core/CardActionArea';
 import MaterialImage from '../images/material.jpg';
 import { Divider } from "@material-ui/core";
+import QuizImage from "../images/quiz.jpg";
+import ResultImage from '../images/result.jpeg';
 
+import FeedbackImage from '../images/feedback.jpg';
 import axios from "axios";
 
 const styles = {
@@ -58,7 +61,7 @@ class StudentDashboard extends Component {
       .get(`http://157.230.174.240:3006/api/v1/user/getuserbytoken`, headers)
       .then(response => {
         console.log("response", response);
-        this.setState({ level: response.data.data.clearedlevel });
+        this.setState({ level: response.data.data.clearedlevel,feedback:response.data.data.feedback });
         console.log("getch state data", this.state.level);
       })
       .catch(error => {
@@ -151,24 +154,124 @@ class StudentDashboard extends Component {
                 </CardActionArea>
                 <Divider />
                 <CardActions>
-                <a target="_blank" href={"http://www.legislation.vic.gov.au/domino/Web_Notes/LDMS/LTObject_Store/ltobjst10.nsf/DDE300B846EED9C7CA257616000A3571/1AEF94CB51024A3ACA2582250073051A/$FILE/17-41sra002%20authorised.pdf"} style={{ textDecoration: 'unset' }}>
+                <a target="_blank" href={""} style={{ textDecoration: 'unset' }}>
                   <Button size="small" color="primary" >
                       Download
                   </Button>
                 </a>
                 </CardActions>
+                </Card>
+                <Card className={classes.card} style={{ width: '370px', margin: '12px 0 0 20px' }}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={QuizImage}
+                    title="Contemplative Reptile"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Quiz
+                    </Typography>
+                    <Typography component="p">
+                      Lets try Quiz and Complete the test <br/>
+                      It's important to passes all level.
+                    </Typography>
+                    
+                  </CardContent>
+                </CardActionArea>
+                <Divider />
+                <CardActions>
+                  {this.state.level === 3 ? (
+                    <Typography component="p">
+                    You have cleared all levels
+                  </Typography>
+               ) :  (
+                <Link to="/quiz" style={{ textDecoration: 'unset' }}>
+                <Button size="small" color="primary" >
+            
+                Take Quiz Level: {this.state.level + 1}
+                </Button>
+                </Link>
+                  )}
+
+                </CardActions>
+                
+              </Card>
+              <Card className={classes.card} style={{ width: '370px', margin: '12px 0 ' }}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={ResultImage}
+                    title="Contemplative Reptile"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                     Result
+                    </Typography>
+                    <Typography component="p">
+                     Your result is show your level 
+                     and week part of your 
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <Divider />
+                <CardContent>
+                   
+                    <Typography component="h6">
+                    {this.state.level === 2 ? `You have cleared all levels.`:  `You've cleared level: ${this.state.level}` }
+                    </Typography>
+                  </CardContent>
+                {/* <CardActions>
+                <a target="_blank" href={""} style={{ textDecoration: 'unset' }}>
+                  <Button size="small" color="primary" >
+                      See Result 
+                  </Button>
+                </a>
+                </CardActions> */}
+                
+              </Card>
+              <Card className={classes.card} style={{ width: '370px', margin: '12px 0 0 20px' }}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={FeedbackImage}
+                    title="Contemplative Reptile"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Feedback
+                    </Typography>
+                    <Typography component="p">
+                     Feedback is useful to improving and be efficient
+                     in the test.
+                    </Typography>
+                    <Divider />
+                    {this.state.feedback ? "You don't have  any feedback." : `Your feedback is:${this.state.feedback}`}
+                  </CardContent>
+                </CardActionArea>
+                
+                
+                {/* <CardActions>
+                <a target="_blank" href={""} style={{ textDecoration: 'unset' }}>
+                  <Button size="small" color="primary" >
+                     See Your Feedback
+                  </Button>
+                </a>
+                </CardActions> */}
+                
               </Card>
 
-              {cards.map((card, i) => (
+              {/* {cards.map((card, i) => (
                 <Grid item key={i} xs={12} sm={6} md={4}>
-                  {/* className={classes.card} */}
+                  {/* className={classes.card} 
                   <Card>
-                    {/* className={classes.cardMedia} */}
+                
                     <CardMedia
-                      image="https://source.unsplash.com/book"
+                        className={classes.media}
+                        image={Quizimage}
                       title="Image title"
                     />
-                    {/* className={classes.cardContent} */}
+              
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="h2">
                         {card.title}
@@ -184,16 +287,17 @@ class StudentDashboard extends Component {
                         ) : null}{" "}
                       </Typography>
                     </CardContent>
+                    <Divider />
                     <CardActions>
                       <Link to={`${card.pathname}`}>
                         <Button size="small" color="primary">
-                          View
+                          view
                         </Button>
                       </Link>
                     </CardActions>
                   </Card>
                 </Grid>
-              ))}
+              ))} */}
             </Grid>
           </Container>
         </main>

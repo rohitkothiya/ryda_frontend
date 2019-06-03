@@ -90,7 +90,7 @@ class Adminsidebar extends React.Component {
   state = {
     name: "",
     email: "",
-    qualification: "Btech",
+    qualification: "B.TECH",
     age: "",
     mobileOpen: false,
     backtoDash: false,
@@ -286,6 +286,7 @@ class Adminsidebar extends React.Component {
               aria-labelledby="form-dialog-title"
               maxWidth="md"
             >
+                <form onSubmit={this.handelSaveProfile}>
               <DialogTitle> Profile </DialogTitle>
               <Divider />
               <DialogContent>
@@ -300,6 +301,7 @@ class Adminsidebar extends React.Component {
                   onChange={this.handleChangeInput}
                   value={name}
                   variant="outlined"
+                  required
                 />
                 <TextField
                   margin="dense"
@@ -312,6 +314,7 @@ class Adminsidebar extends React.Component {
                   onChange={this.handleChangeInput}
                   value={email}
                   variant="outlined"
+                  disabled
                 />
                 <TextField
                   margin="dense"
@@ -324,6 +327,7 @@ class Adminsidebar extends React.Component {
                   onChange={this.handleChangeInput}
                   value={age}
                   variant="outlined"
+                  required
                 />
 
                 <div>
@@ -344,7 +348,7 @@ class Adminsidebar extends React.Component {
                     style={{ minWidth: "120px" }}
                     variant="outlined"
                   >
-                    {["Btech", "MBA", "BA"].map(level => (
+                    {["B.TECH", "B.E", "M.B.A","B.A"].map(level => (
                       <option key={level} value={level}>
                         {level}
                       </option>
@@ -358,12 +362,15 @@ class Adminsidebar extends React.Component {
                 </Button>
                 <Button
                   variant="contained"
-                  onClick={this.handelSaveProfile}
+                  // onClick={this.handelSaveProfile}
+                  type="submit"
                   color="primary"
+                  style ={{backgroundColor:"#3f98b5"}}
                 >
                   {this.state.btnLoading ? "Saving" : "Save"}
                 </Button>
               </DialogActions>
+              </form>
             </Dialog>
           </Toolbar>
         </AppBar>

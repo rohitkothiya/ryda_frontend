@@ -167,6 +167,7 @@ class SignIn extends Component {
               fullWidth
               className={classes.submit}
               onClick={this.handleResetPassword}
+              style ={{backgroundColor:"#3f98b5"}}
             >
               Reset
             </Button>
