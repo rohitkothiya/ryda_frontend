@@ -86,7 +86,8 @@ class Adminnews extends Component {
     lastDate: "",
     allNews: [],
     isEditMode: false,
-    id: ""
+    id: "",
+    btnLoading:false
   };
 
   fetchNews = (headers) => {
@@ -133,12 +134,13 @@ class Adminnews extends Component {
       questionstring: "",
       link: "",
       lastDate: "",
-      isEditMode: false
+      isEditMode: false,
+      
      });
   };
   handleAddNews = () => {
     event.preventDefault();
-    this.setState({ isNewsModel: false });
+    this.setState({ isNewsModel: false,btnLoading:true });
     let data = localStorage.getItem("usertoken");
 
     let headers = {
@@ -157,9 +159,11 @@ class Adminnews extends Component {
       .then(response => {
         console.log("response", response);
         console.log("response data data", response.data.data);
+        this.setState({dltbtnLoading:false});
         this.fetchNews(headers);
       })
       .catch(error => {
+        this.setState({btnLoading:false})
         console.log(error);
       });
   };
@@ -180,7 +184,7 @@ class Adminnews extends Component {
   };
 
   handleSaveChanges = () => {
-    this.setState({ isNewsModel: false });
+    this.setState({ isNewsModel: false,btnLoading:true });
     console.log(this.state);
     let body = {
       newsstring: this.state.questionstring,
@@ -207,6 +211,7 @@ class Adminnews extends Component {
         this.fetchNews(headers);
       })
       .catch(error => {
+        this.setState({btnLoading:false})
         console.log("error", error);
       });
   };
@@ -306,7 +311,7 @@ class Adminnews extends Component {
                   color="primary"
                   style ={{backgroundColor:"#3f98b5"}}
                 >
-                  Save
+                {this.state.btnLoading ? "Saving" : "Save" } 
                 </Button>
               ) : (
                 <Button
@@ -315,7 +320,7 @@ class Adminnews extends Component {
                   color="primary"
                   style ={{backgroundColor:"#3f98b5"}}
                 >
-                  Add
+               {this.state.btnLoading ? "Adding" : "Add" } 
                 </Button>
               )}
             </DialogActions>

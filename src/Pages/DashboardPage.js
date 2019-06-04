@@ -22,6 +22,12 @@ import SurveyImage from '../images/survey.jpg';
 import MaterialImage from '../images/material.jpg';
 import NewsImage from '../images/news.jpg';
 import { Divider } from "@material-ui/core";
+import Newsticker from 'react-newsticker';
+const news = [
+  'Hello World!',
+  'Nice to meet you.',
+  'Happy hour :)'
+];
 
 const styles = {
   root: {
@@ -41,7 +47,8 @@ const styles = {
 
 class Dashboard extends Component {
   state = {
-    showSurveyForm: false
+    showSurveyForm: false,
+    allNews:[]
   };
 
   handleSurveyform = () => {
@@ -55,6 +62,8 @@ class Dashboard extends Component {
       .then(response => {
         console.log("response", response);
         console.log("response data data", response.data.data);
+        this.setState({allNews:[...this.state.allNews,...response.data.data]});
+        console.log("Fetching News",this.state.allNews)
       })
       .catch(error => {
         console.log(error);
@@ -63,6 +72,10 @@ class Dashboard extends Component {
 
   render() {
     const { classes } = this.props;
+
+
+    const newsObj = this.state.allNews.map(item => item);
+    console.log("object news ",newsObj)
     return (
       <div className={classes.root}>
         <AppBar position="fixed" className={classes.appBar}>
@@ -115,13 +128,14 @@ class Dashboard extends Component {
                   title="Contemplative Reptile"
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
+                   <Newsticker news={news} />
+                  {/* <Typography gutterBottom variant="h5" component="h2">
                     News
                   </Typography>
                   <Typography component="p">
                     Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
                     across all continents except Antarctica
-                  </Typography>
+                  </Typography> */}
                 </CardContent>
               </CardActionArea>
               <Divider />

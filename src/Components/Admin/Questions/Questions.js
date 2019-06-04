@@ -46,7 +46,7 @@ const Cardquestion = props => {
                       <div
                         style={{ display: "flex", justifyContent: "space-between" }}
                       >
-                        <Typography variant="h6" gutterBottom fullWidth>
+                        <Typography variant="h6"   align="left" fullWidth>
                           {card.questionstring}
                         </Typography>
                         <div style={{ display: 'flex' }}>
@@ -75,41 +75,45 @@ const Cardquestion = props => {
                           <div style={{ padding: '12px', maxWidth: '100%' }}> <img src={card.image} style={{ borderRadius: '6px' }} /> </div>
                         ) : ''
                       }
-                      <div style={{ display: "flex", flexDirection: "row" }}>
+                      <div style={{ display: "flex", flexDirection: "column",alignItems:"flex-start" }}> 
                         <Typography
                           variant="subtitle1"
-                          gutterBottom
-                          style={{ width: "50%" }}
+                          align="left"
+                          // style={{ width: "50%" }}
                         >
                           A: {card.option.a}
                         </Typography>
                         <Typography
                           variant="subtitle1"
-                          gutterBottom
-                          style={{ width: "50%" }}
+                          align="left"
+                          // gutterBottom
+                          // style={{ width: "50%" }}
                         >
                           B: {card.option.b}
                         </Typography>
-                      </div>
-                      <div style={{ display: "flex", flexDirection: "row" }}>
+                     
+                    
                         <Typography
                           variant="subtitle1"
-                          gutterBottom
-                          style={{ width: "50%" }}
+                          align="left"
+                          // gutterBottom
+                          // style={{ width: "50%" }}
                         >
                           C: {card.option.c}
                         </Typography>
                         <Typography
                           variant="subtitle1"
-                          gutterBottom
-                          style={{ width: "50%" }}
+                          align="left"
+                          // gutterBottom
+                          // style={{ width: "50%" }}
                         >
                           D: {card.option.d}
                         </Typography>
-                      </div>
-                      <Typography variant="subtitle1" gutterBottom fullWidth>
+                     
+                      <Typography variant="subtitle1"   align="left"  fullWidth>
                         Correct Answer: {card.answer.toUpperCase()}
                       </Typography>
+                      </div>
                     </CardContent>{" "}
                   </Card>
                   <Dialog
