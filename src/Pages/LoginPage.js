@@ -69,8 +69,9 @@ class SignIn extends Component {
   }
 
   handleLogin = () => {
-    this.setState({ btnLoading: true });
     event.preventDefault();
+    this.setState({ btnLoading: true });
+    
 
     let body = {
       email: this.state.email,
@@ -130,7 +131,7 @@ class SignIn extends Component {
           <Typography component="h1" variant="h5">
             Login
           </Typography>
-          <form className={classes.form}>
+          <form className={classes.form} onSubmit={this.handleLogin}>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email</InputLabel>
               <Input
@@ -184,7 +185,7 @@ class SignIn extends Component {
                style ={{backgroundColor:"#3f98b5"}}
               fullWidth
               className={classes.submit}
-              onClick={this.handleLogin}
+              // onClick={this.handleLogin}
             >
               {btnLoading ? "Loading" : "Login"}
             </Button>

@@ -93,8 +93,9 @@ class Register extends Component {
   };
  
   handleRegister = () => {
-    this.setState({loading:true})
     event.preventDefault();
+    this.setState({loading:true})
+    
     console.log("Register clicked");
 
     let body = {

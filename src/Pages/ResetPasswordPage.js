@@ -112,13 +112,13 @@ class SignIn extends Component {
       <main className={classes.main}>
         <CssBaseline />
         <Paper className={classes.paper}>
-          <Avatar className={classes.avatar}>
+          {/* <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
-          </Avatar>
+          </Avatar> */}
           <Typography component="h1" variant="h5">
             Reset Password
           </Typography>
-          <form className={classes.form}>
+          <form className={classes.form} onSubmit={this.handleResetPassword}>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email"> Enter Email</InputLabel>
               <Input
@@ -128,6 +128,7 @@ class SignIn extends Component {
                 autoFocus
                 onChange={this.handleChangeInputText}
                 variant="outlined"
+                required
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
@@ -139,6 +140,7 @@ class SignIn extends Component {
                 type="password"
                 onChange={this.handleChangeInputText}
                 variant="outlined"
+                required
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
@@ -154,6 +156,7 @@ class SignIn extends Component {
                 type="password"
                 onChange={this.handleChangeInputText}
                 variant="outlined"
+                required
               />
             </FormControl>
             {this.state.confirmPassword === this.state.password ? null : (
@@ -166,7 +169,7 @@ class SignIn extends Component {
               color="primary"
               fullWidth
               className={classes.submit}
-              onClick={this.handleResetPassword}
+              // onClick={this.handleResetPassword}
               style ={{backgroundColor:"#3f98b5"}}
             >
               Reset
