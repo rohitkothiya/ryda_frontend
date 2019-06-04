@@ -133,7 +133,7 @@ class Dashboard extends Component {
                   </Typography>
                    <Newsticker style={{backgroundColor: 'red' }} news={this.state.allNews.map(news =>  {
                      return (
-                       <div style={{color:"black",display:"flex",flexDirection:"column",fontSize:"16px",backgroundColor:"#3f98b5",padding:"10px 5px 5px 10px"}}><span >{news.newsstring} </span><br/><span >{news.link} </span> <br/><span >{news.lastdate} </span> </div>
+                       <div style={{color:"white",display:"flex",flexDirection:"column",fontSize:"16px",backgroundColor:"#3f98b5",padding:"10px 5px 5px 10px"}}><span >{news.newsstring} </span><br/><a target="_blank" href={news.link}>{news.link} </a> <br/> </div>
                      )
                    })} />
                    

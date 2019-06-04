@@ -170,7 +170,7 @@ class Adminquiz extends Component {
       optionB: "",
       optionC: "",
       optionD: "",
-      answer: undefined,
+      answer: "a",
       isEditMode: false,
       loading: false,
       btnLoading: false,

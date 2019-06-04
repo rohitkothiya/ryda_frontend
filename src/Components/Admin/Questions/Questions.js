@@ -111,7 +111,7 @@ const Cardquestion = props => {
                         </Typography>
                      
                       <Typography variant="subtitle1"   align="left"  fullWidth>
-                        Correct Answer: {card.answer.toUpperCase()}
+                        Correct Answer: { card.answer && card.answer.toUpperCase()}
                       </Typography>
                       </div>
                     </CardContent>{" "}
