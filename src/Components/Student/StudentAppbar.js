@@ -405,7 +405,7 @@ class Adminsidebar extends React.Component {
               maxWidth="md"
             >
                 <form onSubmit={this.handleResetPassword}>
-              <DialogTitle> Change ChangepassWord </DialogTitle>
+              <DialogTitle> Change Password </DialogTitle>
               <Divider />
               <DialogContent>
                 {/* <TextField

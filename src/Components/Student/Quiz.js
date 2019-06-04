@@ -96,7 +96,7 @@ class Userquiz extends Component {
 
   handleRadioButton = questionId => event => {
     this.setState({
-      quizAnswers: Object.assign(this.state.quizAnswers, { [questionId]: event.target.value })
+      quizAnswers: Object.assign(this.state.quizAnswers, { [questionId]: event.target.value.toUpperCase() })
     });
   };
 
