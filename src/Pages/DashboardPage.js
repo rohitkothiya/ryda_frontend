@@ -23,10 +23,11 @@ import MaterialImage from '../images/material.jpg';
 import NewsImage from '../images/news.jpg';
 import { Divider } from "@material-ui/core";
 import Newsticker from 'react-newsticker';
+import Ticker from 'react-ticker'
 const news = [
-  'Hello World!',
-  'Nice to meet you.',
-  'Happy hour :)'
+ { id:"hello how r i"},
+ { id:"hello how rsdsdsdsdsds i"},
+ { id:"hello how rdsdsdsdsdsdsdsdsdsds i"}
 ];
 
 const styles = {
@@ -72,8 +73,8 @@ class Dashboard extends Component {
 
   render() {
     const { classes } = this.props;
-
-
+     console.log("state news",this.state.allNews)
+   {this.state.allNews.map(itm => console.log(itm.link))}
     const newsObj = this.state.allNews.map(item => item);
     console.log("object news ",newsObj)
     return (
@@ -128,7 +129,11 @@ class Dashboard extends Component {
                   title="Contemplative Reptile"
                 />
                 <CardContent>
-                   <Newsticker news={news} />
+                   <Newsticker news={this.state.allNews.map(news =>  {
+                     return (
+                       <div style={{color:"black",display:"flex",flexDirection:"column"}}><span >{news.newsstring} </span><br/><span >{news.link} </span> <br/><span >{news.lastdate} </span> </div>
+                     )
+                   })} />
                   {/* <Typography gutterBottom variant="h5" component="h2">
                     News
                   </Typography>
@@ -139,11 +144,11 @@ class Dashboard extends Component {
                 </CardContent>
               </CardActionArea>
               <Divider />
-              <CardActions>
+              {/* <CardActions>
                 <Button size="small" color="primary">
                   View More
                 </Button>
-              </CardActions>
+              </CardActions> */}
             </Card>
             <Card className={classes.card} style={{ width: '370px', margin: '12px 0' }}>
             <CardActionArea>
