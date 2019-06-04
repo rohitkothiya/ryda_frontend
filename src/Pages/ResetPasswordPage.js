@@ -66,20 +66,21 @@ class SignIn extends Component {
   handleResetPassword = () => {
     event.preventDefault();
 
-    if (this.state.password === this.state.confirmPassword) {
+    // if (this.state.password === this.state.confirmPassword) {
       this.setState({ errorPassword: false });
       let body = {
         email: this.state.email,
-        password: this.state.confirmPassword
       };
-
+  console.log("body",body)
       axios
-        .post(`http://157.230.174.240:3006/api/v1/user/resetpassword`, body)
+        .post(`http://157.230.174.240:3006/api/v1/user/forgotpassword`, body)
         .then(response => {
           console.log("response", response);
-
-          if (response.data.data._id) {
-            alert("Password reset Succesfully");
+          console.log("response", response.data.data);
+     
+          
+          if (response.data.flag == true) {
+            alert("Check your email. New password is sent to your email id");
             this.setState({ backToLogin: true });
           } else {
             alert("Please enter valid Email Id");
@@ -89,9 +90,8 @@ class SignIn extends Component {
         .catch(error => {
           console.log(error);
         });
-    } else {
-      this.setState({ errorPassword: true });
-    }
+    // }
+   
   };
   handleChangeInputText = () => {
     console.log(event.target.name);
@@ -122,6 +122,7 @@ class SignIn extends Component {
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email"> Enter Email</InputLabel>
               <Input
+              type="email"
                 id="email"
                 name="email"
                 autoComplete="email"
@@ -131,7 +132,7 @@ class SignIn extends Component {
                 required
               />
             </FormControl>
-            <FormControl margin="normal" required fullWidth>
+            {/* <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="password">Enter Password</InputLabel>
               <Input
                 id="password"
@@ -161,7 +162,7 @@ class SignIn extends Component {
             </FormControl>
             {this.state.confirmPassword === this.state.password ? null : (
               <div style={{ color: "red" }}>Password does not Matched</div>
-            )}
+            )} */}
             <Button
               type="submit"
               style={{ marginRight: "25px" }}

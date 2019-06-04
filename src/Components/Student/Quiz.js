@@ -69,27 +69,29 @@ class Userquiz extends Component {
       console.log("response", response);
       this.setState({ level: response.data.data.clearedlevel + 1});
       console.log("getch state data", this.state.level);
+
+      let body = {
+        level: this.state.level
+      };
+     console.log("body",body)
+      axios
+        .post(`http://157.230.174.240:3006/api/v1/question/getall`, body, headers)
+        .then(response => {
+          this.setState({
+            questions: [...this.state.questions, ...response.data.data],
+            loading: false
+          });
+        })
+        .catch(error => {
+          this.setState({ loading: false });
+          console.log(error);
+        });
     })
     .catch(error => {
       console.log(error);
     });
 
-    let body = {
-      level: this.state.level
-    };
-
-    axios
-      .post(`http://157.230.174.240:3006/api/v1/question/getall`, body, headers)
-      .then(response => {
-        this.setState({
-          questions: [...this.state.questions, ...response.data.data],
-          loading: false
-        });
-      })
-      .catch(error => {
-        this.setState({ loading: false });
-        console.log(error);
-      });
+  
   }
 
   handleRadioButton = questionId => event => {
@@ -162,8 +164,7 @@ class Userquiz extends Component {
         </div>
         <Divider />
         {
-          loading 
-          ?  (
+          loading ?(
               <div
                 style={{
                   display: "flex",
@@ -173,9 +174,7 @@ class Userquiz extends Component {
               >
                 <CircularProgress className={classes.progress} />
               </div>
-          ) 
-          : this.state.questions.length > 0 
-            ? (  
+          ) : "" } 
               <ol type="1" style={{ fontSize: "20px" }}>
                 {this.state.questions.map((qns, i) => {
                   return (
@@ -236,9 +235,7 @@ class Userquiz extends Component {
                   total={total}
                 />
               </ol> 
-              ) : (
-                <div style={{marginTop:"200px",fontSize:"28px",marginLeft:"200px"}}>You don't have any Questions available</div>
-              )}
+            
       </div>
     );
   }

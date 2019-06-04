@@ -115,7 +115,7 @@ class SignIn extends Component {
 
   render() {
     if (this.state.backtoAdmin) {
-      return <Redirect to="/admin/addquiz" />;
+      return <Redirect to="/admin/dashboard" />;
     }
 
     if (this.state.backtoDashboard) {

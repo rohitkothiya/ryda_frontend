@@ -23,7 +23,6 @@ import MaterialImage from '../images/material.jpg';
 import NewsImage from '../images/news.jpg';
 import { Divider } from "@material-ui/core";
 import Newsticker from 'react-newsticker';
-import Ticker from 'react-ticker'
 const news = [
  { id:"hello how r i"},
  { id:"hello how rsdsdsdsdsds i"},
@@ -96,7 +95,7 @@ class Dashboard extends Component {
               Surveyform
             </Button> */}
 
-            <Link to={{ pathname: "/login" }} style={{ textDecoration: 'unset' }}>
+            <Link to={{ pathname: "/login" }} style={{ textDecoration: 'unset'}} >
               <Button tag={Link} color="Primary">
                 <span style={{ color: 'white' }} > Login </span>
               </Button>
@@ -129,14 +128,16 @@ class Dashboard extends Component {
                   title="Contemplative Reptile"
                 />
                 <CardContent>
-                   <Newsticker news={this.state.allNews.map(news =>  {
-                     return (
-                       <div style={{color:"black",display:"flex",flexDirection:"column"}}><span >{news.newsstring} </span><br/><span >{news.link} </span> <br/><span >{news.lastdate} </span> </div>
-                     )
-                   })} />
-                  {/* <Typography gutterBottom variant="h5" component="h2">
+                <Typography gutterBottom variant="h5" component="h2">
                     News
                   </Typography>
+                   <Newsticker style={{backgroundColor: 'red' }} news={this.state.allNews.map(news =>  {
+                     return (
+                       <div style={{color:"black",display:"flex",flexDirection:"column",fontSize:"16px",backgroundColor:"#3f98b5",padding:"10px 5px 5px 10px"}}><span >{news.newsstring} </span><br/><span >{news.link} </span> <br/><span >{news.lastdate} </span> </div>
+                     )
+                   })} />
+                   
+                  {/*
                   <Typography component="p">
                     Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
                     across all continents except Antarctica
@@ -147,7 +148,7 @@ class Dashboard extends Component {
               {/* <CardActions>
                 <Button size="small" color="primary">
                   View More
-                </Button>
+                </Button>'
               </CardActions> */}
             </Card>
             <Card className={classes.card} style={{ width: '370px', margin: '12px 0' }}>

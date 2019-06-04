@@ -1,8 +1,11 @@
-import React, { Component } from "react";
+import React, {  Component } from "react";
+import { Paper } from "@material-ui/core/";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Adminsidebar from "./AdminSidebar";
+import FNSUtils from '@date-io/date-fns';
+import {  MuiPickersUtilsProvider, Calendar } from "material-ui-pickers";
 
 const drawerWidth = 240;
 
@@ -29,16 +32,34 @@ const styles = theme => ({
   }
 });
 
+
+
 class Admindash extends Component {
+
+  handleChange() {
+    console.log("adsfadsf");
+  }
+
+
   render() {
-    const { classes } = this.props;
+
 
     return (
-      <div className={classes.root}>
+      <div>
         <CssBaseline />
         <Adminsidebar />
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
+        <main >
+          <div />
+
+          <MuiPickersUtilsProvider utils={FNSUtils}>
+          <div className="picker" style={{display:"flex",justifyContent:"center",alignItems:"center",marginTop:"130px"}}>
+                {/* <div className="picker" style={{width:"300px",marginTop:"131px",marginLeft:"320px"}}> */}
+                  <Paper style={{ overflow: "hidden" }}>
+                    <Calendar date={new Date()} onChange={this.handleChange} />
+                  </Paper>
+                </div>
+        </MuiPickersUtilsProvider>
+
         </main>
       </div>
     );

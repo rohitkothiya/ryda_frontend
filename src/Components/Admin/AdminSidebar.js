@@ -35,6 +35,10 @@ import { DialogTitle } from "@material-ui/core";
 
 const Slidebar = [
   {
+    name:"Dashboard",
+    path:"/admin/dashboard"
+  },
+  {
     name: "Quiz",
     path: "/admin/addquiz"
   },
