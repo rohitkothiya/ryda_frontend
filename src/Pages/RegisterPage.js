@@ -121,7 +121,9 @@ class Register extends Component {
         console.log(response.data.flag, response.data.flag === true);
         if(!Boolean(response.data.data.token))
         {
+          this.setState({loading:false})
            alert("Email id is already exist please enter valid email Id")
+          
         }
         if (response.data.flag === true) {
           this.setState({ backtoDashboard: true ,loading:false});
