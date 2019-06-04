@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 // import PropTypes from 'prop-types';
-import Avatar from "@material-ui/core/Avatar";
+
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import FormControl from "@material-ui/core/FormControl";
 
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
-import Typography from "@material-ui/core/Typography";
+
+
 import withStyles from "@material-ui/core/styles/withStyles";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -17,7 +17,7 @@ import Dialog from '@material-ui/core/Dialog';
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
+
 import DialogTitle from '@material-ui/core/DialogTitle'
 import FormLabel from "@material-ui/core/FormLabel";
 
@@ -320,7 +320,7 @@ class Register extends Component {
           <Button onClick={this.props.closed} color="primary">
             Cancel
           </Button>
-          <Button  type="submit"  variant="contained" color="primary"  style ={{backgroundColor:"#3f98b5"}}  >
+          <Button  type="submit"  variant="contained" color="primary"  style={{backgroundColor:"#3f98b5"}}  >
             Submit
           </Button>
         </DialogActions>

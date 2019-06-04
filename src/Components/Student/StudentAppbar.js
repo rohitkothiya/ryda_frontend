@@ -20,6 +20,10 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import Button from "@material-ui/core/Button";
+import FormControl from "@material-ui/core/FormControl";
+
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
 
 import logo from '../../images/logo1.jpg';
 
@@ -71,7 +75,11 @@ class Adminsidebar extends React.Component {
     mobileOpen: false,
     backtoDash: false,
     isAccountMenu: false,
-    isProfileShow: false
+    isProfileShow: false,
+    isChangePasswordShow:false,
+    password:"",
+    confirmPassword:"",
+    btnLoading:false
   };
 
   componentDidMount() {
@@ -156,6 +164,8 @@ class Adminsidebar extends React.Component {
   };
 
   handelSaveProfile = () => {
+    event.preventDefault();
+    this.setState({btnLoading:true})
     let body = {
       name: this.state.name,
       email: this.state.email,
@@ -179,11 +189,51 @@ class Adminsidebar extends React.Component {
       )
       .then(response => {
         console.log("response", response);
-        this.setState({ isProfileShow: false, isAccountMenu: false });
+        this.setState({ isProfileShow: false, isAccountMenu: false,btnLoading:false });
       })
+    
       .catch(error => {
+        this.setState({btnLoading:false})
         console.log(error);
       });
+  };
+
+  handleOpenPasswordDailog = () => {
+    this.setState({isChangePasswordShow:true})
+  }
+  handleClosePasswordDailog = () => {
+   this.setState({ isChangePasswordShow: false });
+ };
+
+
+
+  handleResetPassword = () => {
+    event.preventDefault();
+   this.setState({btnLoading:true})
+    if (this.state.password === this.state.confirmPassword) {
+      this.setState({ errorPassword: false });
+      let body = {
+        email: this.state.email,
+        password: this.state.confirmPassword
+      };
+
+      axios
+        .post(`http://157.230.174.240:3006/api/v1/user/resetpassword`, body)
+        .then(response => {
+          console.log("response", response);
+
+          if (response.data.data._id) {
+            // alert("Password reset Succesfully");
+            this.setState({ isChangePasswordShow:false,btnLoading:false,isAccountMenu:false });
+          } 
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      }
+    //  else {
+    //   this.setState({ errorPassword: true });
+    // }
   };
   render() {
     if (this.state.backtoDash) {
@@ -248,6 +298,7 @@ class Adminsidebar extends React.Component {
               onClose={this.handleCloseAccountMenu}
             >
               <MenuItem onClick={this.handelOpenProfile}>Profile</MenuItem>
+              <MenuItem onClick={this.handleOpenPasswordDailog}>Change Password</MenuItem>
               <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
             </Menu>
             <Dialog
@@ -339,8 +390,81 @@ class Adminsidebar extends React.Component {
                   // onClick={this.handelSaveProfile}
                   color="primary"
                   type="submit"
+                 
+                  style={{backgroundColor:"#3f98b5"}}
                 >
-                  Save
+                  {this.state.btnLoading ? "Saving" : "Save"}
+                </Button>
+              </DialogActions>
+              </form>
+            </Dialog>
+            <Dialog
+              open={this.state.isChangePasswordShow}
+              onClose={this.handleClosePasswordDailog}
+              aria-labelledby="form-dialog-title"
+              maxWidth="md"
+            >
+                <form onSubmit={this.handleResetPassword}>
+              <DialogTitle> Change ChangepassWord </DialogTitle>
+              <Divider />
+              <DialogContent>
+                {/* <TextField
+                  margin="dense"
+                  id="password"
+                  label="password"
+                  multiline
+                  type="password"
+                  fullWidth
+                  name="password"
+                  onChange={this.handleChangeInput}
+                  value={this.state.password}
+                  variant="outlined"
+                  required
+                /> */}
+                 <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="password">Enter Password</InputLabel>
+              <Input
+                id="password"
+                name="password"
+                autoComplete="password"
+                type="password"
+                onChange={this.handleChangeInput}
+                variant="outlined"
+              />
+            </FormControl>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="confirm password">
+                {" "}
+                Confirm Password
+              </InputLabel>
+              <Input
+                // error={this.state.password === this.state.confirmPassword}
+                id="confirmpassword"
+                name="confirmPassword"
+                autoComplete="password"
+                type="password"
+                onChange={this.handleChangeInput}
+                variant="outlined"
+              />
+            </FormControl>
+               
+               {this.state.confirmPassword === this.state.password ? null : (
+              <div style={{ color: "red" }}>Password does not Matched</div>
+            )}
+
+              </DialogContent>
+              <DialogActions>
+                <Button color="default" onClick={this.handleClosePasswordDailog}>
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  // onClick={this.handelSaveProfile}
+                  type="submit"
+                  color="primary"
+                  style={{backgroundColor:"#3f98b5"}}
+                >
+                  {this.state.btnLoading ? "Saving" : "Save"}
                 </Button>
               </DialogActions>
               </form>

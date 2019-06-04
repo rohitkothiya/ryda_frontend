@@ -237,7 +237,7 @@ class Userquiz extends Component {
                 />
               </ol> 
               ) : (
-                <div style={{marginTop:"200px",fontSize:"28px",marginLeft:"150px"}}>You don't have any User Data available</div>
+                <div style={{marginTop:"200px",fontSize:"28px",marginLeft:"200px"}}>You don't have any Questions available</div>
               )}
       </div>
     );

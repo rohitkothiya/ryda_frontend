@@ -12,7 +12,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import MailIcon from "@material-ui/icons/Mail";
-import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
@@ -27,6 +26,10 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import Button from "@material-ui/core/Button";
 import logo from '../../images/logo1.jpg';
+import FormControl from "@material-ui/core/FormControl";
+
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
 
 import { DialogTitle } from "@material-ui/core";
 
@@ -96,7 +99,10 @@ class Adminsidebar extends React.Component {
     backtoDash: false,
     isAccountMenu: false,
     isProfileShow: false,
-    btnLoading: false
+    btnLoading: false,
+    isChangePasswordShow:false,
+    password:"",
+    confirmPassword:""
   };
 
   componentDidMount() {
@@ -160,6 +166,13 @@ class Adminsidebar extends React.Component {
         console.log(error);
       });
   };
+ handleOpenPasswordDailog = () => {
+   this.setState({isChangePasswordShow:true})
+ }
+ handleClosePasswordDailog = () => {
+  this.setState({ isChangePasswordShow: false });
+};
+
 
   handleOpenAccountMenu = () => {
     this.setState({ isAccountMenu: true });
@@ -176,12 +189,13 @@ class Adminsidebar extends React.Component {
   handelOpenProfile = () => {
     this.setState({ isProfileShow: true });
   };
-
+  
   handleCloseProfile = () => {
     this.setState({ isProfileShow: false });
   };
 
   handelSaveProfile = () => {
+    event.preventDefault();
     this.setState({ btnLoading: true });
     let body = {
       name: this.state.name,
@@ -216,6 +230,36 @@ class Adminsidebar extends React.Component {
         this.setState({ btnLoading: false });
         console.log(error);
       });
+  };
+
+
+  handleResetPassword = () => {
+    event.preventDefault();
+   this.setState({btnLoading:true})
+    if (this.state.password === this.state.confirmPassword) {
+      this.setState({ errorPassword: false });
+      let body = {
+        email: this.state.email,
+        password: this.state.confirmPassword
+      };
+
+      axios
+        .post(`http://157.230.174.240:3006/api/v1/user/resetpassword`, body)
+        .then(response => {
+          console.log("response", response);
+
+          if (response.data.data._id) {
+            // alert("Password reset Succesfully");
+            this.setState({ isChangePasswordShow:false,btnLoading:false,isAccountMenu:false });
+          } 
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      }
+    //  else {
+    //   this.setState({ errorPassword: true });
+    // }
   };
   render() {
     if (this.state.backtoDash) {
@@ -278,6 +322,7 @@ class Adminsidebar extends React.Component {
               onClose={this.handleCloseAccountMenu}
             >
               <MenuItem onClick={this.handelOpenProfile}>Profile</MenuItem>
+              <MenuItem onClick={this.handleOpenPasswordDailog}>Change Password</MenuItem>
               <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
             </Menu>
             <Dialog
@@ -365,7 +410,78 @@ class Adminsidebar extends React.Component {
                   // onClick={this.handelSaveProfile}
                   type="submit"
                   color="primary"
-                  style ={{backgroundColor:"#3f98b5"}}
+                  style={{backgroundColor:"#3f98b5"}}
+                >
+                  {this.state.btnLoading ? "Saving" : "Save"}
+                </Button>
+              </DialogActions>
+              </form>
+            </Dialog>
+            <Dialog
+              open={this.state.isChangePasswordShow}
+              onClose={this.handleClosePasswordDailog}
+              aria-labelledby="form-dialog-title"
+              maxWidth="md"
+            >
+                <form onSubmit={this.handleResetPassword}>
+              <DialogTitle> Change ChangepassWord </DialogTitle>
+              <Divider />
+              <DialogContent>
+                {/* <TextField
+                  margin="dense"
+                  id="password"
+                  label="password"
+                  multiline
+                  type="password"
+                  fullWidth
+                  name="password"
+                  onChange={this.handleChangeInput}
+                  value={this.state.password}
+                  variant="outlined"
+                  required
+                /> */}
+                 <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="password">Enter Password</InputLabel>
+              <Input
+                id="password"
+                name="password"
+                autoComplete="password"
+                type="password"
+                onChange={this.handleChangeInput}
+                variant="outlined"
+              />
+            </FormControl>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="confirm password">
+                {" "}
+                Confirm Password
+              </InputLabel>
+              <Input
+                // error={this.state.password === this.state.confirmPassword}
+                id="confirmpassword"
+                name="confirmPassword"
+                autoComplete="password"
+                type="password"
+                onChange={this.handleChangeInput}
+                variant="outlined"
+              />
+            </FormControl>
+               
+               {this.state.confirmPassword === this.state.password ? null : (
+              <div style={{ color: "red" }}>Password does not Matched</div>
+            )}
+
+              </DialogContent>
+              <DialogActions>
+                <Button color="default" onClick={this.handleClosePasswordDailog}>
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  // onClick={this.handelSaveProfile}
+                  type="submit"
+                  color="primary"
+                  style={{backgroundColor:"#3f98b5"}}
                 >
                   {this.state.btnLoading ? "Saving" : "Save"}
                 </Button>

@@ -118,7 +118,10 @@ class Register extends Component {
         console.log("token", response.data.data.token);
         localStorage.setItem("usertoken", response.data.data.token);
         console.log(response.data.flag, response.data.flag === true);
-
+        if(!Boolean(response.data.data.token))
+        {
+           alert("Email id is already exist please enter valid email Id")
+        }
         if (response.data.flag === true) {
           this.setState({ backtoDashboard: true ,loading:false});
         }
