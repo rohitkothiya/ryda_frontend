@@ -22,6 +22,7 @@ import Container from "@material-ui/core/Container";
 import axios from "axios";
 import { Divider } from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import moment from 'moment';
 
 const drawerWidth = 240;
 const styles = theme => ({
@@ -138,8 +139,8 @@ class Adminnews extends Component {
       
      });
   };
-  handleAddNews = () => {
-    event.preventDefault();
+  handleAddNews = (e) => {
+    e.preventDefault();
     this.setState({ isNewsModel: false,btnLoading:true });
     let data = localStorage.getItem("usertoken");
 
@@ -183,7 +184,8 @@ class Adminnews extends Component {
     });
   };
 
-  handleSaveChanges = () => {
+  handleSaveChanges = (e) => {
+    e.preventDefault();
     this.setState({ isNewsModel: false,btnLoading:true });
     console.log(this.state);
     let body = {
@@ -359,7 +361,7 @@ class Adminnews extends Component {
                         <a href={card.link} > <Typography>{card.link}</Typography> </a>
                       </Typography>
 
-                      <Typography className={classes.pos} color="textSecondary">{card.lastdate}</Typography>
+                      <Typography className={classes.pos} color="textSecondary">{moment(card.lastdate).format('YYYY/MM/DD')}</Typography>
                       
                     </CardContent>
                     <Divider />

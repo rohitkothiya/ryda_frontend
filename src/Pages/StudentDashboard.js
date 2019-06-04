@@ -56,17 +56,21 @@ class StudentDashboard extends Component {
         Authorization: `bearer ${data}`
       }
     };
+
+    this.setState({ loading: true })
     axios
       .get(`http://157.230.174.240:3006/api/v1/user/getuserbytoken`, headers)
       .then(response => {
         console.log("response", response);
-        this.setState({ level: response.data.data.clearedlevel,feedback:response.data.data.feedback });
+        this.setState({ loading: false, level: response.data.data.clearedlevel,feedback:response.data.data.feedback });
         console.log("getch state data", this.state.level);
       })
       .catch(error => {
         console.log(error);
+        this.setState({ loading: false })
       });
   }
+
 
   handleLogout = () => {
     let data = localStorage.getItem("usertoken");
@@ -188,7 +192,7 @@ class StudentDashboard extends Component {
                 <Link to="/quiz" style={{ textDecoration: 'unset' }}>
                 <Button size="small" color="primary" >
             
-                Take Quiz Level: {this.state.level + 1}
+                Take Quiz Level: { this.state.loading ? '...' : this.state.level + 1}
                 </Button>
                 </Link>
                   )}

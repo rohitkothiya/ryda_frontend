@@ -104,6 +104,9 @@ class Adminsurvey extends Component {
   render() {
     const { classes } = this.props;
     const { loading } = this.state;
+
+    console.log(this.state.surveyerData, "surveyerData")
+
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -149,7 +152,7 @@ class Adminsurvey extends Component {
             {/* End hero unit */}
             <Grid container spacing={4}>
 
-              { this.state.surveyerData >= 1 ? (
+              { this.state.surveyerData.length >= 1 ? (
                 this.state.surveyerData.map((survey, index) => (
                 <Grid item xs={12} sm={6} md={4}>
                   <Card className={classes.card}>

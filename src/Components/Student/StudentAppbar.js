@@ -209,7 +209,7 @@ class Adminsidebar extends React.Component {
 
   handleResetPassword = () => {
     event.preventDefault();
-   this.setState({btnLoading:true})
+   
     if (this.state.password === this.state.confirmPassword) {
       this.setState({ errorPassword: false });
       let body = {
@@ -217,18 +217,26 @@ class Adminsidebar extends React.Component {
         password: this.state.confirmPassword
       };
 
+      let headers = {
+        headers: {
+          Authorization: `bearer ${localStorage.getItem("usertoken")}`
+        }
+      };
+      
+      this.setState({btnLoading:true})
       axios
-        .post(`http://157.230.174.240:3006/api/v1/user/resetpassword`, body)
+        .post(`http://157.230.174.240:3006/api/v1/user/resetpassword`, body, headers)
         .then(response => {
           console.log("response", response);
 
-          if (response.data.data._id) {
-            // alert("Password reset Succesfully");
+          if (response.data.flag) {
+            alert("Password updated Succesfully");
             this.setState({ isChangePasswordShow:false,btnLoading:false,isAccountMenu:false });
           } 
         })
         .catch(error => {
           console.log(error);
+          this.setState({btnLoading:false})
         });
       }
     //  else {

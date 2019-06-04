@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 // import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -73,7 +73,6 @@ class Dashboard extends Component {
   render() {
     const { classes } = this.props;
      console.log("state news",this.state.allNews)
-   {this.state.allNews.map(itm => console.log(itm.link))}
     const newsObj = this.state.allNews.map(item => item);
     console.log("object news ",newsObj)
     return (
@@ -133,7 +132,21 @@ class Dashboard extends Component {
                   </Typography>
                    <Newsticker style={{backgroundColor: 'red' }} news={this.state.allNews.map(news =>  {
                      return (
-                       <div style={{color:"white",display:"flex",flexDirection:"column",fontSize:"16px",backgroundColor:"#3f98b5",padding:"10px 5px 5px 10px"}}><span >{news.newsstring} </span><br/><a target="_blank" href={news.link}>{news.link} </a> <br/> </div>
+                       <div style={{color:"white",display:"flex",flexDirection:"column",fontSize:"16px",backgroundColor:"#3f98b5",padding:"10px 5px 5px 10px"}}>
+                        {
+                          news !== null 
+                          ? (
+                            <Fragment>
+                            <span >{news.newsstring} </span>
+
+                            <br/>
+                            <a target="_blank" href={news.link}>{news.link} </a> 
+
+                            <br/> 
+                            </Fragment>
+                          ) : ''
+                        }
+                        </div>
                      )
                    })} />
                    
@@ -227,9 +240,9 @@ class Dashboard extends Component {
             <h1> Contact Us </h1>
             <pre>
             RYDA E-Learning, Inc., <br/>
-            1466 Limeridge Road East, Hamilton, ON, <br/>
-            CA L8W3J9, <br/>
-            Telephone: 1-888-392-2170 <br/>
+            1466 Librad Road East, Hamilton, ON, <br/>
+            CA L9D0J9, <br/>
+            Telephone: 1-888-890-2890 <br/>
             </pre>
           </div>
 
