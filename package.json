@@ -20,7 +20,7 @@
     "react-router-dom": "^5.0.0",
     "react-scripts": "0.9.5",
     "react-slick": "0.22.0",
-    "recharts": "^1.6.2"
+    "recharts": "^2.1.14"
   },
   "devDependencies": {
     "prettier": "1.17.1"
