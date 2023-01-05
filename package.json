@@ -18,7 +18,7 @@
     "react-newsticker": "^1.0.3",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "0.9.5",
+    "react-scripts": "5.0.1",
     "react-slick": "0.22.0",
     "recharts": "^1.6.2"
   },
